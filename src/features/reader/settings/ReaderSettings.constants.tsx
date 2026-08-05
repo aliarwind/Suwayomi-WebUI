@@ -144,6 +144,7 @@ const GLOBAL_READER_SETTING_OBJECT: Record<keyof IReaderSettingsGlobal, undefine
     shouldShowPageNumber: undefined,
     isStaticNav: undefined,
     backgroundColor: undefined,
+    useAutoBackgroundColorContinuousMode: undefined,
     hotkeys: undefined,
     imagePreLoadAmount: undefined,
     shouldUseAutoWebtoonMode: undefined,
@@ -152,6 +153,7 @@ const GLOBAL_READER_SETTING_OBJECT: Record<keyof IReaderSettingsGlobal, undefine
     shouldShowTapZoneLayoutPreview: undefined,
     shouldInformAboutMissingChapter: undefined,
     shouldInformAboutScanlatorChange: undefined,
+    shouldWakeLockScreen: undefined,
     scrollAmount: undefined,
     shouldUseInfiniteScroll: undefined,
     shouldShowTransitionPage: undefined,
@@ -180,6 +182,7 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     readingMode: ReadingMode.SINGLE_PAGE,
     exitMode: ReaderExitMode.PREVIOUS,
     backgroundColor: ReaderBackgroundColor.THEME,
+    useAutoBackgroundColorContinuousMode: false,
     customFilter: {
         brightness: {
             value: CUSTOM_FILTER.brightness.default,
@@ -240,6 +243,7 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     shouldShowTapZoneLayoutPreview: true,
     shouldInformAboutMissingChapter: true,
     shouldInformAboutScanlatorChange: true,
+    shouldWakeLockScreen: true,
     scrollAmount: ReaderScrollAmount.LARGE,
     shouldUseInfiniteScroll: true,
     shouldShowTransitionPage: true,
@@ -379,6 +383,8 @@ export const READER_BACKGROUND_TO_COLOR = {
     [ReaderBackgroundColor.BLACK]: 'common.black',
     [ReaderBackgroundColor.GRAY]: 'grey.200',
     [ReaderBackgroundColor.WHITE]: 'common.white',
+    // Used as the fallback color
+    [ReaderBackgroundColor.AUTO]: 'background.default',
 } as const satisfies Record<ReaderBackgroundColor, string>;
 
 export const CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION: Record<
