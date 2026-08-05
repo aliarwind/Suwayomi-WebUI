@@ -65,6 +65,7 @@ const { ExtensionInfo } = loadable(
 );
 const { Updates } = loadable(() => import('@/features/updates/screens/Updates.tsx'), lazyLoadFallback);
 const { History } = loadable(() => import('@/features/history/screens/History.tsx'), lazyLoadFallback);
+const { ScanCheck } = loadable(() => import('@/features/scan/screens/ScanCheck.tsx'), lazyLoadFallback);
 const { LibrarySettings } = loadable(() => import('@/features/library/screens/LibrarySettings.tsx'), lazyLoadFallback);
 const { DownloadSettings } = loadable(
     () => import('@/features/downloads/screens/DownloadSettings.tsx'),
@@ -359,6 +360,7 @@ const MainApp = () => {
                             <Route path={AppRoutes.extension.children.info.match} element={<ExtensionInfo />} />
                         </Route>
                         <Route path={AppRoutes.downloads.match} element={<DownloadQueue />} />
+                        <Route path={AppRoutes.scan.match} element={<ScanCheck />} />
                         <Route path={AppRoutes.manga.match}>
                             <Route path={AppRoutes.manga.children.reader.match} element={null} />
                             <Route index element={<Manga />} />

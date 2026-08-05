@@ -51,6 +51,7 @@ import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { SearchParam } from '@/base/Base.types.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import { PaginatedLibraryView } from '@/features/library/screens/PaginatedLibraryView.tsx';
 
 const TitleWithSizeTag = styled('span')({
     display: 'flex',
@@ -61,12 +62,13 @@ const TitleSizeTag = ({ sx, ...props }: ChipProps) => (
     <Chip {...props} size="small" sx={{ ...sx, marginLeft: '5px' }} />
 );
 
-export function Library() {
+function LibraryInfiniteScroll() {
     const { t } = useLingui();
     const theme = useTheme();
 
     const {
         settings: { showTabSize },
+        loading: settingsLoading,
     } = useMetadataServerSettings();
 
     const {
@@ -192,7 +194,7 @@ export function Library() {
     useAppTitle(
         <TitleWithSizeTag>
             {t`Library`}
-            {showTabSize && (
+            {showTabSize && !librarySizeResponse.loading && (
                 <TitleSizeTag
                     sx={{ ...theme.applyStyles('light', { backgroundColor: 'background.paper' }) }}
                     label={librarySize}
@@ -200,7 +202,7 @@ export function Library() {
             )}
         </TitleWithSizeTag>,
         t`Library`,
-        [t, showTabSize, librarySize],
+        [t, showTabSize, librarySize, librarySizeResponse.loading],
     );
     useAppAction(
         <>
@@ -256,6 +258,12 @@ export function Library() {
         );
     }
 
+    // Don't render until settings are ready — otherwise defaults cause wrong query params
+    if (settingsLoading) {
+        return <LoadingPlaceholder />;
+    }
+
+    // When pagination is enabled, don't wait for the full library count query
     if (areCategoriesLoading || librarySizeResponse.loading) {
         return <LoadingPlaceholder />;
     }
@@ -326,4 +334,26 @@ export function Library() {
             {selectionFab}
         </TabsWrapper>
     );
+}
+
+// ============================================================
+// Library wrapper — branches between paginated and infinite-scroll views
+// (separate components to keep React hooks stable regardless of pagination mode)
+// ============================================================
+
+export function Library() {
+    const {
+        settings: { paginationEnabled, paginationSize, showTabSize },
+        loading: settingsLoading,
+    } = useMetadataServerSettings();
+
+    if (settingsLoading) {
+        return <LoadingPlaceholder />;
+    }
+
+    if (paginationEnabled) {
+        return <PaginatedLibraryView paginationSize={paginationSize} showTabSize={showTabSize} />;
+    }
+
+    return <LibraryInfiniteScroll />;
 }

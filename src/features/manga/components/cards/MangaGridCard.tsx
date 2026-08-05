@@ -13,10 +13,11 @@ import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
-import { memo, useRef } from 'react';
+import { memo, useRef, useState } from 'react';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { SpinnerImage } from '@/base/components/SpinnerImage.tsx';
 import { MangaOptionButton } from '@/features/manga/components/MangaOptionButton.tsx';
+import { MangaDownloadButton } from '@/features/manga/components/MangaDownloadButton.tsx';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import type { SpecificMangaCardProps } from '@/features/manga/Manga.types.ts';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
@@ -57,6 +58,7 @@ export const MangaGridCard = memo(
     }: SpecificMangaCardProps) => {
         const preventMobileContextMenu = MediaQuery.usePreventMobileContextMenu();
         const optionButtonRef = useRef<HTMLButtonElement>(null);
+        const [isHovered, setIsHovered] = useState(false);
 
         const { id, title } = manga;
 
@@ -73,6 +75,8 @@ export const MangaGridCard = memo(
                 }}
             >
                 <Box
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
                     sx={{
                         display: 'flex',
                         flexDirection: 'column',
@@ -83,6 +87,10 @@ export const MangaGridCard = memo(
                         backgroundColor: (theme) => (selected ? theme.palette.primary.main : undefined),
                         '@media (hover: hover) and (pointer: fine)': {
                             '&:hover .manga-option-button': {
+                                visibility: 'visible',
+                                pointerEvents: 'all',
+                            },
+                            '&:hover .manga-download-button': {
                                 visibility: 'visible',
                                 pointerEvents: 'all',
                             },
@@ -142,13 +150,21 @@ export const MangaGridCard = memo(
                                 }}
                             >
                                 {mangaBadges}
-                                <MangaOptionButton
-                                    ref={optionButtonRef}
-                                    popupState={popupState}
-                                    id={id}
-                                    selected={selected}
-                                    handleSelection={handleSelection}
-                                />
+                                <Stack sx={{ alignItems: 'center' }}>
+                                    <MangaDownloadButton
+                                        mangaId={manga.id}
+                                        mangaTitle={manga.title}
+                                        inLibrary={manga.inLibrary}
+                                        visible={isHovered}
+                                    />
+                                    <MangaOptionButton
+                                        ref={optionButtonRef}
+                                        popupState={popupState}
+                                        id={id}
+                                        selected={selected}
+                                        handleSelection={handleSelection}
+                                    />
+                                </Stack>
                             </Stack>
                             <>
                                 {gridLayout !== GridLayout.Comfortable && (

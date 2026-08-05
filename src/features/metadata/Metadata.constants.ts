@@ -173,6 +173,12 @@ export const APP_METADATA: Record<
     gridLayout: {
         convert: convertToNumber, // GridLayout (enum)
     },
+    paginationEnabled: {
+        convert: convertToBoolean,
+    },
+    paginationSize: {
+        convert: convertToNumber,
+    },
     sortBy: {
         convert: convertToStringNullAndUndefined, // LibrarySortMode
     },

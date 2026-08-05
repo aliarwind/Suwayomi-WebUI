@@ -58,8 +58,6 @@ import type {
     GetAboutQueryVariables,
     GetCategoriesSettingsQuery,
     GetCategoriesSettingsQueryVariables,
-    GetCategoryMangasQuery,
-    GetCategoryMangasQueryVariables,
     GetChapterPagesFetchMutation,
     GetChapterPagesFetchMutationVariables,
     GetChaptersHistoryQuery,
@@ -264,7 +262,6 @@ import {
     GET_CATEGORIES_BASE,
     GET_CATEGORIES_LIBRARY,
     GET_CATEGORIES_SETTINGS,
-    GET_CATEGORY_MANGAS,
 } from '@/lib/graphql/category/CategoryQuery.ts';
 import {
     GET_SOURCE_MANGAS_FETCH,
@@ -303,6 +300,10 @@ import {
     UPDATE_CATEGORY_ORDER,
 } from '@/lib/graphql/category/CategoryMutation.ts';
 import { STOP_UPDATER, UPDATE_LIBRARY } from '@/lib/graphql/updater/UpdaterMutation.ts';
+import { START_SCAN } from '@/lib/graphql/scan/ScanMutation.ts';
+import { GET_SCAN_STATUS } from '@/lib/graphql/scan/ScanQuery.ts';
+import { START_REFRESH, STOP_REFRESH, RETRY_REFRESH_MANGA } from '@/lib/graphql/refresh/RefreshMutation.ts';
+import { GET_REFRESH_STATUS } from '@/lib/graphql/refresh/RefreshQuery.ts';
 import { GET_LAST_UPDATE_TIMESTAMP, GET_UPDATE_STATUS } from '@/lib/graphql/updater/UpdaterQuery.ts';
 import { CustomCache } from '@/lib/storage/CustomCache.ts';
 import { CREATE_BACKUP, RESTORE_BACKUP } from '@/lib/graphql/backup/BackupMutation.ts';
@@ -3042,30 +3043,40 @@ export class RequestManager {
     public useGetCategoryMangas(
         id: number,
         options?: QueryHookOptions<GetMangasLibraryQuery, GetMangasLibraryQueryVariables>,
+        first?: number,
+        offset?: number,
+        filter?: GetMangasLibraryQueryVariables['filter'],
+        order?: GetMangasLibraryQueryVariables['order'],
     ): AbortableApolloUseQueryResponse<GetMangasLibraryQuery, GetMangasLibraryQueryVariables> {
         const isDefaultCategory = id === 0;
         if (isDefaultCategory) {
-            // hacky way of loading the default category mangas - some stuff won't work but since that is not used anyway, it won't be a problem
-            // can't be loaded via "useGetMangas" because mangas are not actually mapped to the default category in the database
-            const { data, ...result } = this.doRequest<GetCategoryMangasQuery, GetCategoryMangasQueryVariables>(
-                GQLMethod.USE_QUERY,
-                GET_CATEGORY_MANGAS,
-                { id },
-                options as QueryHookOptions<GetCategoryMangasQuery, GetCategoryMangasQueryVariables>,
+            // Default category (id=0) = all library manga.
+            // Can't filter by categoryIds: [0] because manga are not mapped to the default category in the DB.
+            // Use GET_MANGAS_LIBRARY with only inLibrary: true — this supports first/offset for pagination.
+            return this.useGetMangas(
+                GET_MANGAS_LIBRARY,
+                {
+                    condition: { inLibrary: true },
+                    ...(first != null ? { first } : {}),
+                    ...(offset != null ? { offset } : {}),
+                    ...(filter != null ? { filter } : {}),
+                    ...(order != null ? { order } : {}),
+                },
+                options,
             );
-
-            return {
-                ...result,
-                data: data
-                    ? {
-                          ...data?.category,
-                          __typename: 'Query',
-                      }
-                    : undefined,
-            } as unknown as AbortableApolloUseQueryResponse<GetMangasLibraryQuery, GetMangasLibraryQueryVariables>;
         }
 
-        return this.useGetMangas(GET_MANGAS_LIBRARY, { condition: { inLibrary: true, categoryIds: [id] } }, options);
+        return this.useGetMangas(
+            GET_MANGAS_LIBRARY,
+            {
+                condition: { inLibrary: true, categoryIds: [id] },
+                ...(first != null ? { first } : {}),
+                ...(offset != null ? { offset } : {}),
+                ...(filter != null ? { filter } : {}),
+                ...(order != null ? { order } : {}),
+            },
+            options,
+        );
     }
 
     public deleteCategory(
@@ -3352,6 +3363,52 @@ export class RequestManager {
             { input: { id } },
             options,
         );
+    }
+
+    public startScan(
+        options?: MutationOptions<any, any>,
+    ): AbortableApolloMutationResponse<any> {
+        return this.doRequest(GQLMethod.MUTATION, START_SCAN, { input: {} }, options);
+    }
+
+    public useGetScanStatus(
+        options?: QueryHookOptions<any, any>,
+    ): AbortableApolloUseQueryResponse<any, any> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_SCAN_STATUS, {}, options);
+    }
+
+    public startRefresh(
+        sourceId?: string | null,
+        dateFrom?: string | null,
+        dateTo?: string | null,
+        options?: MutationOptions<any, any>,
+    ): AbortableApolloMutationResponse<any> {
+        return this.doRequest(GQLMethod.MUTATION, START_REFRESH, {
+            input: {
+                sourceId: sourceId ?? null,
+                dateFrom: dateFrom ?? null,
+                dateTo: dateTo ?? null,
+            },
+        }, options);
+    }
+
+    public stopRefresh(
+        options?: MutationOptions<any, any>,
+    ): AbortableApolloMutationResponse<any> {
+        return this.doRequest(GQLMethod.MUTATION, STOP_REFRESH, { input: {} }, options);
+    }
+
+    public retryRefreshManga(
+        mangaId: number,
+        options?: MutationOptions<any, any>,
+    ): AbortableApolloMutationResponse<any> {
+        return this.doRequest(GQLMethod.MUTATION, RETRY_REFRESH_MANGA, { input: { mangaId } }, options);
+    }
+
+    public useGetRefreshStatus(
+        options?: QueryHookOptions<any, any>,
+    ): AbortableApolloUseQueryResponse<any, any> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_REFRESH_STATUS, {}, options);
     }
 
     public useReorderChapterInDownloadQueue(

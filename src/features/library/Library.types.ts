@@ -20,6 +20,8 @@ export type MetadataLibrarySettings = {
     showDownloadBadge: boolean;
     showUnreadBadge: boolean;
     gridLayout: GridLayout;
+    paginationEnabled: boolean;
+    paginationSize: number;
 };
 export type LibrarySortMode =
     | 'unreadChapters'

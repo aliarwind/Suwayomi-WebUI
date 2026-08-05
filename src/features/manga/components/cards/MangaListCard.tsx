@@ -11,12 +11,13 @@ import CardActionArea from '@mui/material/CardActionArea';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { Link as RouterLink } from 'react-router-dom';
-import { memo, useRef } from 'react';
+import { memo, useRef, useState } from 'react';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 import type { SpecificMangaCardProps } from '@/features/manga/Manga.types.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { MangaOptionButton } from '@/features/manga/components/MangaOptionButton.tsx';
+import { MangaDownloadButton } from '@/features/manga/components/MangaDownloadButton.tsx';
 import { ListCardAvatar } from '@/base/components/lists/cards/ListCardAvatar.tsx';
 import { ListCardContent } from '@/base/components/lists/cards/ListCardContent';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
@@ -36,6 +37,7 @@ export const MangaListCard = memo(
         mode,
     }: SpecificMangaCardProps) => {
         const preventMobileContextMenu = MediaQuery.usePreventMobileContextMenu();
+        const [isHovered, setIsHovered] = useState(false);
 
         const optionButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -49,6 +51,8 @@ export const MangaListCard = memo(
                     state={Mangas.createLocationState(manga, mode)}
                     {...longPressBind(() => popupState.open(optionButtonRef.current))}
                     onContextMenu={preventMobileContextMenu}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
                     sx={{
                         ...MediaQuery.preventMobileContextMenuSx(),
                         '@media (hover: hover) and (pointer: fine)': {
@@ -106,6 +110,12 @@ export const MangaListCard = memo(
                         >
                             {mangaBadges}
                             {continueReadingButton}
+                            <MangaDownloadButton
+                                mangaId={manga.id}
+                                mangaTitle={manga.title}
+                                inLibrary={manga.inLibrary}
+                                visible={isHovered}
+                            />
                             <MangaOptionButton
                                 ref={optionButtonRef}
                                 popupState={popupState}

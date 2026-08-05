@@ -16,6 +16,7 @@ import { RadioInput } from '@/base/components/inputs/RadioInput.tsx';
 import { SortRadioInput } from '@/base/components/inputs/SortRadioInput.tsx';
 import { ThreeStateCheckboxInput } from '@/base/components/inputs/ThreeStateCheckboxInput.tsx';
 import { OptionsTabs } from '@/base/components/modals/OptionsTabs.tsx';
+import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers } from '@/features/tracker/services/Trackers.ts';
 import type { GetTrackersSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
@@ -71,7 +72,7 @@ export const LibraryOptionsPanel = ({
     );
 
     const {
-        settings: { showTabSize, showContinueReadingButton, showDownloadBadge, showUnreadBadge, gridLayout },
+        settings: { showTabSize, showContinueReadingButton, showDownloadBadge, showUnreadBadge, gridLayout, paginationEnabled, paginationSize },
     } = useMetadataServerSettings();
     const setSettingValue = createUpdateMetadataServerSettings((e) =>
         makeToast(t`Could not save the default search settings to the server`, 'error', getErrorMessage(e)),
@@ -210,6 +211,29 @@ export const LibraryOptionsPanel = ({
                                     )
                                 }
                             />
+                            <FormLabel sx={{ mt: 2 }}>{t`Pagination`}</FormLabel>
+                            <CheckboxInput
+                                label={t`Enable pagination`}
+                                checked={paginationEnabled}
+                                onChange={() =>
+                                    updateMetadataServerSettings('paginationEnabled', !paginationEnabled)
+                                }
+                            />
+                            {paginationEnabled && (
+                                <NumberSetting
+                                    settingTitle={t`Items per page`}
+                                    settingValue={String(paginationSize)}
+                                    value={paginationSize}
+                                    defaultValue={20}
+                                    minValue={1}
+                                    maxValue={500}
+                                    stepSize={1}
+                                    valueUnit=""
+                                    handleUpdate={(value: number) =>
+                                        updateMetadataServerSettings('paginationSize', value)
+                                    }
+                                />
+                            )}
                         </>
                     );
                 }

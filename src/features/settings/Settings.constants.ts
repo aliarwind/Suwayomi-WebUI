@@ -57,6 +57,8 @@ export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
     showDownloadBadge: false,
     showUnreadBadge: false,
     gridLayout: GridLayout.Compact,
+    paginationEnabled: false,
+    paginationSize: 20,
 
     // client
     devices: [DEFAULT_DEVICE],
