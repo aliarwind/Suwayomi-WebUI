@@ -44,6 +44,7 @@ export default defineConfig(({ command }) => ({
     base: command === 'serve' ? process.env.VITE_SUBPATH || './' : './',
     build: {
         outDir: 'build',
+        sourcemap: true,
     },
     server: {
         port: Number(process.env.PORT),

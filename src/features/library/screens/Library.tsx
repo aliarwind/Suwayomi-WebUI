@@ -80,7 +80,7 @@ function LibraryInfiniteScroll() {
     } = requestManager.useGetCategories<GetCategoriesLibraryQuery, GetCategoriesLibraryQueryVariables>(
         GET_CATEGORIES_LIBRARY,
     );
-    const tabsData = categoriesResponse?.categories.nodes.filter(
+    const tabsData = categoriesResponse?.categories?.nodes?.filter(
         (category) => category.id !== 0 || (category.id === 0 && category.mangas.totalCount),
     );
     const tabs = tabsData ?? STABLE_EMPTY_ARRAY;

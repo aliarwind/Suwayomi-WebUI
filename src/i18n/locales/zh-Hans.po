@@ -5,8 +5,7 @@ msgstr ""
 "POT-Creation-Date: 2026-01-12T20:43:50.965Z\n"
 "PO-Revision-Date: 2026-07-24 17:01+0000\n"
 "Last-Translator: 無情天 <kofzhanganguo@126.com>\n"
-"Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
-"projects/suwayomi/suwayomi-webui/zh_Hans/>\n"
+"Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/suwayomi/suwayomi-webui/zh_Hans/>\n"
 "Language: zh-Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -14,6 +13,54 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 2026.8.dev0\n"
 "X-Message-Format: ICU\n"
+
+#. placeholder {0}: t(SYNC_STATE_TRANSLATION[syncState])
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "— State: {0}"
+msgstr "— 状态：{0}"
+
+#: src/features/manga/components/MangaDownloadButton.tsx
+msgid "\"{mangaTitle}\" download has been queued"
+msgstr ""
+
+#: src/features/manga/components/MangaDownloadButton.tsx
+msgid "\"{mangaTitle}\" has no chapters to download"
+msgstr ""
+
+#. placeholder {0}: getErrorMessage(err)
+#: src/features/manga/components/MangaDownloadButton.tsx
+msgid "\"{mangaTitle}\": {0}"
+msgstr ""
+
+#: src/features/scan/components/RefreshProgressView.tsx
+msgid "（显示最近 {MAX_VISIBLE_ITEMS} 条，隐藏 {failedHidden} 条）"
+msgstr ""
+
+#: src/features/scan/components/RefreshProgressView.tsx
+msgid "（显示最近 {MAX_VISIBLE_ITEMS} 条，隐藏 {refreshedHidden} 条）"
+msgstr ""
+
+#. placeholder {0}: selectedChapters.length
+#. placeholder {0}: visibleChapters.length
+#: src/features/chapter/components/ChapterList.tsx
+msgid "{0, plural, one {# chapter} other {# chapters}}"
+msgstr "{0, plural, one {# 章} other {# 章}}"
+
+#. placeholder {0}: downloadSettings.autoDownloadNewChaptersLimit
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "{0, plural, one {# Chapter} other {# Chapters}}"
+msgstr "{0, plural, one {# 章} other {# 章}}"
+
+#. placeholder {0}: backupSettings.backupInterval
+#: src/features/backup/screens/Backup.tsx
+msgid "{0, plural, one {# day} other {# days}}"
+msgstr "{0, plural, one {# 天} other {# 天}}"
+
+#. placeholder {0}: selectedItemIds.length
+#: src/features/library/screens/Library.tsx
+#: src/features/library/screens/PaginatedLibraryView.tsx
+msgid "{0, plural, one {# manga} other {# manga}}"
+msgstr "{0, plural, one {# 部漫画} other {# 部漫画}}"
 
 #. placeholder {0}: serverSettings.flareSolverrSessionTtl
 #: src/features/settings/screens/ServerSettings.tsx
@@ -27,21 +74,320 @@ msgstr "{0, plural, one {# 分钟} other {# 分钟}}"
 msgid "{0, plural, one {# second} other {# seconds}}"
 msgstr "{0, plural, one {# 秒} other {# 秒}}"
 
+#. placeholder {0}: serverSettings.maxSourcesInParallel
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "{0, plural, one {# Source} other {# Sources}}"
+msgstr "{0, plural, one {# 个源} other {# 个源}}"
+
+#. placeholder {0}: trackersInUse.length
+#: src/features/manga/components/TrackMangaButton.tsx
+msgid "{0, plural, one {# Tracker} other {# Tracker}}"
+msgstr "{0, plural, one {# 个追踪器} other {# 个追踪器}}"
+
+#. placeholder {0}: abortedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 aborted entry} other {# aborted entries}}"
+msgstr "{0, plural, one {1 部已中止的作品} other {# 部已中止的作品}}"
+
+#. placeholder {0}: noMatchEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 entry with no match} other {# entries with no match}}"
+msgstr "{0, plural, one {1 部作品无匹配项} other {# 部作品无匹配项}}"
+
+#. placeholder {0}: outdatedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 entry with only outdated matches} other {# entries with only outdated matches}}"
+msgstr "{0, plural, one {1 部作品仅包含过期匹配项} other {# 1 部作品仅包含过期匹配项}}"
+
+#. placeholder {0}: excludedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 excluded entry} other {# excluded entries}}"
+msgstr "{0, plural, one {1 部已排除的作品} other {# 部已排除的作品}}"
+
+#. placeholder {0}: failedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 failed entry} other {# failed entries}}"
+msgstr "{0, plural, one {1 部失败的作品} other {# 部失败的作品}}"
+
+#. placeholder {0}: matchedEntries.length
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 matched entry} other {# matched entries}}"
+msgstr "{0, plural, one {1 部匹配的作品} other {# 部匹配的作品}}"
+
+#. placeholder {0}: migratedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 migrated entry} other {# migrated entries}}"
+msgstr "{0, plural, one {1 部已迁移的作品} other {# 部已迁移的作品}}"
+
+#. placeholder {0}: migratingEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 migrating entry} other {# migrating entries}}"
+msgstr "{0, plural, one {1 部正在迁移的作品} other {# 部正在迁移的作品}}"
+
+#. placeholder {0}: searchingEntries.length
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 searching} other {# searching}}"
+msgstr "{0, plural, one {1 个正在搜索} other {# 个正在搜索}}"
+
+#. placeholder {0}: autoScroll.value
+#: src/features/reader/auto-scroll/settings/quick-setting/ReaderNavBarDesktopAutoScroll.tsx
+msgid "{0, plural, one {Second} other {Seconds}}"
+msgstr "{0, plural, one {秒} other {秒}}"
+
+#. placeholder {0}: otherChapters.length
+#: src/features/updates/components/ChapterUpdateCard.tsx
+msgid "{0, plural, one {Show # more chapter} other {Show # more chapters}}"
+msgstr "{0, plural, one {显示另外 # 章} other {显示另外 # 章}}"
+
+#. placeholder {0}: searchProgress.completed
+#. placeholder {1}: searchProgress.total
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0} / {1}"
+msgstr "{0} / {1}"
+
+#. placeholder {0}: progress.completed
+#. placeholder {1}: progress.total
+#. placeholder {2}: progress.failed > 0 ? ` (${progress.failed} failed)` : ''
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0} / {1}{2}"
+msgstr "{0} / {1}{2}"
+
+#. placeholder {0}: updateStatus.progress
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "{0}% | Updating…"
+msgstr "{0}% | 更新中……"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+msgid "{availableUpdates, plural, one {# update available} other {# updates available}}"
+msgstr "{availableUpdates, plural, one {# 个可用的更新} other {# 个可用的更新}}"
+
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "{categoryCount, plural, one {# category} other {# categories}}"
 msgstr "{categoryCount, plural, one {# 个分类} other {# 个分类}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Changed categories of manga} other {Changed categories of # manga}}"
+msgstr "{count, plural, one {已更改漫画的分类} other {已更改 # 部漫画的分类}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter bookmark removed} other {# chapter bookmarks removed}}"
+msgstr "{count, plural, one {章节书签已移除} other {已移除 # 个章节书签}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter bookmarked} other {# chapters bookmarked}}"
+msgstr "{count, plural, one {章节已添加书签} other {已为 # 个章节添加书签}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter deleted} other {# chapters deleted}}"
+msgstr "{count, plural, one {章节已删除} other {已删除 # 个章节}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter marked as read} other {# chapters marked as read}}"
+msgstr "{count, plural, one {章节已标记为已读} other {已将 # 个章节标记为已读}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter marked as unread} other {# chapters marked as unread}}"
+msgstr "{count, plural, one {章节已标记为未读} other {已将 # 个章节标记为未读}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not add the download} other {Could not add downloads}}"
+msgstr "{count, plural, one {无法添加下载项} other {无法添加下载项}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not bookmark the chapter} other {Could not bookmark chapters}}"
+msgstr "{count, plural, one {无法为章节添加书签} other {无法为章节添加书签}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Could not change the categories of the manga} other {Could not change the categories of the manga}}"
+msgstr "{count, plural, one {无法更改漫画的分类} other {无法更改漫画的分类}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not delete the chapter} other {Could not delete chapters}}"
+msgstr "{count, plural, one {无法删除章节} other {无法删除章节}}"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not install the extension} other {Could not install the extensions}}"
+msgstr "{count, plural, one {无法安装扩展} other {无法安装扩展}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not mark the chapter as read} other {Could not mark chapters as read}}"
+msgstr "{count, plural, one {无法将章节标记为已读} other {无法将章节标记为已读}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not mark the chapter as unread} other {Could not mark chapters as unread}}"
+msgstr "{count, plural, one {无法将章节标记为未读} other {无法将章节标记为未读}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Could not remove manga from the library} other {Could not remove manga from the library}}"
+msgstr "{count, plural, one {无法将漫画从书架中移除} other {无法将漫画从书架中移除}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not remove the bookmark} other {Could not remove the bookmarks}}"
+msgstr "{count, plural, one {无法移除书签} other {无法移除书签}}"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not uninstall the extension} other {Could not uninstall the extensions}}"
+msgstr "{count, plural, one {无法卸载扩展} other {无法卸载扩展}}"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not update the extension} other {Could not update the extensions}}"
+msgstr "{count, plural, one {无法更新扩展} other {无法更新扩展}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Download added} other {# downloads added}}"
+msgstr "{count, plural, one {下载已添加} other {已添加 # 个下载}}"
+
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+msgid "{count, plural, one {Next chapter} other {Next # chapters}}"
+msgstr "{count, plural, one {下一章节} other {接下来的 # 个章节}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Removed manga from the library} other {Removed # manga from the library}}"
+msgstr "{count, plural, one {已将漫画从书架中移除} other {已将 # 部漫画从书架中移除}}"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid ""
+"{count, plural, one {There is # missing chapter.\n"
+"Current: {currentChapter}\n"
+"Next: {nextChapter}} other {There are # missing chapters.\n"
+"Current: {currentChapter}\n"
+"Next: {nextChapter}}}"
+msgstr ""
+"{count, plural, one {缺少 # 章。\n"
+"当前章节：{currentChapter}\n"
+"下一章节：{nextChapter}} other {缺少 # 章。\n"
+"当前章节：{currentChapter}\n"
+"下一章节：{nextChapter}}}"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid ""
+"{count, plural, one {There is # missing chapter.\n"
+"Previous: {nextChapter}\n"
+"Current: {currentChapter}} other {There are # missing chapters.\n"
+"Previous: {nextChapter}\n"
+"Current: {currentChapter}}}"
+msgstr ""
+"{count, plural, one {缺少 # 章。\n"
+"上一章节：{nextChapter}\n"
+"当前章节：{currentChapter}} other {缺少 # 章。\n"
+"上一章节：{nextChapter}\n"
+"当前章节：{currentChapter}}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {You are about to change the category of one entry} other {You are about to change the category of # entries}}"
+msgstr "{count, plural, one {你即将更改 1 部作品的分类} other {你即将更改 # 部作品的分类}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to delete one download} other {You are about to delete # downloads}}"
+msgstr "{count, plural, one {你即将删除 1 个下载} other {你即将删除 # 个下载}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid ""
+"{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
+"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+msgstr ""
+"{count, plural, one {你即将下载 1 章} other {你即将下载 # 章。\n"
+"Suwayomi 不是批量下载工具，过多下载可能导致源站封禁或影响性能。}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to mark one chapter as read} other {You are about to mark # chapters as read}}"
+msgstr "{count, plural, one {你即将把 1 章标记为已读} other {你即将把 # 章标记为已读}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to mark one chapter as unread} other {You are about to mark # chapters as unread}}"
+msgstr "{count, plural, one {你即将将 1 章标记为未读} other {你即将将 # 章标记为未读}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to remove one bookmark} other {You are about to remove # bookmarks}}"
+msgstr "{count, plural, one {你即将移除 1 个书签} other {你即将移除 # 个书签}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {You are about to remove one entry from your library} other {You are about to remove # entries from your library}}"
+msgstr "{count, plural, one {你即将从书架中移除 1 部作品} other {你即将从书架中移除 # 部作品}}"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 msgid "{count} remaining"
 msgstr "剩余{count}个"
 
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
+msgid "{currentAutoUpdateIntervalHours}h"
+msgstr "{currentAutoUpdateIntervalHours}小时"
+
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+msgid "{currentDownloadAheadLimit, plural, one {# Chapter} other {# Chapters}}"
+msgstr "{currentDownloadAheadLimit, plural, one {# 章} other {# 章}}"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "{extensionCount, plural, one {# extension} other {# extensions}}"
+msgstr "{extensionCount, plural, one {# 个扩展} other {# 个扩展}}"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "{extensionStoreCount, plural, one {# extension store} other {# extension stores}}"
+msgstr "{extensionStoreCount, plural, one {# 个扩展商店} other {# 个扩展商店}}"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "{installedExtensionCount, plural, one {# installed} other {# installed}}"
+msgstr "{installedExtensionCount, plural, one {已安装 # 个扩展} other {已安装 # 个扩展}}"
+
+#: src/features/chapter/components/ChapterList.tsx
+#: src/features/chapter/components/MissingChaptersInfoSeparator.tsx
+msgid "{missingChapterCount, plural, one {Missing # chapter} other {Missing # chapters}}"
+msgstr "{missingChapterCount, plural, one {# 章缺失} other {# 章缺失}}"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "{otherResultsCount, plural, one {# more match} other {# more matches}}"
+msgstr "{otherResultsCount, plural, one {# 个更多匹配} other {# 个更多匹配}}"
+
+#: src/features/scan/components/ScanProgressView.tsx
+msgid "{pages} 页"
+msgstr ""
+
 #: src/features/app-updates/components/VersionInfo.tsx
 msgid "{progress}% | Updating…"
 msgstr "{progress}% | 正在更新…"
 
+#. placeholder {0}: progress.refreshedManga
+#. placeholder {1}: progress.totalManga
+#: src/features/scan/components/RefreshProgressView.tsx
+msgid "{progressPercent}% — 当前刷新: {currentMangaTitle} ({0}/{1})"
+msgstr ""
+
+#. placeholder {0}: progress.scannedManga
+#. placeholder {1}: progress.totalManga
+#: src/features/scan/components/ScanProgressView.tsx
+msgid "{progressPercent}% — 当前扫描: {currentMangaTitle} ({0}/{1})"
+msgstr ""
+
+#. placeholder {0}: progress.refreshedManga
+#. placeholder {1}: progress.totalManga
+#: src/features/scan/components/RefreshProgressView.tsx
+msgid "{progressPercent}% ({0}/{1})"
+msgstr ""
+
+#: src/features/library/components/PaginationControls.tsx
+msgid "{totalItems} total"
+msgstr ""
+
+#: src/features/backup/Backup.utils.ts
+msgid "{ttl, plural, one {Delete backups that are older than # day} other {Delete backups that are older than # days}}"
+msgstr "{ttl, plural, one {删除早于 # 天的备份} other {删除早于 # 天的备份}}"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{ttl, plural, one {Delete log files that are older than # day} other {Delete log files that are older than # days}}"
+msgstr "{ttl, plural, one {删除早于 # 天的日志文件} other {删除早于 # 天的日志文件}}"
+
 #: src/features/reader/settings/components/DefaultSettingFootnote.tsx
 msgid "*: Active setting"
 msgstr "*: 应用设置"
+
+#: src/features/manga/services/Mangas.ts
+msgid "A migration is already in progress"
+msgstr "已有迁移正在进行中"
 
 #: src/features/settings/Settings.constants.ts
 msgid "A preview focused web frontend built with svelte"
@@ -50,6 +396,21 @@ msgstr "使用 svelte 构建并专注于预览的 Web 前端"
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "A—Z"
 msgstr "按字母顺序"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Abort"
+msgstr "中止"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Abort migration"
+msgstr "中止迁移"
+
+#: src/features/migration/Migration.constants.ts
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Aborted"
+msgstr "已中止"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/About.tsx
@@ -60,12 +421,16 @@ msgstr "关于"
 msgid "Active device"
 msgstr "活动中的设备"
 
-#: src/base/components/buttons/ButtonSelect.tsx
+#: src/base/components/buttons/SelectButton.tsx
 msgid "Active setting"
 msgstr "应用设置"
 
+#: src/base/components/buttons/SelectButton.tsx
+msgid "Active setting ({title})"
+msgstr "当前生效的设置（{title}）"
+
 #: src/base/components/settings/MutableListSetting.tsx
-#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/extension/store/screens/ExtensionStores.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 #: src/features/settings/components/images/KeyValueItems.tsx
@@ -76,6 +441,11 @@ msgstr "添加"
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"
 msgstr "添加收藏"
+
+#: src/features/browse/extensions/Extensions.tsx
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Add extension store"
+msgstr "添加扩展商店"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
@@ -91,13 +461,18 @@ msgstr "添加追踪"
 msgid "Added manga to library!"
 msgstr "已将漫画添加进书架！"
 
+#: src/features/manga/components/MangaDownloadButton.tsx
+msgid "Adding to library…"
+msgstr ""
+
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Advanced"
 msgstr "高级"
 
-#: src/features/settings/Settings.constants.ts
-#: src/features/settings/Settings.constants.ts
-#: src/features/settings/Settings.constants.ts
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Advanced search mode"
+msgstr "高级搜索模式"
+
 #: src/features/settings/Settings.constants.ts
 msgid "After changing this setting go to the \"About\" page and check for a webUI update and install it"
 msgstr "在更改设置后，前往“关于”页面，查找并安装webUI的更新"
@@ -106,11 +481,9 @@ msgstr "在更改设置后，前往“关于”页面，查找并安装webUI的�
 msgid "Age rating"
 msgstr "年龄分级"
 
-#: src/base/utils/Languages.ts
 #: src/features/backup/Backup.utils.ts
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
-#: src/features/extension/Extensions.constants.ts
 #: src/features/global-search/screens/SearchAll.tsx
 msgid "All"
 msgstr "全部"
@@ -128,13 +501,27 @@ msgstr "使用语言"
 msgid "Alpha"
 msgstr "透明通道"
 
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Also remove from {0}"
+msgstr "同时从{0}中移除"
+
 #: src/features/settings/screens/Appearance.tsx
 #: src/features/settings/screens/Settings.tsx
 msgid "Appearance"
 msgstr "外观"
 
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Apply safe area padding"
+msgstr "应用安全区域边距"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Are you sure you want to abort the migration?"
+msgstr "确定要中止迁移吗？"
+
+#: src/features/category/components/CategorySettingsCard.tsx
 #: src/features/chapter/services/Chapters.ts
-#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/extension/store/screens/ExtensionStores.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/manga/services/Mangas.ts
 #: src/features/source/browse/components/SourceOptions.tsx
@@ -164,6 +551,7 @@ msgstr "作者"
 
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
 #: src/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
 msgid "Auto"
 msgstr "自动"
 
@@ -187,6 +575,10 @@ msgstr "自动条漫模式"
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Auto-download"
 msgstr "自动下载"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Automated backup"
+msgstr "自动备份"
 
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
 msgid "Automatic progress bar vertical position"
@@ -212,9 +604,25 @@ msgstr "下载后自动标记章节为已读。"
 msgid "Automatically refresh metadata"
 msgstr "自动刷新元数据"
 
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have additional chapters"
+msgstr "如果匹配项包含更多章节，则自动选择它们"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have at least the same latest chapter"
+msgstr "如果匹配项的最新章节至少与当前源相同，则自动选择它们"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have no missing chapters"
+msgstr "如果匹配项没有缺失章节，则自动选择它们"
+
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Automatically use webtoon mode for entries that are detected to likely use the long strip format"
 msgstr "对于被检测为可能使用长条格式的条目，自动启用条漫模式"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Available"
+msgstr "可用"
 
 #: src/features/backup/screens/Backup.tsx
 msgid "Back up library as a Tachiyomi backup"
@@ -233,7 +641,6 @@ msgstr "备份"
 msgid "Backup cleanup"
 msgstr "清理备份"
 
-#: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 msgid "Backup data"
 msgstr "数据备份"
@@ -300,8 +707,13 @@ msgid "Both"
 msgstr "全部反转"
 
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
 msgid "Bottom"
 msgstr "底部"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Breaks down the title into keywords for a wider search"
+msgstr "将标题拆分为关键词，以扩大搜索范围"
 
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Briefly show current mode when reader is opened or mode got changed"
@@ -329,6 +741,10 @@ msgstr "浏览器"
 #: src/features/settings/screens/About.tsx
 msgid "Build time"
 msgstr "构建时间"
+
+#: src/features/manga/components/cards/MangaCard.tsx
+msgid "Bulk migration manual search"
+msgstr "批量迁移手动搜索"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Bundled"
@@ -362,6 +778,10 @@ msgstr "按上传日期"
 msgid "Call timeout"
 msgstr "调用超时"
 
+#: src/features/migration/MangaMigration.ts
+msgid "Can't migrate an entry to itself"
+msgstr "无法迁移作品到自身"
+
 #: src/base/collection/components/SelectableCollectionSelectMode.tsx
 #: src/base/components/inputs/LanguageSelect.tsx
 #: src/base/components/modals/ConfirmDialog.tsx
@@ -378,7 +798,8 @@ msgstr "调用超时"
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
@@ -400,6 +821,11 @@ msgstr "中止连载"
 #: src/features/library/screens/LibrarySettings.tsx
 #: src/features/settings/screens/More.tsx
 msgid "Categories"
+msgstr "分类"
+
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Category"
 msgstr "分类"
 
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
@@ -435,6 +861,16 @@ msgstr "根据缩略图更改漫画页面的主题颜色"
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "Channel"
 msgstr "频道"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+#: src/features/downloads/screens/DownloadSettings.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+#: src/features/tracker/components/cards/TrackerMangaCard.tsx
+msgid "Chapter"
+msgstr "章"
 
 #: src/features/reader/screens/Reader.tsx
 msgid "Chapter does not exist"
@@ -509,11 +945,13 @@ msgid "Client"
 msgstr "客户端"
 
 #: src/features/backup/Backup.constants.ts
+#: src/features/migration/components/MigrationOptionsDialog.tsx
 msgid "Client data"
 msgstr "客户端数据"
 
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 #: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
 msgid "Close"
 msgstr "关闭"
 
@@ -529,6 +967,12 @@ msgstr "颜色滤镜混合模式"
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Comfortable grid"
 msgstr "松散网格"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-comic"
+msgstr "美漫"
 
 #: src/base/components/GridLayouts.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
@@ -555,6 +999,28 @@ msgstr "连接超时"
 msgid "Connect to KOReader Sync server"
 msgstr "连接到KOReader同步服务器"
 
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connected as {currentUsername} to {currentServerAddress}"
+msgstr "以{currentUsername}连接至{currentServerAddress}"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connected as {initialUsername} to {initialServerAddress}"
+msgstr "以{initialUsername}连接至{initialServerAddress}"
+
+#: src/features/migration/components/MigrationContinueButton.tsx
+msgid "Continue"
+msgstr "继续"
+
+#: src/features/manga/components/ContinueReadingTooltip.tsx
+msgid ""
+"Continue reading\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+msgstr ""
+"继续阅读\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Continuous chapter display"
 msgstr "连续章节显示"
@@ -572,24 +1038,44 @@ msgid ""
 "Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
 "Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
 msgstr ""
-"控制 Suwayomi 在 OPDS 条目中为 CBZ 压缩包发送的 MIME 类型，同时也会影响全局 "
-"CBZ 下载。\n"
-"Modern 遵循最新的 IANA 标准（2017），而 LEGACY（已弃用的 .cbz MIME 类型）和 "
-"COMPATIBLE（已弃用的所有漫画压缩包 MIME 类型）可能对旧版客户端更兼容。"
+"控制 Suwayomi 在 OPDS 条目中为 CBZ 压缩包发送的 MIME 类型，同时也会影响全局 CBZ 下载。\n"
+"Modern 遵循最新的 IANA 标准（2017），而 LEGACY（已弃用的 .cbz MIME 类型）和 COMPATIBLE（已弃用的所有漫画压缩包 MIME 类型）可能对旧版客户端更兼容。"
 
-#: src/features/settings/Settings.constants.ts
 #: src/features/settings/Settings.constants.ts
 msgid "Convert images to different formats"
 msgstr "将图片转换为其他格式"
 
+#: src/lib/HelperFunctions.ts
+msgid "Copied to clipboard"
+msgstr "已复制到剪贴板"
+
 #: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+#: src/features/settings/components/DebugInformation.tsx
 msgid "Copy"
 msgstr "复制"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Copy index url"
+msgstr "复制索引地址"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Could not add extension store"
+msgstr "无法添加扩展商店"
 
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 msgid "Could not add manga to library!"
 msgstr "无法将漫画添加到书架！"
+
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+msgid ""
+"Could not check for duplicated manga in your library.\n"
+"\n"
+"Error: {errorMessage}"
+msgstr ""
+"无法检查书架中是否存在重复的漫画。\n"
+"\n"
+"错误：{errorMessage}"
 
 #: src/features/app-updates/components/VersionInfo.tsx
 msgid "Could not check for update"
@@ -603,7 +1089,10 @@ msgstr "无法检查更新"
 msgid "Could not clear the cache"
 msgstr "无法清除缓存"
 
-#: src/features/backup/screens/Backup.tsx
+#: src/lib/HelperFunctions.ts
+msgid "Could not copy to clipboard"
+msgstr "无法复制到剪贴板"
+
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not create backup"
 msgstr "无法创建备份"
@@ -613,18 +1102,34 @@ msgid "Could not create category"
 msgstr "无法创建分类"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
-#: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Could not create theme"
 msgstr "无法创建主题"
+
+#: src/features/category/components/CategorySettingsCard.tsx
+msgid "Could not delete category"
+msgstr "无法删除分类"
+
+#. placeholder {0}: theme.getName()
+#: src/features/theme/components/ThemeList.tsx
+msgid "Could not delete theme \"{0}\""
+msgstr "无法删除主题“{0}”"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 msgid "Could not find source. Check your installed extensions."
 msgstr "找不到图源，请检查你已安装的插件。"
 
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Could not install the extension"
+msgstr "无法安装扩展"
+
 #: src/features/category/screens/CategorySettings.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 msgid "Could not load categories"
 msgstr "无法加载分类"
+
+#: src/features/settings/components/DebugInformation.tsx
+msgid "Could not load data"
+msgstr "无法加载数据"
 
 #: src/features/settings/screens/Appearance.tsx
 msgid "Could not load language"
@@ -635,8 +1140,7 @@ msgid "Could not load latest track info from tracker"
 msgstr "无法从追踪列表中载入最新的追踪信息"
 
 #: src/features/library/screens/Library.tsx
-#: src/features/library/screens/Library.tsx
-#: src/features/manga/screens/Manga.tsx
+#: src/features/library/screens/PaginatedLibraryView.tsx
 #: src/features/manga/screens/Manga.tsx
 msgid "Could not load manga"
 msgstr "无法加载漫画"
@@ -649,13 +1153,43 @@ msgstr "无法加载主题字体"
 msgid "Could not load track info"
 msgstr "无法载入追踪信息"
 
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Could not log in to {0}"
+msgstr "无法登录{0}"
+
+#: src/features/tracker/screens/TrackerOAuthLogin.tsx
+msgid "Could not log in to {trackerName}"
+msgstr "无法登录{trackerName}"
+
+#: src/features/authentication/screens/LoginPage.tsx
+msgid "Could not log in to Suwayomi"
+msgstr "无法登录Suwayomi"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Could not log out from {0}"
+msgstr "无法登出{0}"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Could not log out from KOReader Sync"
+msgstr "无法登出KOReader同步"
+
 #: src/features/manga/Manga.constants.ts
 msgid "Could not migrate manga"
 msgstr "无法迁移漫画"
 
+#: src/features/library/components/LibraryToolbarMenu.tsx
+msgid "Could not open random entry"
+msgstr "无法打开随机条目"
+
 #: src/features/downloads/screens/DownloadQueue.tsx
 msgid "Could not remove all downloads from the queue"
 msgstr "无法从队列中删除所有下载"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Could not remove extension store \"{name}\""
+msgstr "无法移除扩展商店“{name}”"
 
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Could not remove non library manga from categories"
@@ -666,13 +1200,20 @@ msgid "Could not remove the download from the queue."
 msgstr "无法从队列中删除下载。"
 
 #: src/features/backup/screens/Backup.tsx
-#: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"
 msgstr "无法恢复备份"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Could not retry \"{title}\""
+msgstr "无法重试“{title}”"
 
 #: src/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx
 msgid "Could not retry failed download."
 msgstr "无法重试已失败的下载。"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Could not save changes"
+msgstr "无法保存变更"
 
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
@@ -680,7 +1221,6 @@ msgstr "无法重试已失败的下载。"
 msgid "Could not save the default search settings to the server"
 msgstr "保存默认搜索设置到服务器时出错"
 
-#: src/features/reader/services/ReaderService.ts
 #: src/features/reader/services/ReaderService.ts
 msgid "Could not save the reader settings to the server"
 msgstr "保存阅读器设置到服务器时出现了错误"
@@ -692,6 +1232,10 @@ msgstr "无法保存主题修改的内容"
 #: src/features/global-search/screens/SearchAll.tsx
 msgid "Could not search source"
 msgstr "无法搜索图源"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Could not start sync"
+msgstr "无法开始同步"
 
 #: src/features/updates/components/UpdateChecker.tsx
 msgid "Could not stop global update"
@@ -707,7 +1251,6 @@ msgid "Could not untrack manga"
 msgstr "无法取消此漫画的追踪"
 
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
-#: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "Could not update WebUI"
 msgstr "无法更新 Web面板"
 
@@ -722,26 +1265,26 @@ msgid "Create"
 msgstr "创建"
 
 #: src/features/backup/screens/Backup.tsx
-#: src/features/backup/screens/Backup.tsx
 msgid "Create backup"
 msgstr "创建备份"
 
-#: src/features/theme/components/CreateThemeButton.tsx
 #: src/features/theme/components/CreateThemeButton.tsx
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Create theme"
 msgstr "创建主题"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
-#: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Created theme"
 msgstr "已创建的主题"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Creating backup"
+msgstr "正在创建备份"
 
 #: src/features/backup/screens/Backup.tsx
 msgid "Creating backup…"
 msgstr "正在创建备份……"
 
-#: src/features/theme/components/CreateThemeDialog.tsx
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Creating theme…"
 msgstr "正在创建主题……"
@@ -749,6 +1292,10 @@ msgstr "正在创建主题……"
 #: src/features/theme/Themes.ts
 msgid "Crimson"
 msgstr "丹霞绯红"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Current source"
+msgstr "当前图源"
 
 #: src/features/reader/viewer/components/ReaderTransitionPage.tsx
 msgid "Current:"
@@ -758,11 +1305,12 @@ msgstr "现在："
 msgid "Currently publishing"
 msgstr "连载中"
 
+#: src/features/library/components/PaginationControls.tsx
+#: src/features/library/screens/LibrarySettings.tsx
 #: src/features/settings/Settings.constants.ts
 msgid "Custom"
 msgstr "自定义"
 
-#: src/features/reader/filters/settings/components/ReaderSettingBrightness.tsx
 #: src/features/reader/filters/settings/components/ReaderSettingBrightness.tsx
 msgid "Custom brightness"
 msgstr "自定义亮度"
@@ -772,7 +1320,6 @@ msgid "Custom color filters"
 msgstr "自定义颜色滤镜"
 
 #: src/features/reader/filters/settings/components/ReaderSettingContrast.tsx
-#: src/features/reader/filters/settings/components/ReaderSettingContrast.tsx
 msgid "Custom contrast"
 msgstr "自定义对比度"
 
@@ -781,11 +1328,9 @@ msgid "Custom filter"
 msgstr "自定义滤镜"
 
 #: src/features/reader/filters/settings/components/ReaderSettingHue.tsx
-#: src/features/reader/filters/settings/components/ReaderSettingHue.tsx
 msgid "Custom hue"
 msgstr "自定义色调"
 
-#: src/features/reader/filters/settings/components/ReaderSettingSaturate.tsx
 #: src/features/reader/filters/settings/components/ReaderSettingSaturate.tsx
 msgid "Custom saturate"
 msgstr "自定义饱和度"
@@ -806,6 +1351,10 @@ msgstr "循环切换阅读方向"
 msgid "Cycle reading mode"
 msgstr "循环切换阅读模式"
 
+#: src/features/settings/Settings.constants.ts
+msgid "Daily"
+msgstr "每日"
+
 #: src/features/settings/screens/Appearance.tsx
 msgid "Dark"
 msgstr "深色"
@@ -822,17 +1371,23 @@ msgstr "数据库"
 msgid "Database url"
 msgstr "数据库链接"
 
+#: src/features/backup/screens/Backup.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Day"
+msgstr "日"
+
+#: src/features/settings/screens/About.tsx
+msgid "Debug information"
+msgstr "调试信息"
+
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 msgid "Decrease auto scroll speed"
 msgstr "降低自动滚动速度"
 
-#: src/base/components/buttons/ButtonSelect.tsx
-#: src/base/components/buttons/ValueRotationButton.tsx
+#: src/base/components/buttons/SelectButton.tsx
 #: src/base/components/buttons/ValueRotationButton.tsx
 #: src/features/backup/screens/Backup.tsx
 #: src/features/browse/screens/BrowseSettings.tsx
-#: src/features/device/screens/DeviceSetting.tsx
-#: src/features/device/screens/DeviceSetting.tsx
 #: src/features/device/screens/DeviceSetting.tsx
 #: src/features/downloads/screens/DownloadSettings.tsx
 #: src/features/reader/settings/ReaderSettings.constants.tsx
@@ -849,6 +1404,7 @@ msgstr "默认添加到此书架"
 #: src/features/category/components/CategorySettingsCard.tsx
 #: src/features/chapter/Chapter.constants.ts
 #: src/features/downloads/components/DownloadQueueChapterCard.tsx
+#: src/features/extension/store/screens/ExtensionStores.tsx
 #: src/features/reader/hotkeys/settings/components/Hotkey.tsx
 #: src/features/settings/components/images/KeyValueItem.tsx
 #: src/features/settings/components/images/Processing.tsx
@@ -869,7 +1425,7 @@ msgstr "手动标记为已读后删除章节"
 msgid "Delete chapters"
 msgstr "删除章节"
 
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
 msgid "Delete downloaded"
 msgstr "删除已下载项"
 
@@ -885,6 +1441,16 @@ msgstr "删除搜索"
 msgid "Delete selected"
 msgstr "删除选中"
 
+#. placeholder {0}: theme.getName()
+#: src/features/theme/components/ThemeList.tsx
+msgid "Deleted theme \"{0}\""
+msgstr "已删除主题“{0}”"
+
+#. placeholder {0}: theme.getName()
+#: src/features/theme/components/ThemeList.tsx
+msgid "Deleting theme \"{0}\"…"
+msgstr "正在删除主题“{0}”……"
+
 #: src/features/migration/Migration.constants.ts
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Descending"
@@ -898,6 +1464,11 @@ msgstr "取消选择"
 #: src/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx
 msgid "Desktop"
 msgstr "桌面端"
+
+#. placeholder {0}: entry.sourceTitle
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Destination — {0}"
+msgstr "目标位置 — {0}"
 
 #: src/features/device/screens/DeviceSetting.tsx
 #: src/features/settings/screens/Settings.tsx
@@ -914,7 +1485,6 @@ msgstr "禁用验证"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 #: src/features/reader/settings/layout/components/ReaderSettingTapZoneLayout.tsx
-#: src/features/settings/Settings.constants.ts
 #: src/features/settings/Settings.constants.ts
 msgid "Disabled"
 msgstr "禁用"
@@ -934,6 +1504,7 @@ msgstr "Discord"
 #: src/base/components/GridLayouts.tsx
 #: src/features/chapter/components/ChapterOptions.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/library/screens/LibrarySettings.tsx
 #: src/features/settings/screens/Appearance.tsx
 msgid "Display"
 msgstr "显示"
@@ -958,6 +1529,10 @@ msgstr "在同时将多部漫画标记为已读时不会生效"
 msgid "Don't show this dialog again"
 msgstr "不再显示此消息"
 
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Done"
+msgstr "已完成"
+
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Double page"
 msgstr "双页"
@@ -970,6 +1545,7 @@ msgstr "同人作品"
 #: src/features/chapter/Chapter.constants.ts
 #: src/features/chapter/components/buttons/ChapterDownloadButton.tsx
 #: src/features/chapter/components/ChaptersToolbarMenu.tsx
+#: src/features/manga/components/MangaDownloadButton.tsx
 msgid "Download"
 msgstr "下载"
 
@@ -984,6 +1560,10 @@ msgstr "提前下载 ({count})"
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Download badges"
 msgstr "已下载数量"
+
+#: src/features/manga/components/MangaDownloadButton.tsx
+msgid "Download failed"
+msgstr ""
 
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Download location"
@@ -1002,6 +1582,10 @@ msgstr "下载队列"
 msgid "Download selected"
 msgstr "下载选中的"
 
+#: src/features/manga/components/MangaDownloadButton.tsx
+msgid "Download started"
+msgstr ""
+
 #: src/features/chapter/components/cards/ChapterCard.tsx
 #: src/features/chapter/components/ChapterOptions.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
@@ -1009,6 +1593,7 @@ msgid "Downloaded"
 msgstr "已下载"
 
 #: src/base/components/downloads/DownloadStateIndicator.tsx
+#: src/features/settings/Settings.constants.ts
 msgid "Downloading"
 msgstr "正在下载"
 
@@ -1017,6 +1602,10 @@ msgstr "正在下载"
 #: src/features/settings/screens/Settings.tsx
 msgid "Downloads"
 msgstr "下载"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Drag to prioritize"
+msgstr "拖动以调整优先级"
 
 #: src/features/theme/Themes.ts
 msgid "Dune"
@@ -1045,7 +1634,15 @@ msgstr "边缘"
 msgid "Edit"
 msgstr "编辑"
 
-#: src/features/manga/components/MangaToolbarMenu.tsx
+#: src/features/category/screens/CategorySettings.tsx
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Edit categories"
+msgstr "编辑分类"
+
+#: src/features/category/components/CreateOrEditCategoryDialog.tsx
+msgid "Edit category"
+msgstr "编辑分类"
+
 #: src/features/manga/components/MangaToolbarMenu.tsx
 msgid "Edit manga categories"
 msgstr "编辑漫画分类"
@@ -1062,6 +1659,10 @@ msgstr "Electron"
 msgid "Electron path"
 msgstr "Electron 路径"
 
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
+msgid "Enable auto background color in continuous reading mode"
+msgstr "连续阅读模式下自动调整背景颜色"
+
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Enable debug logs"
 msgstr "启用调试日志"
@@ -1069,6 +1670,19 @@ msgstr "启用调试日志"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Enable page read progress"
 msgstr "启用页面阅读进度"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Enable pagination"
+msgstr ""
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Enable the WebView via CEF (Chromium)"
+msgstr "通过 CEF（Chromium）启用 WebView"
+
+#: src/features/manga/components/MangaDownloadButton.tsx
+msgid "Enqueuing downloads…"
+msgstr ""
 
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Entries in excluded categories will not be downloaded even if they are also in included categories"
@@ -1078,15 +1692,51 @@ msgstr "在排除分类中的作品将不会被下载，即使它们也在包含
 msgid "Entries in excluded categories will not be updated even if they are also in included categories"
 msgstr "不会更新位于排除分类的作品，即使它们同样位于包含分类"
 
+#. placeholder {0}: entry.mangaTitle
+#. placeholder {1}: entry.mangaId
+#. placeholder {2}: entry.sourceId
+#. placeholder {3}: entry.status
+#: src/features/migration/MigrationManager.ts
+msgid "Entry \"{0} ({1}; {sourceTitle} ({2}))\" in invalid state \"{3}\""
+msgstr "条目“{0}（{1}；{sourceTitle}（{2}））”处于无效状态“{3}”"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Entry \"{id}\" not found"
+msgstr "未找到条目“{id}”"
+
 #: src/base/components/downloads/DownloadStateIndicator.tsx
 #: src/base/components/feedback/SnackbarWithDescription.tsx
+#: src/features/settings/Settings.constants.ts
 msgid "Error"
 msgstr "错误"
 
-#: src/features/settings/screens/ServerSettings.tsx
+#: src/features/settings/Settings.constants.ts
+msgid "Every 12 hours"
+msgstr "每12小时"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every 3 hours"
+msgstr "每3小时"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every 30 minutes"
+msgstr "每30分钟"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every 6 hours"
+msgstr "每6小时"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every hour"
+msgstr "每小时"
+
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Example for possible values: 1 (bytes), 1KB (kilobytes), 1MB (megabytes), 1GB (gigabytes)"
 msgstr "可能的数值示例：1 （字节）、 1KB （千字节）、1MB （百万字节）、1GB （十亿字节）"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Exclude"
+msgstr "排除"
 
 #: src/features/chapter/components/ChapterExcludeSanlatorsFilter.tsx
 msgid "Exclude scanlators"
@@ -1096,6 +1746,14 @@ msgstr "排除搬运组"
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 msgid "Exclude: {excludedCategoriesText}"
 msgstr "排除: {excludedCategoriesText}"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Exclude: {excludedSyncDataText}"
+msgstr "排除：{excludedSyncDataText}"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Excluded"
+msgstr "已排除"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 #: src/features/reader/overlay/navigation/components/ReaderExitButton.tsx
@@ -1110,9 +1768,22 @@ msgstr "返回到漫画页面"
 msgid "Exit to previous page"
 msgstr "返回到上一页面"
 
+#: src/features/browse/screens/Browse.tsx
+msgid "Extension"
+msgstr "扩展"
+
 #: src/features/extension/info/screens/ExtensionInfo.tsx
 msgid "Extension info"
 msgstr "插件信息"
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Extension installed"
+msgstr "已安装的扩展"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Extension stores"
+msgstr "扩展商店"
 
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Failed to connect to KOReader Sync server."
@@ -1123,9 +1794,7 @@ msgid "Failed to disconnect from KOReader Sync server."
 msgstr "断开KOReader同步服务器失败。"
 
 #: src/features/backup/screens/Backup.tsx
-#: src/features/backup/screens/Backup.tsx
 #: src/features/browse/extensions/Extensions.tsx
-#: src/features/browse/screens/BrowseSettings.tsx
 #: src/features/browse/screens/BrowseSettings.tsx
 #: src/features/browse/sources/components/SourceCard.tsx
 #: src/features/category/components/CategoriesInclusionSetting.tsx
@@ -1135,27 +1804,23 @@ msgstr "断开KOReader同步服务器失败。"
 #: src/features/device/screens/DeviceSetting.tsx
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 #: src/features/downloads/screens/DownloadSettings.tsx
-#: src/features/downloads/screens/DownloadSettings.tsx
 #: src/features/extension/info/components/SourceCard.tsx
 #: src/features/global-search/screens/SearchAll.tsx
 #: src/features/history/screens/HistorySettings.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
-#: src/features/migration/screens/Migration.tsx
+#: src/features/migration/screens/MigrationSelectSource.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 #: src/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx
 #: src/features/settings/screens/Appearance.tsx
 #: src/features/settings/screens/ImageProcessingSetting.tsx
 #: src/features/settings/screens/ServerSettings.tsx
-#: src/features/settings/screens/ServerSettings.tsx
-#: src/features/settings/screens/WebUISettings.tsx
 #: src/features/settings/screens/WebUISettings.tsx
 #: src/features/source/browse/screens/SourceMangas.tsx
 #: src/features/source/components/SourceLanguageSelect.tsx
 #: src/features/source/configuration/screens/SourceConfigure.tsx
 #: src/features/source/services/Sources.ts
 #: src/features/theme/AppThemeContext.tsx
-#: src/features/tracker/components/cards/TrackerActiveCard.tsx
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 #: src/features/tracker/screens/TrackingSettings.tsx
 msgid "Failed to save changes"
@@ -1176,6 +1841,10 @@ msgstr ""
 #: src/features/settings/screens/Appearance.tsx
 msgid "Feel free to translate the project on"
 msgstr "准确的翻译离不开大家的指正 ->"
+
+#: src/features/manga/components/MangaDownloadButton.tsx
+msgid "Fetching chapters…"
+msgstr ""
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"
@@ -1234,6 +1903,10 @@ msgid "FlareSolverr enabled"
 msgstr "已启用 FlareSolverr"
 
 #: src/features/settings/screens/ServerSettings.tsx
+msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+msgstr "Flaresolverr 是一个<0><1>独立</1></0>的程序，与 Suwayomi<2><3>无关</3></2>，需要手动<4><5>安装</5></4>并<6><7>运行</7></6>。<8/>请参阅 <9>FlareSolverr</9> 了解如何进行设置<10/><11/>如果未<12><13>正确</13></12>设置并运行，启用此选项<14><15>不会</15></14>产生任何效果"
+
+#: src/features/settings/screens/ServerSettings.tsx
 msgid "FlareSolverr request timeout"
 msgstr "FlareSolverr 请求超时"
 
@@ -1248,6 +1921,10 @@ msgstr "FlareSolverr 会话名称"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "FlareSolverr session TTL"
 msgstr "FlareSolverr 会话 TTL"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Flaresolverr setup confirmation"
+msgstr "Flaresolverr 设置确认"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "FlareSolverr will automatically rotate expired sessions based on the TTL provided in minutes"
@@ -1309,7 +1986,6 @@ msgstr "绿"
 
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
 #: src/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx
-#: src/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx
 msgid "h"
 msgstr "小时"
 
@@ -1324,6 +2000,11 @@ msgstr "搜索有结果"
 #: src/features/settings/components/images/Processing.tsx
 msgid "Headers"
 msgstr "请求头"
+
+#. placeholder {0}: headers?.length ?? 0
+#: src/features/settings/components/images/Processing.tsx
+msgid "Headers ({0})"
+msgstr "请求头 ({0})"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/tracker/Tracker.constants.ts
@@ -1370,6 +2051,14 @@ msgstr "阅读时应提前下载多少章节。"
 msgid "How much time FlareSolverr has to handle the request"
 msgstr "FlareSolverr 处理请求所需的时间"
 
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid ""
+"If enabled, chooses the match furthest ahead.\n"
+"Otherwise, picks the first match by source priority."
+msgstr ""
+"启用后，将选择进度最靠前的匹配项。\n"
+"否则，将根据源优先级选择第一个匹配项。"
+
 #: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
 msgid "Ignore"
 msgstr "忽略"
@@ -1381,6 +2070,18 @@ msgstr "忽略带有未读章节的作品的自动下载"
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Ignore filters when searching"
 msgstr "搜索时忽略筛选器"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches that are behind in chapters"
+msgstr "忽略章节进度落后的匹配项"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches with missing chapters"
+msgstr "忽略存在缺失章节的匹配项"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches without newer chapters"
+msgstr "忽略没有新章节的匹配项"
 
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Ignore re-uploaded chapters"
@@ -1424,13 +2125,22 @@ msgstr ""
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
+#: src/features/migration/components/migration-entry/MigrationEntryThumbnail.tsx
 msgid "In Library"
 msgstr "在书架中"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Include"
+msgstr "包含"
 
 #: src/features/backup/screens/Backup.tsx
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 msgid "Include: {includedCategoriesText}"
 msgstr "包含: {includedCategoriesText}"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Include: {includedSyncDataText}"
+msgstr "包含：{excludedSyncDataText}"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 msgid "Increase auto scroll speed"
@@ -1449,7 +2159,14 @@ msgstr "在章节切换时提示扫描组变更信息"
 msgid "Inform about missing chapters on chapter transition"
 msgstr "在章节切换时提示缺失章节信息"
 
-#: src/base/components/feedback/SnackbarWithDescription.tsx
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Inform about updated version"
+msgstr "通知版本更新"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Inform about version update"
+msgstr "版本更新提醒"
+
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Information"
 msgstr "信息"
@@ -1491,8 +2208,6 @@ msgstr "无效的文件类型"
 #: src/features/settings/components/images/KeyValueItem.tsx
 #: src/features/settings/components/images/MimeTypeTextField.tsx
 #: src/features/settings/components/images/Processing.tsx
-#: src/features/settings/components/images/Processing.tsx
-#: src/features/settings/components/images/Processing.tsx
 msgid "Invalid input"
 msgstr "无效输入"
 
@@ -1512,6 +2227,12 @@ msgstr "反转触控区域"
 msgid "IP"
 msgstr "IP"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "item"
+msgstr "条目"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/library/screens/LibrarySettings.tsx
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Items per page"
 msgstr "每页显示数量"
@@ -1540,6 +2261,14 @@ msgstr "在连续阅读模式下，保持前一章节和后一章节可见，实
 msgid "Keep remote"
 msgstr "保持远程"
 
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Keep screen on"
+msgstr "保持屏幕常亮"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Keybinds"
+msgstr "快捷键"
+
 #: src/features/reader/settings/layout/components/ReaderSettingTapZoneLayout.tsx
 msgid "Kindle"
 msgstr "Kindle"
@@ -1558,7 +2287,6 @@ msgid "Language"
 msgstr "语言"
 
 #: src/base/utils/Languages.ts
-#: src/base/utils/Languages.ts
 msgid "Language with code: {code}"
 msgstr "带有代码的语言:{code}"
 
@@ -1569,6 +2297,10 @@ msgstr "大"
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Last read chapter"
 msgstr "上次阅读章节"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Last sync: {syncDate}"
+msgstr "上一次同步：{syncDate}"
 
 #: src/features/updates/screens/Updates.tsx
 msgid "Last update: {date}"
@@ -1592,6 +2324,10 @@ msgstr "最新获取的章节"
 msgid "Latest uploaded chapter"
 msgstr "最新上传的章节"
 
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+msgid "Latest: {latestChapterNumber}"
+msgstr "最新章节：{latestChapterNumber}"
+
 #: src/features/theme/Themes.ts
 msgid "Lavender"
 msgstr "紫气薰衣"
@@ -1601,6 +2337,7 @@ msgid "Layout"
 msgstr "布局"
 
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
 msgid "Left"
 msgstr "左"
 
@@ -1619,8 +2356,8 @@ msgstr "不支持旧版本的备份！"
 
 #: src/features/backup/Backup.constants.ts
 #: src/features/library/screens/Library.tsx
-#: src/features/library/screens/Library.tsx
 #: src/features/library/screens/LibrarySettings.tsx
+#: src/features/library/screens/PaginatedLibraryView.tsx
 #: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/Settings.tsx
 msgid "Library"
@@ -1691,13 +2428,33 @@ msgstr "清理日志文件"
 msgid "Log in"
 msgstr "登录"
 
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Log in to {0}"
+msgstr "登录{0}"
+
 #: src/base/components/modals/LoginDialog.tsx
 msgid "Log out"
 msgstr "注销"
 
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Log out from {0}"
+msgstr "登出{0}"
+
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
 msgid "Logged in"
 msgstr "已登录"
+
+#: src/features/tracker/screens/TrackerOAuthLogin.tsx
+msgid "Logging in to {trackerName}…"
+msgstr "正在登录{trackerName}……"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-long-strip"
+msgstr "条漫"
 
 #: src/features/device/screens/DeviceSetting.tsx
 msgid ""
@@ -1709,12 +2466,17 @@ msgstr ""
 "存储在服务器上的某些UI设置将依据设备不同而不同。\n"
 "这可以使不同的设备（比如桌面端和移动端）的UI设置不同"
 
-#: src/features/manga/Manga.constants.ts
 #: src/features/manga/screens/Manga.tsx
 #: src/features/reader/settings/behaviour/components/ReaderSettingExitMode.tsx
 #: src/features/tracker/Tracker.constants.ts
 msgid "Manga"
 msgstr "Manga"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-manga"
+msgstr "漫画"
 
 #: src/features/settings/screens/Appearance.tsx
 msgid "Manga item width"
@@ -1724,15 +2486,35 @@ msgstr "漫画单元格宽度"
 msgid "Manga thumbnail as background"
 msgstr "漫画缩略图设为背景"
 
-#: src/features/manga/Manga.constants.ts
 #: src/features/tracker/Tracker.constants.ts
 msgid "Manhua"
 msgstr "漫画"
 
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
 #: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-manhua"
+msgstr "国漫"
+
 #: src/features/tracker/Tracker.constants.ts
 msgid "Manhwa"
 msgstr "韩漫"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-manhwa"
+msgstr "韩漫"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Manual migration search for \"{title}\""
+msgstr "手动迁移搜索\"{title}\""
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Manual search"
+msgstr "手动搜索"
 
 #: src/features/chapter/components/ChaptersToolbarMenu.tsx
 msgid "Mark all as read"
@@ -1762,6 +2544,18 @@ msgstr "标记为已读"
 msgid "Mark selected as unread"
 msgstr "标记为未读"
 
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Match based on chapter number"
+msgstr "根据章节号匹配"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Match found"
+msgstr "找到匹配项"
+
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+msgid "Matches"
+msgstr "匹配项"
+
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Maximum log file size"
 msgstr "日志文件的最大体积"
@@ -1778,19 +2572,60 @@ msgstr "中"
 msgid "Menu"
 msgstr "菜单"
 
+#: src/features/settings/Settings.constants.ts
+msgid "Merging"
+msgstr "合并中"
+
 #: src/features/browse/screens/Browse.tsx
 #: src/features/manga/components/MangaToolbarMenu.tsx
-#: src/features/manga/components/MangaToolbarMenu.tsx
 #: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
-#: src/features/migration/screens/Migrate.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+#: src/features/migration/screens/MigrationSelectMangas.tsx
 msgid "Migrate"
 msgstr "迁移"
 
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
+#. placeholder {0}: manga.title
+#: src/features/manga/components/MangaToolbarMenu.tsx
+#: src/features/migration/MigrationManager.ts
+msgid "Migrate \"{0}\""
+msgstr "迁移“{0}”"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Migrate selected"
+msgstr "迁移所选项"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Migrating"
+msgstr "迁移"
+
+#: src/features/manga/components/cards/MangaCard.tsx
 msgid "Migrating manga…"
 msgstr "正在迁移漫画…"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Migrating…"
+msgstr "正在迁移……"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Migration complete"
+msgstr "迁移完成"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/Migration.constants.ts
+msgid "Migration failed"
+msgstr "迁移失败"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Migration for \"{title}\" failed with error:"
+msgstr "“{title}” 的迁移失败，错误信息："
+
+#: src/features/migration/MigrationManager.ts
+msgid "Migration information"
+msgstr "迁移信息"
+
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Migration options"
+msgstr "迁移选项"
 
 #: src/features/settings/components/images/Processing.tsx
 msgid "MIME-Type"
@@ -1805,8 +2640,17 @@ msgid "Minty Miracles"
 msgstr "薄荷奇境"
 
 #: src/features/settings/screens/ServerSettings.tsx
+msgid "Minute"
+msgstr "分"
+
+#: src/features/settings/screens/ServerSettings.tsx
 msgid "Misc"
 msgstr "杂项"
+
+#. placeholder {0}: entry.missingChapters
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+msgid "Missing: {0}"
+msgstr "缺失： {0}"
 
 #: src/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx
 msgid "Mobile"
@@ -1824,6 +2668,11 @@ msgstr "更多"
 #: src/features/theme/Themes.ts
 msgid "Mountain Sunset"
 msgstr "暮色黄昏"
+
+#: src/base/utils/Languages.ts
+#: src/features/extension/Extensions.constants.ts
+msgid "Multi"
+msgstr "多语言"
 
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Multiply"
@@ -1849,12 +2698,10 @@ msgstr "下一个"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
-#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
 msgid "Next chapter"
 msgstr "下一章"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
-#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
 msgid "Next page"
 msgstr "下一页"
@@ -1862,6 +2709,10 @@ msgstr "下一页"
 #: src/features/reader/viewer/components/ReaderTransitionPage.tsx
 msgid "Next:"
 msgstr "下一个:"
+
+#: src/features/manga/components/MangaDownloadButton.tsx
+msgid "No chapters available"
+msgstr ""
 
 #: src/features/chapter/components/ChapterList.tsx
 msgid "No chapters found"
@@ -1878,23 +2729,35 @@ msgstr "没有下载"
 #: src/features/global-search/screens/SearchAll.tsx
 #: src/features/manga/components/MangaGrid.tsx
 #: src/features/source/browse/screens/SourceMangas.tsx
-#: src/features/source/browse/screens/SourceMangas.tsx
 #: src/features/tracker/components/TrackerSearch.tsx
 msgid "No manga found"
 msgstr "没有漫画"
 
 #: src/features/library/components/LibraryMangaGrid.tsx
+#: src/features/library/screens/PaginatedLibraryView.tsx
 #: src/features/source/browse/screens/SourceMangas.tsx
 msgid "No manga matches this filter"
 msgstr "没有漫画匹配筛选"
+
+#: src/features/migration/Migration.constants.ts
+msgid "No match found"
+msgstr "未找到匹配项"
 
 #: src/features/reader/viewer/ReaderChapterViewer.tsx
 msgid "No pages found"
 msgstr "未找到内容"
 
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "No sources available to migrate to"
+msgstr "没有可用于迁移的源"
+
 #: src/features/browse/sources/Sources.tsx
 msgid "No sources found. Install Some extensions first."
 msgstr "没有找到图源。请先安装一些插件。"
+
+#: src/features/source/components/SourceLanguageSelect.tsx
+msgid "No sources installed"
+msgstr "未安装任何源"
 
 #: src/features/backup/Backup.utils.ts
 #: src/features/category/components/CategoriesInclusionSetting.tsx
@@ -1917,11 +2780,27 @@ msgstr "尚未上线"
 msgid "Novel"
 msgstr "小说"
 
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "NSFW (18+) sources"
+msgstr "NSFW (18+) 源"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid ""
+"Number of items per page in OPDS feeds (e.g., Library History, Manga Chapters).\n"
+"Higher values may affect client performance."
+msgstr ""
+"OPDS 信息流中每页显示的条目数量（例如：资料库历史、漫画章节）。\n"
+"较大的数值可能会影响客户端性能。"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Number of manga shown on each page"
+msgstr ""
+
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 msgid "Number of unread chapters to download"
 msgstr "要下载的未读章节数"
 
-#: src/features/extension/Extensions.constants.ts
+#: src/features/browse/extensions/components/ExtensionCard.tsx
 #: src/features/extension/Extensions.constants.ts
 msgid "Obsolete"
 msgstr "过时"
@@ -1970,6 +2849,10 @@ msgstr "单篇漫画"
 msgid "Ongoing"
 msgstr "连载中"
 
+#: src/features/migration/Migration.constants.ts
+msgid "Only outdated matches found"
+msgstr "仅找到过期的匹配项"
+
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 msgid "Only works if the current chapter plus the next chapter are already downloaded."
 msgstr "仅在此章节及下一章节已下载时生效。"
@@ -1981,6 +2864,10 @@ msgstr "OPDS（开放出版物分发系统）"
 #: src/features/reader/services/ReaderControls.ts
 msgid "Open"
 msgstr "打开"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Open discord"
+msgstr "打开discord"
 
 #: src/features/chapter/components/actions/ChapterActionMenuItems.tsx
 #: src/features/manga/components/details/MangaDetails.tsx
@@ -2002,12 +2889,19 @@ msgstr "在WebView中打开"
 msgid "Open page on exit"
 msgstr "退出后打开漫画页"
 
+#: src/features/library/components/LibraryToolbarMenu.tsx
+msgid "Open random entry"
+msgstr "打开随机条目"
+
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "Open the WebUI when starting the server"
 msgstr "在启动服务器时打开 Web面板"
 
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Open website"
+msgstr "打开网站"
+
 #: src/features/chapter/components/cards/ChapterCard.tsx
-#: src/features/manga/components/MangaOptionButton.tsx
 #: src/features/manga/components/MangaOptionButton.tsx
 msgid "Options"
 msgstr "选项"
@@ -2021,8 +2915,6 @@ msgid "Original size"
 msgstr "原始大小"
 
 #: src/base/utils/Languages.ts
-#: src/base/utils/Languages.ts
-#: src/features/extension/Extensions.constants.ts
 #: src/features/extension/Extensions.constants.ts
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Other"
@@ -2036,7 +2928,7 @@ msgstr "覆盖"
 msgid "Overlay mode"
 msgstr "叠加模式"
 
-#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
+#: src/features/library/components/PaginationControls.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
 msgid "Page"
 msgstr "页"
@@ -2045,12 +2937,15 @@ msgstr "页"
 msgid "Page gap"
 msgstr "页间距"
 
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Pagination"
+msgstr ""
+
 #: src/features/browse/screens/BrowseSettings.tsx
 msgid "Parallel source requests"
 msgstr "并行请求图源数"
 
 #: src/base/components/inputs/PasswordTextField.tsx
-#: src/features/settings/screens/ServerSettings.tsx
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Password"
 msgstr "密码"
@@ -2058,6 +2953,14 @@ msgstr "密码"
 #: src/features/navigation-bar/NavigationBar.constants.ts
 msgid "Paused — {count} remaining"
 msgstr "已暂停——剩余{count}个"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Pending…"
+msgstr "待处理……"
+
+#: src/features/library/components/PaginationControls.tsx
+msgid "Per page"
+msgstr ""
 
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Percentage Tolerance"
@@ -2078,7 +2981,6 @@ msgid "Popular"
 msgstr "受欢迎的"
 
 #: src/features/settings/screens/ServerSettings.tsx
-#: src/features/settings/screens/ServerSettings.tsx
 msgid "Port"
 msgstr "端口"
 
@@ -2094,6 +2996,10 @@ msgstr "预载图片"
 msgid "Press keys"
 msgstr "按下快捷键"
 
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Prevents content from overlapping device cutouts and screen edges"
+msgstr "防止内容与设备刘海区域和屏幕边缘重叠"
+
 #: src/features/settings/Settings.constants.ts
 msgid "Preview"
 msgstr "预览版"
@@ -2105,12 +3011,10 @@ msgstr "上一页"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
-#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
 msgid "Previous chapter"
 msgstr "上一章"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
-#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
 msgid "Previous page"
 msgstr "上一页"
@@ -2156,10 +3060,18 @@ msgstr "排队中"
 msgid "Quick settings"
 msgstr "快捷设置"
 
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Random"
+msgstr "随机"
+
 #: src/features/reader/settings/screens/GlobalReaderSettings.tsx
 #: src/features/settings/screens/Settings.tsx
 msgid "Reader"
 msgstr "阅读"
+
+#: src/features/reader/screens/Reader.tsx
+msgid "Reader — Manga {mangaId} Chapter {chapterSourceOrder}"
+msgstr "阅读器 — 漫画 {mangaId} 第 {chapterSourceOrder} 章"
 
 #: src/features/reader/settings/layout/components/ReaderSettingWidth.tsx
 msgid "Reader width"
@@ -2205,7 +3117,6 @@ msgid "Releasing"
 msgstr "连载中"
 
 #: src/features/manga/components/MangaToolbarMenu.tsx
-#: src/features/manga/components/MangaToolbarMenu.tsx
 msgid "Reload data from source"
 msgstr "从图源重新加载数据"
 
@@ -2218,6 +3129,11 @@ msgstr "稍后提醒"
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 msgid "Remove"
 msgstr "移除"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Remove {0} tracking?"
+msgstr "移除{0}追踪？"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "Remove bookmark"
@@ -2250,7 +3166,6 @@ msgid "Removed non library manga from categories"
 msgstr "从类别中已经删除非库漫画"
 
 #: src/base/components/buttons/ResetButton.tsx
-#: src/base/components/buttons/ResetButton.tsx
 #: src/base/components/settings/CheckboxListSetting.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
@@ -2272,9 +3187,12 @@ msgid "Restore"
 msgstr "恢复"
 
 #: src/features/backup/screens/Backup.tsx
-#: src/features/backup/screens/Backup.tsx
 msgid "Restore Backup"
 msgstr "恢复备份"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Restoring"
+msgstr "恢复中"
 
 #: src/features/backup/screens/Backup.tsx
 msgid "Restoring backup…"
@@ -2288,6 +3206,7 @@ msgstr "恢复"
 #: src/base/components/SpinnerImage.tsx
 #: src/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
 msgid "Retry"
 msgstr "重试"
 
@@ -2296,6 +3215,7 @@ msgid "Retry errored pages"
 msgstr "重试加载出错的页"
 
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
 msgid "Right"
 msgstr "右"
 
@@ -2314,7 +3234,6 @@ msgstr "玫瑰流金"
 
 #: src/features/settings/screens/ImageProcessingSetting.tsx
 #: src/features/theme/components/CreateThemeDialog.tsx
-#: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Save"
 msgstr "保存"
 
@@ -2325,6 +3244,11 @@ msgstr "保存为CBZ文件"
 #: src/features/source/browse/components/SourceOptions.tsx
 msgid "Save current search"
 msgstr "保存当前搜索"
+
+#: src/features/manga/components/MangaToolbarMenu.tsx
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Save dynamic color theme"
+msgstr "保存动态配色主题"
 
 #: src/features/source/browse/components/SourceOptions.tsx
 msgid "Save search"
@@ -2369,12 +3293,22 @@ msgid "Scroll forward"
 msgstr "向前翻转"
 
 #: src/base/components/AppbarSearch.tsx
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 msgid "Search"
 msgstr "搜索"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/Migration.constants.ts
+msgid "Search failed"
+msgstr "搜索失败"
 
 #: src/features/library/screens/Library.tsx
 msgid "Search for \"{query}\" globally"
 msgstr "全局搜索“{query}”"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Search for \"{title}\" failed with error:"
+msgstr "搜索 “{title}” 失败，错误信息："
 
 #: src/features/tracker/components/TrackerSearch.tsx
 msgid ""
@@ -2384,13 +3318,35 @@ msgstr ""
 "通过“id:<ID>”搜索ID（例如“id:13”）\n"
 "通过“my:<Title>”将搜索范围限制为你的列表内（例如“my:航海王”）"
 
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Search options"
+msgstr "搜索选项"
+
 #: src/features/settings/components/images/Processing.tsx
 msgid "Search parameters"
 msgstr "搜索参数"
 
+#. placeholder {0}: searchParams?.length ?? 0
+#: src/features/settings/components/images/Processing.tsx
+msgid "Search parameters ({0})"
+msgstr "搜索参数 ({0})"
+
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Search results"
+msgstr "搜索结果"
+
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Search results will include manga that do not match the current filters"
 msgstr "搜索结果将包括与当前过滤器不匹配的漫画"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Searching…"
+msgstr "正在搜索……"
+
+#: src/features/settings/components/images/Processing.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Second"
+msgstr "秒"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Second to last read chapter"
@@ -2402,16 +3358,14 @@ msgstr "请见 <0>FlareSolverr</0> 以了解如何设定的信息"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "See the official <0>MUI documentation</0> for how to customize the theme.<1/>The palette API is not supported, you have to use the new <2>color schemes API</2>.<3/><4/>You can use theme creators like <5>MUI Theme Creator</5>, however, you have to adjust the created object according to the new color schemes API.<6/><7/>In case no background is defined, a background will be calculated based on the primary color."
-msgstr ""
-"查看官方 <0>MUI 文档</0>，了解如何自定义主题。调色板 API 不再受到支持，你需要"
-"使用新的 <1>色彩方案 API</1>。你可以使用主题创建器，例如 <2>MUI 主题创建器</"
-"2>，但是，你需要根据新的色彩方案 API 调整创建的对象。如果没有定义背景颜色，系"
-"统将根据主色自动计算背景颜色。"
+msgstr "查看官方 <0>MUI 文档</0>，了解如何自定义主题。调色板 API 不再受到支持，你需要使用新的 <1>色彩方案 API</1>。你可以使用主题创建器，例如 <2>MUI 主题创建器</2>，但是，你需要根据新的色彩方案 API 调整创建的对象。如果没有定义背景颜色，系统将根据主色自动计算背景颜色。"
 
 #: src/features/chapter/components/actions/ChapterActionMenuItems.tsx
 #: src/features/chapter/components/cards/ChapterCard.tsx
+#: src/features/manga/components/cards/MangaCard.tsx
 #: src/features/manga/components/MangaActionMenuItems.tsx
 #: src/features/manga/components/MangaOptionButton.tsx
+#: src/features/migration/components/migration-entry/MigrationMatchedEntry.tsx
 msgid "Select"
 msgstr "选择"
 
@@ -2425,6 +3379,22 @@ msgstr "选择一个设备以使用其存储在服务器中的UI设置"
 msgid "Select all"
 msgstr "全选"
 
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select destination sources"
+msgstr "选择目标图源"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select enabled sources"
+msgstr "选择已启用的图源"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select pinned sources"
+msgstr "选择已置顶的图源"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Selected"
+msgstr "已选择"
+
 #: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
 msgid "Sepia"
 msgstr "棕褐色"
@@ -2433,7 +3403,6 @@ msgstr "棕褐色"
 msgid "Series settings"
 msgstr "系列设置"
 
-#: src/features/settings/screens/About.tsx
 #: src/features/settings/screens/About.tsx
 #: src/features/settings/screens/ServerSettings.tsx
 #: src/features/settings/screens/Settings.tsx
@@ -2457,6 +3426,21 @@ msgstr "服务端设置"
 msgid "Server version"
 msgstr "服务器版本"
 
+#. placeholder {0}: selectedServerChannelInfo.tag
+#. placeholder {1}: selectedServerChannelInfo.channel
+#: src/features/app-updates/components/ServerUpdateChecker.tsx
+msgid "Server version {0} ({1}) available for download"
+msgstr "服务器版本 {0} ({1}) 可供下载"
+
+#. placeholder {0}: aboutServer?.buildType
+#: src/features/app-updates/components/ServerUpdateChecker.tsx
+msgid "Server was updated to version {version} ({0})"
+msgstr "服务器已升级至版本 {version} ({0})"
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Set as active theme"
+msgstr "设为当前主题"
+
 #: src/features/category/components/CategorySelect.tsx
 msgid "Set categories"
 msgstr "设置分类"
@@ -2472,7 +3456,6 @@ msgstr "在阅读器打开时无法更改设置"
 #: src/base/components/inputs/LanguageSelect.tsx
 #: src/features/backup/Backup.constants.ts
 #: src/features/browse/extensions/components/ExtensionCard.tsx
-#: src/features/browse/extensions/Extensions.tsx
 #: src/features/extension/info/components/SourceCard.tsx
 #: src/features/library/components/LibraryToolbarMenu.tsx
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -2484,9 +3467,15 @@ msgstr "在阅读器打开时无法更改设置"
 msgid "Settings"
 msgstr "设置"
 
+#: src/features/manga/components/MangaToolbarMenu.tsx
 #: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopActions.tsx
 msgid "Share"
 msgstr "分享"
+
+#: src/features/settings/components/DebugInformation.tsx
+msgid "Show"
+msgstr "展示"
 
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Show all duplicated entries in your library"
@@ -2496,14 +3485,19 @@ msgstr "显示书架中所有的重复项"
 msgid "Show continue reading button"
 msgstr "显示继续阅读按钮"
 
+#: src/features/manga/components/cards/MangaCard.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
 msgid "Show entry"
 msgstr "显示作品"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Show icon in system tray"
 msgstr "在系统托盘中显示图标"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Show in sources and extensions lists"
+msgstr "在源和扩展列表中显示"
 
 #: src/base/components/feedback/EmptyView.tsx
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
@@ -2513,6 +3507,7 @@ msgstr "显示更少项目"
 #: src/base/components/feedback/EmptyView.tsx
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 #: src/features/global-search/screens/SearchAll.tsx
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "显示更多项目"
@@ -2554,6 +3549,14 @@ msgstr "显示章节过渡页"
 msgid "Shows a dialog in case a new version is available"
 msgstr "在新版本可用时弹窗"
 
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Shows a dialog in case the version got updated. This dialog will be shown in case an app refresh is required, regardless of this setting."
+msgstr "在版本更新时显示提示对话框。 如果需要刷新应用，该对话框将始终显示，与此设置无关。"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Shows a dialog in case the version of the server has changed"
+msgstr "当服务器版本发生变化时显示提示对话框"
+
 #: src/features/settings/Settings.constants.ts
 msgid "Simple Login"
 msgstr "简单登录"
@@ -2561,6 +3564,10 @@ msgstr "简单登录"
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Single page"
 msgstr "单页"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Skip chapter metadata feed"
+msgstr "跳过章节元数据更新流"
 
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Skip duplicate chapters"
@@ -2570,7 +3577,6 @@ msgstr "跳过重复章节"
 msgid "Skip filtered chapters"
 msgstr "跳过已过滤的章节"
 
-#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 msgid "Skip updating entries"
 msgstr "跳过更新作品"
@@ -2624,13 +3630,33 @@ msgstr ""
 msgid "Sort"
 msgstr "排序"
 
+#: src/features/browse/screens/Browse.tsx
+#: src/features/browse/screens/BrowseSettings.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "Source"
+msgstr "源"
+
 #: src/features/source/configuration/screens/SourceConfigure.tsx
 msgid "Source Configuration"
 msgstr "图源配置"
 
+#: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
+msgid "Source entry — {sourceTitle}"
+msgstr "图源作品 — {sourceTitle}"
+
 #: src/features/chapter/components/ChapterOptions.tsx
 msgid "Source title"
 msgstr "图源标题"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Sources"
+msgstr "源"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Split the library into pages instead of infinite scroll"
+msgstr ""
 
 #: src/features/settings/Settings.constants.ts
 msgid "Stable"
@@ -2649,10 +3675,37 @@ msgstr "开始"
 msgid "Start date"
 msgstr "起始日期"
 
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Start migration"
+msgstr "开始迁移"
+
+#: src/features/manga/components/ContinueReadingTooltip.tsx
+msgid ""
+"Start reading\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+msgstr ""
+"开始阅读\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Start Search"
+msgstr "开始搜索"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Start sync"
+msgstr "开始同步"
+
 #: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/settings/Settings.constants.ts
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Started"
 msgstr "已开始"
+
+#: src/features/manga/components/MangaDownloadButton.tsx
+msgid "Starting downloader…"
+msgstr ""
 
 #: src/features/reader/overlay/navigation/desktop/ReaderNavBarDesktop.tsx
 msgid "Static navigation"
@@ -2684,14 +3737,44 @@ msgid "Submit"
 msgstr "提交"
 
 #: src/base/components/feedback/SnackbarWithDescription.tsx
+#: src/features/settings/Settings.constants.ts
 msgid "Success"
 msgstr "成功"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Successfully migrated"
+msgstr "已成功迁移"
 
 #: src/features/manga/Manga.constants.ts
 msgid "Successfully migrated manga"
 msgstr "成功迁移漫画"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Sync"
+msgstr "同步"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Sync data"
+msgstr "同步数据"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Sync disabled"
+msgstr "已禁止同步"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Sync in progress"
+msgstr "同步进行中"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Sync interval"
+msgstr "同步间隔"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Sync started"
+msgstr "已开始同步"
+
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+#: src/features/settings/screens/ServerSettings.tsx
 msgid "Sync status"
 msgstr "同步状态"
 
@@ -2707,6 +3790,22 @@ msgstr "同步到一个较旧的状态"
 msgid "Sync will not be triggered if the progress difference is within this tolerance."
 msgstr "如果进度差异在此容忍范围内则不会触发同步。"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SyncYomi"
+msgstr "SyncYomi"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SyncYomi API key"
+msgstr "SyncYomi API密钥"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SyncYomi enabled"
+msgstr "已启用SyncYomi"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SyncYomi host"
+msgstr "SyncYomi 主机地址"
+
 #: src/features/settings/screens/Appearance.tsx
 msgid "System"
 msgstr "系统"
@@ -2719,7 +3818,6 @@ msgstr "标签"
 msgid "Tap zones"
 msgstr "触控区域"
 
-#: src/features/settings/components/images/Processing.tsx
 #: src/features/settings/components/images/Processing.tsx
 msgid "Target mode"
 msgstr "目标模式"
@@ -2737,6 +3835,7 @@ msgid "The cache of the client (browser, electron) should get cleared alongside 
 msgstr "客户端的缓存（浏览器、electron）应该与之一起清除，否则，客户端缓存将继续被使用"
 
 #: src/features/library/screens/Library.tsx
+#: src/features/library/screens/PaginatedLibraryView.tsx
 msgid "The category is empty"
 msgstr "分类为空"
 
@@ -2755,6 +3854,16 @@ msgstr "登录将由客户端处理。"
 #: src/features/settings/Settings.constants.ts
 msgid "The login will be handled by the server."
 msgstr "登录将由服务端处理。"
+
+#: src/features/migration/MigrationManager.ts
+msgid ""
+"The migration runs on the client on the current device, NOT the server.\n"
+"As long as the client is open, the migration will run in the background.\n"
+"The client can be closed. The migration will be resumed once it gets opened again on the same device it got started on."
+msgstr ""
+"迁移在当前设备的客户端本地执行，而不是在服务器上执行。\n"
+"只要客户端保持开启，迁移就会在后台运行。\n"
+"客户端可以关闭，迁移将在同一设备上重新打开时继续进行。"
 
 #: src/features/reader/services/ReaderControls.ts
 msgid ""
@@ -2814,9 +3923,17 @@ msgstr "无下一章节"
 msgid "There is no previous chapter"
 msgstr "无上一章节"
 
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "These options are slow and dangerous and may lead to restrictions from sources"
+msgstr "这些选项速度较慢且存在风险，可能会导致被源站限制"
+
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Third to last read chapter"
 msgstr "阅读倒数第三章节"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "This does not prevent unofficial or potentially incorrectly flagged extensions from surfacing NSFW (18+) content within the app."
+msgstr "这不会阻止非官方或可能被错误标记的扩展在应用内显示 NSFW（18+）内容。"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "This icon will be shown on the system that is running the server"
@@ -2825,6 +3942,10 @@ msgstr "该图标将显示在运行服务器的系统上"
 #: src/features/app-updates/components/VersionInfo.tsx
 msgid "This is the latest version"
 msgstr "已经是最新版本"
+
+#: src/features/source/browse/components/SourceOptions.tsx
+msgid "This will delete the saved search \"{savedSearch}\""
+msgstr "这将删除已保存的搜索 \"{savedSearch}\""
 
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 msgid "This will remove the tracking locally."
@@ -2858,11 +3979,14 @@ msgstr "展示错位跨页"
 msgid "Toggle stretch image"
 msgstr "切换图像拉伸模式"
 
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Top"
+msgstr "顶部"
+
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Total chapters"
 msgstr "总章节数"
 
-#: src/features/manga/Manga.constants.ts
 #: src/features/manga/Manga.constants.ts
 #: src/features/tracker/components/TrackerSearch.tsx
 msgid "Track"
@@ -2896,7 +4020,7 @@ msgstr "追踪列表"
 
 #: src/features/backup/Backup.constants.ts
 #: src/features/manga/components/TrackMangaButton.tsx
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
 #: src/features/settings/screens/Settings.tsx
 #: src/features/tracker/screens/TrackingSettings.tsx
 msgid "Tracking"
@@ -2930,10 +4054,10 @@ msgstr "UI登录"
 #: src/features/library/screens/Library.tsx
 #: src/features/library/screens/LibraryDuplicates.tsx
 #: src/features/library/screens/LibrarySettings.tsx
+#: src/features/library/screens/PaginatedLibraryView.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
-#: src/features/manga/hooks/useManageMangaLibraryState.tsx
-#: src/features/migration/screens/Migrate.tsx
-#: src/features/migration/screens/Migration.tsx
+#: src/features/migration/screens/MigrationSelectMangas.tsx
+#: src/features/migration/screens/MigrationSelectSource.tsx
 #: src/features/reader/screens/Reader.tsx
 #: src/features/reader/settings/screens/GlobalReaderSettings.tsx
 #: src/features/reader/viewer/ReaderChapterViewer.tsx
@@ -2953,6 +4077,19 @@ msgstr "UI登录"
 msgid "Unable to load data"
 msgstr "无法加载数据"
 
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Unable to load extension stores"
+msgstr "无法加载扩展商店"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Unable to load sources"
+msgstr "无法加载图源"
+
+#: src/features/migration/MigrationManager.ts
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Understood"
+msgstr "已知悉"
+
 #: src/features/extension/Extensions.constants.ts
 msgid "Uninstall"
 msgstr "卸载"
@@ -2963,10 +4100,15 @@ msgstr "卸载中"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/Manga.constants.ts
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 #: src/features/tracker/Tracker.constants.ts
 msgid "Unknown"
 msgstr "未知"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Unknown source"
+msgstr "未知源"
 
 #: src/features/browse/sources/components/SourceCard.tsx
 msgid "Unpin source"
@@ -3047,6 +4189,10 @@ msgid "Updating"
 msgstr "更新中"
 
 #: src/features/settings/Settings.constants.ts
+msgid "Uploading"
+msgstr "上传中"
+
+#: src/features/settings/Settings.constants.ts
 msgid "URL"
 msgstr "链接"
 
@@ -3056,8 +4202,7 @@ msgid ""
 "To use a custom WebUI replace the content of the \"webUI\" directory in the root directory on the server with the files of the custom WebUI"
 msgstr ""
 "使用自定义 Web面板。\n"
-"要使用自定义 Web面板 ，请将位于服务器根目录中的 \"webUI\" 目录的内容替换为自"
-"定义 Web面板 的文件"
+"要使用自定义 Web面板 ，请将位于服务器根目录中的 \"webUI\" 目录的内容替换为自定义 Web面板 的文件"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Use SOCKS proxy"
@@ -3085,7 +4230,6 @@ msgstr "使用随服务器一起提供的版本"
 
 #: src/base/components/modals/LoginDialog.tsx
 #: src/features/authentication/screens/LoginPage.tsx
-#: src/features/settings/screens/ServerSettings.tsx
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Username"
 msgstr "用户名"
@@ -3118,10 +4262,15 @@ msgstr "警告"
 msgid "Weblate"
 msgstr "Weblate"
 
-#: src/features/manga/Manga.constants.ts
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Webtoon"
 msgstr "条漫"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-webtoon"
+msgstr "网漫"
 
 #: src/features/settings/screens/About.tsx
 #: src/features/settings/screens/Settings.tsx
@@ -3134,15 +4283,41 @@ msgstr "Web面板"
 msgid "WebUI channel"
 msgstr "Web面板 版本选择"
 
+#: src/features/migration/MigrationManager.ts
+msgid "WebUI must be kept open. Migration can't be resumed"
+msgstr "WebUI 必须保持开启状态。迁移无法恢复"
+
 #: src/features/settings/screens/About.tsx
 msgid "WebUI version"
 msgstr "Web面板 版本"
+
+#. placeholder {0}: webUIUpdateData?.checkForWebUIUpdate.tag
+#. placeholder {1}: webUIUpdateData?.checkForWebUIUpdate.channel
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "WebUI version {0} ({1}) available for download"
+msgstr "WebUI版本 {0} ({1}) 可供下载"
+
+#. placeholder {0}: aboutWebUI?.channel
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "WebUI was updated to version {newVersion} ({0})"
+msgstr "WebUI已升级至版本 {newVersion} ({0})"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "WebView"
+msgstr "WebView"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Weekly"
+msgstr "每星期"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "When enabled, download and streaming links are provided directly in the chapter list. KoSync strategies are applied, but PROMPT conflicts are ignored (treating local progress as priority)"
+msgstr "启用后，下载和流式链接将直接显示在章节列表中。将应用 KoSync 策略，但会忽略 PROMPT 冲突（以本地进度为优先）"
 
 #: src/features/settings/Settings.constants.ts
 msgid "When you enable this, you may need to refresh this tab for the login page to appear."
 msgstr "启用此功能后，你可能需要刷新此标签页才能显示登录页面。"
 
-#: src/features/settings/Settings.constants.ts
 #: src/features/settings/Settings.constants.ts
 msgid "Where to start the WebUI when starting the server"
 msgstr "启用服务器时启动Web面板"
@@ -3171,6 +4346,20 @@ msgstr "昨天{timeString}"
 msgid "Ying & Yang"
 msgstr "阴阳"
 
+#. placeholder {0}: category.name
+#: src/features/category/components/CategorySettingsCard.tsx
+msgid "You are about to delete category \"{0}\""
+msgstr "你即将删除分类“{0}”"
+
+#. placeholder {0}: manga.title
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+msgid "You are about to remove \"{0}\" from your library"
+msgstr "你将从书架移除“{0}”"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "You are about to remove \"{name}\" from the extension stores"
+msgstr "你即将从扩展商店中移除“{name}”"
+
 #: src/features/backup/screens/Backup.tsx
 msgid "You can also drag and drop the backup file here to restore it"
 msgstr "你可以将备份文件拖放到此处进行还原"
@@ -3191,12 +4380,16 @@ msgstr "你的书架中存在一个名称相同的作品。"
 msgid "You have not read any series yet."
 msgstr "最近没有阅读。"
 
+#: src/features/browse/extensions/Extensions.tsx
+msgid "You have to add a extension store to be able to install extensions"
+msgstr "你需要添加扩展商店才能安装扩展"
+
 #: src/features/settings/Settings.constants.ts
 msgid "Your browser will prompt you to enter credentials with a dialog."
 msgstr "你的浏览器将通过对话框提示你输入凭据。"
 
 #: src/features/library/screens/Library.tsx
-#: src/features/library/screens/Library.tsx
+#: src/features/library/screens/PaginatedLibraryView.tsx
 msgid "Your library is empty"
 msgstr "你的书架是空的"
 
@@ -3204,1172 +4397,159 @@ msgstr "你的书架是空的"
 msgid "Your library will be accessible. Use this only on private networks or when otherwise securing access."
 msgstr "你的书架将对外可访问。仅在私有网络中或确保已采取其他安全措施的情况下使用此功能。"
 
-#. placeholder {0}: updateStatus.progress
-#: src/features/app-updates/components/WebUIUpdateChecker.tsx
-msgid "{0}% | Updating…"
-msgstr "{0}% | 更新中……"
-
-#: src/features/category/components/CategoriesInclusionSetting.tsx
-#: src/features/category/components/CategoriesInclusionSetting.tsx
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
-msgid "Category"
-msgstr "分类"
-
-#: src/features/chapter/components/cards/ChapterCard.tsx
-#: src/features/downloads/components/DownloadAheadSetting.tsx
-#: src/features/downloads/screens/DownloadSettings.tsx
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
-#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
-#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
-#: src/features/tracker/components/cards/TrackerActiveCard.tsx
-#: src/features/tracker/components/cards/TrackerActiveCard.tsx
-#: src/features/tracker/components/cards/TrackerMangaCard.tsx
-msgid "Chapter"
-msgstr "章"
-
-#: src/features/authentication/screens/LoginPage.tsx
-msgid "Could not log in to Suwayomi"
-msgstr "无法登录Suwayomi"
-
-#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
-msgid "Could not log out from KOReader Sync"
-msgstr "无法登出KOReader同步"
-
-#: src/features/backup/screens/Backup.tsx
-#: src/features/backup/screens/Backup.tsx
-#: src/features/settings/screens/ServerSettings.tsx
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Day"
-msgstr "日"
-
-#: src/features/category/screens/CategorySettings.tsx
-#: src/features/library/screens/LibrarySettings.tsx
-msgid "Edit categories"
-msgstr "编辑分类"
-
-#: src/features/category/components/CreateOrEditCategoryDialog.tsx
-msgid "Edit category"
-msgstr "编辑分类"
-
-#: src/features/browse/screens/Browse.tsx
-msgid "Extension"
-msgstr "扩展"
-
-#: src/features/browse/extensions/Extensions.tsx
-msgid "Extension installed"
-msgstr "已安装的扩展"
-
-#: src/features/reader/settings/ReaderSettings.constants.tsx
-msgid "Keybinds"
-msgstr "快捷键"
-
-#: src/features/settings/screens/ServerSettings.tsx
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Minute"
-msgstr "分"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid ""
-"Number of items per page in OPDS feeds (e.g., Library History, Manga Chapters).\n"
-"Higher values may affect client performance."
+#: src/features/scan/screens/ScanCheck.tsx
+msgid "从插件源重新获取漫画元数据和章节列表，失败时不修改已有数据。可选择仅刷新某个插件下的漫画，或按添加到书架的日期范围筛选。"
 msgstr ""
-"OPDS 信息流中每页显示的条目数量（例如：资料库历史、漫画章节）。\n"
-"较大的数值可能会影响客户端性能。"
 
-#: src/features/manga/components/MangaToolbarMenu.tsx
-#: src/features/manga/components/MangaToolbarMenu.tsx
-#: src/features/theme/components/CreateThemeDialog.tsx
-msgid "Save dynamic color theme"
-msgstr "保存动态配色主题"
+#: src/features/scan/screens/ScanCheck.tsx
+msgid "修复下载标记"
+msgstr ""
 
-#: src/features/settings/components/images/Processing.tsx
-#: src/features/settings/components/images/Processing.tsx
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Second"
-msgstr "秒"
+#: src/features/scan/screens/ScanCheck.tsx
+msgid "修复中..."
+msgstr ""
 
-#: src/features/theme/components/CreateThemeDialog.tsx
-msgid "Set as active theme"
-msgstr "设为当前主题"
+#: src/features/scan/components/ScanProgressView.tsx
+msgid "修复记录"
+msgstr ""
 
-#: src/features/browse/screens/Browse.tsx
-#: src/features/browse/screens/BrowseSettings.tsx
-#: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/source/browse/screens/SourceMangas.tsx
-msgid "Source"
-msgstr "源"
+#: src/features/scan/screens/ScanCheck.tsx
+msgid "停止刷新"
+msgstr ""
 
-#. placeholder {0}: selectedChapters.length
-#. placeholder {0}: visibleChapters.length
-#: src/features/chapter/components/ChapterList.tsx
-#: src/features/chapter/components/ChapterList.tsx
-msgid "{0, plural, one {# chapter} other {# chapters}}"
-msgstr "{0, plural, one {# 章} other {# 章}}"
+#: src/features/scan/components/RefreshProgressView.tsx
+msgid "全选"
+msgstr ""
 
-#. placeholder {0}: downloadSettings.autoDownloadNewChaptersLimit
-#: src/features/downloads/screens/DownloadSettings.tsx
-msgid "{0, plural, one {# Chapter} other {# Chapters}}"
-msgstr "{0, plural, one {# 章} other {# 章}}"
+#. placeholder {0}: progress.totalManga
+#. placeholder {1}: refreshedMangaList.length
+#. placeholder {2}: failedMangaList.length
+#: src/features/scan/components/RefreshProgressView.tsx
+msgid "刷新完成！共 {0} 部漫画，成功 {1} 部，失败 {2} 部。"
+msgstr ""
 
-#. placeholder {0}: backupSettings.backupInterval
-#: src/features/backup/screens/Backup.tsx
-msgid "{0, plural, one {# day} other {# days}}"
-msgstr "{0, plural, one {# 天} other {# 天}}"
+#. placeholder {0}: refreshedMangaList.length + failedMangaList.length
+#. placeholder {1}: progress.totalManga
+#. placeholder {2}: refreshedMangaList.length
+#. placeholder {3}: failedMangaList.length
+#: src/features/scan/components/RefreshProgressView.tsx
+msgid "刷新已停止。已刷新 {0}/{1} 部漫画，成功 {2} 部，失败 {3} 部。"
+msgstr ""
 
-#. placeholder {0}: selectedItemIds.length
-#: src/features/library/screens/Library.tsx
-msgid "{0, plural, one {# manga} other {# manga}}"
-msgstr "{0, plural, one {# 部漫画} other {# 部漫画}}"
+#: src/features/scan/components/RefreshProgressView.tsx
+msgid "取消全选"
+msgstr ""
 
-#. placeholder {0}: serverSettings.maxSourcesInParallel
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "{0, plural, one {# Source} other {# Sources}}"
-msgstr "{0, plural, one {# 个源} other {# 个源}}"
+#: src/features/scan/components/RefreshProgressView.tsx
+msgid "失败"
+msgstr ""
 
-#. placeholder {0}: trackersInUse.length
-#: src/features/manga/components/TrackMangaButton.tsx
-msgid "{0, plural, one {# Tracker} other {# Tracker}}"
-msgstr "{0, plural, one {# 个追踪器} other {# 个追踪器}}"
+#. placeholder {0}: failedMangaList.length
+#: src/features/scan/components/RefreshProgressView.tsx
+msgid "失败: {0}"
+msgstr ""
 
-#. placeholder {0}: autoScroll.value
-#: src/features/reader/auto-scroll/settings/quick-setting/ReaderNavBarDesktopAutoScroll.tsx
-msgid "{0, plural, one {Second} other {Seconds}}"
-msgstr "{0, plural, one {秒} other {秒}}"
+#. placeholder {0}: progress.totalChaptersFixed
+#: src/features/scan/components/ScanProgressView.tsx
+msgid "已修复: {0}"
+msgstr ""
+
+#: src/features/scan/components/RefreshProgressView.tsx
+msgid "已刷新"
+msgstr ""
+
+#. placeholder {0}: refreshedMangaList.length + failedMangaList.length
+#: src/features/scan/components/RefreshProgressView.tsx
+msgid "已处理: {0}"
+msgstr ""
+
+#. placeholder {0}: progress.scannedManga
+#: src/features/scan/components/ScanProgressView.tsx
+msgid "已扫描: {0}"
+msgstr ""
+
+#: src/features/scan/components/ScanProgressView.tsx
+msgid "已标记下载"
+msgstr ""
+
+#. placeholder {0}: progress.chaptersAlreadyCorrect
+#: src/features/scan/components/ScanProgressView.tsx
+msgid "已正确: {0}"
+msgstr ""
+
+#. placeholder {0}: refreshedMangaList.length
+#: src/features/scan/components/RefreshProgressView.tsx
+msgid "成功: {0}"
+msgstr ""
+
+#. placeholder {0}: progress.totalManga
+#. placeholder {1}: progress.totalChaptersScanned
+#. placeholder {2}: progress.totalChaptersFixed
+#: src/features/scan/components/ScanProgressView.tsx
+msgid "扫描完成！共扫描 {0} 部漫画，{1} 个章节，修复 {2} 个。"
+msgstr ""
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
-msgid "{availableUpdates, plural, one {# update available} other {# updates available}}"
-msgstr "{availableUpdates, plural, one {# 个可用的更新} other {# 个可用的更新}}"
-
-#: src/features/manga/Manga.constants.ts
-msgid "{count, plural, one {Changed categories of manga} other {Changed categories of # manga}}"
-msgstr "{count, plural, one {已更改漫画的分类} other {已更改 # 部漫画的分类}}"
-
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {Chapter bookmark removed} other {# chapter bookmarks removed}}"
-msgstr "{count, plural, one {章节书签已移除} other {已移除 # 个章节书签}}"
-
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {Chapter bookmarked} other {# chapters bookmarked}}"
-msgstr "{count, plural, one {章节已添加书签} other {已为 # 个章节添加书签}}"
-
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {Chapter deleted} other {# chapters deleted}}"
-msgstr "{count, plural, one {章节已删除} other {已删除 # 个章节}}"
-
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {Chapter marked as read} other {# chapters marked as read}}"
-msgstr "{count, plural, one {章节已标记为已读} other {已将 # 个章节标记为已读}}"
-
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {Chapter marked as unread} other {# chapters marked as unread}}"
-msgstr "{count, plural, one {章节已标记为未读} other {已将 # 个章节标记为未读}}"
-
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {Could not add the download} other {Could not add downloads}}"
-msgstr "{count, plural, one {无法添加下载项} other {无法添加下载项}}"
-
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {Could not bookmark the chapter} other {Could not bookmark chapters}}"
-msgstr "{count, plural, one {无法为章节添加书签} other {无法为章节添加书签}}"
-
-#: src/features/manga/Manga.constants.ts
-msgid "{count, plural, one {Could not change the categories of the manga} other {Could not change the categories of the manga}}"
-msgstr "{count, plural, one {无法更改漫画的分类} other {无法更改漫画的分类}}"
-
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {Could not delete the chapter} other {Could not delete chapters}}"
-msgstr "{count, plural, one {无法删除章节} other {无法删除章节}}"
-
-#: src/features/extension/Extensions.constants.ts
-msgid "{count, plural, one {Could not install the extension} other {Could not install the extensions}}"
-msgstr "{count, plural, one {无法安装扩展} other {无法安装扩展}}"
-
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {Could not mark the chapter as read} other {Could not mark chapters as read}}"
-msgstr "{count, plural, one {无法将章节标记为已读} other {无法将章节标记为已读}}"
-
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {Could not mark the chapter as unread} other {Could not mark chapters as unread}}"
-msgstr "{count, plural, one {无法将章节标记为未读} other {无法将章节标记为未读}}"
-
-#: src/features/manga/Manga.constants.ts
-msgid "{count, plural, one {Could not remove manga from the library} other {Could not remove manga from the library}}"
-msgstr "{count, plural, one {无法将漫画从书架中移除} other {无法将漫画从书架中移除}}"
-
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {Could not remove the bookmark} other {Could not remove the bookmarks}}"
-msgstr "{count, plural, one {无法移除书签} other {无法移除书签}}"
-
-#: src/features/extension/Extensions.constants.ts
-msgid "{count, plural, one {Could not uninstall the extension} other {Could not uninstall the extensions}}"
-msgstr "{count, plural, one {无法卸载扩展} other {无法卸载扩展}}"
-
-#: src/features/extension/Extensions.constants.ts
-msgid "{count, plural, one {Could not update the extension} other {Could not update the extensions}}"
-msgstr "{count, plural, one {无法更新扩展} other {无法更新扩展}}"
-
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {Download added} other {# downloads added}}"
-msgstr "{count, plural, one {下载已添加} other {已添加 # 个下载}}"
-
-#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
-#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
-#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
-#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
-msgid "{count, plural, one {Next chapter} other {Next # chapters}}"
-msgstr "{count, plural, one {下一章节} other {接下来的 # 个章节}}"
-
-#: src/features/manga/Manga.constants.ts
-msgid "{count, plural, one {Removed manga from the library} other {Removed # manga from the library}}"
-msgstr "{count, plural, one {已将漫画从书架中移除} other {已将 # 部漫画从书架中移除}}"
-
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"{count, plural, one {There is # missing chapter.\n"
-"Current: {currentChapter}\n"
-"Next: {nextChapter}} other {There are # missing chapters.\n"
-"Current: {currentChapter}\n"
-"Next: {nextChapter}}}"
+#: src/features/scan/screens/ScanCheck.tsx
+msgid "扫描检查"
 msgstr ""
-"{count, plural, one {缺少 # 章。\n"
-"当前章节：{currentChapter}\n"
-"下一章节：{nextChapter}} other {缺少 # 章。\n"
-"当前章节：{currentChapter}\n"
-"下一章节：{nextChapter}}}"
 
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"{count, plural, one {There is # missing chapter.\n"
-"Previous: {nextChapter}\n"
-"Current: {currentChapter}} other {There are # missing chapters.\n"
-"Previous: {nextChapter}\n"
-"Current: {currentChapter}}}"
+#: src/features/scan/components/RefreshProgressView.tsx
+#: src/features/scan/components/ScanProgressView.tsx
+msgid "未知漫画"
 msgstr ""
-"{count, plural, one {缺少 # 章。\n"
-"上一章节：{nextChapter}\n"
-"当前章节：{currentChapter}} other {缺少 # 章。\n"
-"上一章节：{nextChapter}\n"
-"当前章节：{currentChapter}}}"
 
-#: src/features/manga/Manga.constants.ts
-msgid "{count, plural, one {You are about to change the category of one entry} other {You are about to change the category of # entries}}"
+#: src/features/scan/screens/ScanCheck.tsx
+msgid "检查书架上下载标记与实际文件的一致性。如果章节文件已存在但未标记为已下载，将自动修复。"
 msgstr ""
-"{count, plural, one {你即将更改 1 部作品的分类} other {你即将更改 # 部作品的"
-"分类}}"
 
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {You are about to delete one download} other {You are about to delete # downloads}}"
-msgstr "{count, plural, one {你即将删除 1 个下载} other {你即将删除 # 个下载}}"
-
-#: src/features/chapter/Chapter.constants.ts
-msgid ""
-"{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
-"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+#: src/features/scan/screens/ScanCheck.tsx
+msgid "添加结束日期"
 msgstr ""
-"{count, plural, one {你即将下载 1 章} other {你即将下载 # 章。\n"
-"Suwayomi 不是批量下载工具，过多下载可能导致源站封禁或影响性能。}}"
 
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {You are about to mark one chapter as read} other {You are about to mark # chapters as read}}"
+#: src/features/scan/screens/ScanCheck.tsx
+msgid "添加起始日期"
 msgstr ""
-"{count, plural, one {你即将把 1 章标记为已读} other {你即将把 # 章标记为已"
-"读}}"
 
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {You are about to mark one chapter as unread} other {You are about to mark # chapters as unread}}"
+#: src/features/scan/screens/ScanCheck.tsx
+msgid "漫画信息刷新"
 msgstr ""
-"{count, plural, one {你即将将 1 章标记为未读} other {你即将将 # 章标记为未"
-"读}}"
 
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {You are about to remove one bookmark} other {You are about to remove # bookmarks}}"
-msgstr "{count, plural, one {你即将移除 1 个书签} other {你即将移除 # 个书签}}"
-
-#: src/features/manga/Manga.constants.ts
-msgid "{count, plural, one {You are about to remove one entry from your library} other {You are about to remove # entries from your library}}"
+#. placeholder {0}: progress.totalManga
+#: src/features/scan/components/ScanProgressView.tsx
+msgid "漫画总数: {0}"
 msgstr ""
-"{count, plural, one {你即将从书架中移除 1 部作品} other {你即将从书架中移除 "
-"# 部作品}}"
 
-#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
-msgid "{currentAutoUpdateIntervalHours}h"
-msgstr "{currentAutoUpdateIntervalHours}小时"
-
-#: src/features/downloads/components/DownloadAheadSetting.tsx
-msgid "{currentDownloadAheadLimit, plural, one {# Chapter} other {# Chapters}}"
-msgstr "{currentDownloadAheadLimit, plural, one {# 章} other {# 章}}"
-
-#: src/features/chapter/components/ChapterList.tsx
-#: src/features/chapter/components/MissingChaptersInfoSeparator.tsx
-msgid "{missingChapterCount, plural, one {Missing # chapter} other {Missing # chapters}}"
-msgstr "{missingChapterCount, plural, one {# 章缺失} other {# 章缺失}}"
-
-#: src/features/backup/Backup.utils.ts
-msgid "{ttl, plural, one {Delete backups that are older than # day} other {Delete backups that are older than # days}}"
-msgstr "{ttl, plural, one {删除早于 # 天的备份} other {删除早于 # 天的备份}}"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "{ttl, plural, one {Delete log files that are older than # day} other {Delete log files that are older than # days}}"
-msgstr "{ttl, plural, one {删除早于 # 天的日志文件} other {删除早于 # 天的日志文件}}"
-
-#. placeholder {0}: tracker.name
-#: src/features/tracker/components/cards/TrackerActiveCard.tsx
-msgid "Also remove from {0}"
-msgstr "同时从{0}中移除"
-
-#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
-msgid "Connected as {currentUsername} to {currentServerAddress}"
-msgstr "以{currentUsername}连接至{currentServerAddress}"
-
-#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
-msgid "Connected as {initialUsername} to {initialServerAddress}"
-msgstr "以{initialUsername}连接至{initialServerAddress}"
-
-#: src/features/manga/components/ContinueReadingTooltip.tsx
-msgid ""
-"Continue reading\n"
-"#{chapterNumber} — {name}\n"
-"{scanlator}"
+#. placeholder {0}: progress.totalManga
+#: src/features/scan/components/RefreshProgressView.tsx
+msgid "目标总数: {0}"
 msgstr ""
-"继续阅读\n"
-"#{chapterNumber} — {name}\n"
-"{scanlator}"
 
-#: src/features/manga/hooks/useManageMangaLibraryState.tsx
-msgid ""
-"Could not check for duplicated manga in your library.\n"
-"\n"
-"Error: {errorMessage}"
+#: src/features/scan/screens/ScanCheck.tsx
+msgid "至"
 msgstr ""
-"无法检查书架中是否存在重复的漫画。\n"
-"\n"
-"错误：{errorMessage}"
 
-#. placeholder {0}: theme.getName()
-#: src/features/theme/components/ThemeList.tsx
-msgid "Could not delete theme \"{0}\""
-msgstr "无法删除主题“{0}”"
-
-#: src/features/browse/extensions/Extensions.tsx
-msgid "Could not install the extension"
-msgstr "无法安装扩展"
-
-#. placeholder {0}: tracker.name
-#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
-#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
-msgid "Could not log in to {0}"
-msgstr "无法登录{0}"
-
-#: src/features/tracker/screens/TrackerOAuthLogin.tsx
-msgid "Could not log in to {trackerName}"
-msgstr "无法登录{trackerName}"
-
-#. placeholder {0}: tracker.name
-#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
-#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
-msgid "Could not log out from {0}"
-msgstr "无法登出{0}"
-
-#. placeholder {0}: theme.getName()
-#: src/features/theme/components/ThemeList.tsx
-msgid "Deleted theme \"{0}\""
-msgstr "已删除主题“{0}”"
-
-#. placeholder {0}: theme.getName()
-#: src/features/theme/components/ThemeList.tsx
-msgid "Deleting theme \"{0}\"…"
-msgstr "正在删除主题“{0}”……"
-
-#. placeholder {0}: headers?.length ?? 0
-#: src/features/settings/components/images/Processing.tsx
-msgid "Headers ({0})"
-msgstr "请求头 ({0})"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "item"
-msgstr "条目"
-
-#. placeholder {0}: tracker.name
-#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
-msgid "Log in to {0}"
-msgstr "登录{0}"
-
-#. placeholder {0}: tracker.name
-#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
-msgid "Log out from {0}"
-msgstr "登出{0}"
-
-#: src/features/tracker/screens/TrackerOAuthLogin.tsx
-msgid "Logging in to {trackerName}…"
-msgstr "正在登录{trackerName}……"
-
-#. placeholder {0}: state?.mangaTitle
-#: src/features/global-search/screens/SearchAll.tsx
-msgid "Migrate \"{0}\""
-msgstr "迁移“{0}”"
-
-#: src/features/reader/screens/Reader.tsx
-msgid "Reader — Manga {mangaId} Chapter {chapterSourceOrder}"
-msgstr "阅读器 — 漫画 {mangaId} 第 {chapterSourceOrder} 章"
-
-#. placeholder {0}: tracker.name
-#: src/features/tracker/components/cards/TrackerActiveCard.tsx
-msgid "Remove {0} tracking?"
-msgstr "移除{0}追踪？"
-
-#. placeholder {0}: searchParams?.length ?? 0
-#: src/features/settings/components/images/Processing.tsx
-msgid "Search parameters ({0})"
-msgstr "搜索参数 ({0})"
-
-#. placeholder {0}: selectedServerChannelInfo.tag
-#. placeholder {1}: selectedServerChannelInfo.channel
-#: src/features/app-updates/components/ServerUpdateChecker.tsx
-msgid "Server version {0} ({1}) available for download"
-msgstr "服务器版本 {0} ({1}) 可供下载"
-
-#. placeholder {0}: aboutServer?.buildType
-#: src/features/app-updates/components/ServerUpdateChecker.tsx
-msgid "Server was updated to version {version} ({0})"
-msgstr "服务器已升级至版本 {version} ({0})"
-
-#: src/features/manga/components/ContinueReadingTooltip.tsx
-msgid ""
-"Start reading\n"
-"#{chapterNumber} — {name}\n"
-"{scanlator}"
+#: src/features/scan/screens/ScanCheck.tsx
+msgid "选择插件"
 msgstr ""
-"开始阅读\n"
-"#{chapterNumber} — {name}\n"
-"{scanlator}"
 
-#: src/features/source/browse/components/SourceOptions.tsx
-msgid "This will delete the saved search \"{savedSearch}\""
-msgstr "这将删除已保存的搜索 \"{savedSearch}\""
-
-#. placeholder {0}: webUIUpdateData?.checkForWebUIUpdate.tag
-#. placeholder {1}: webUIUpdateData?.checkForWebUIUpdate.channel
-#: src/features/app-updates/components/WebUIUpdateChecker.tsx
-msgid "WebUI version {0} ({1}) available for download"
-msgstr "WebUI版本 {0} ({1}) 可供下载"
-
-#. placeholder {0}: aboutWebUI?.channel
-#: src/features/app-updates/components/WebUIUpdateChecker.tsx
-msgid "WebUI was updated to version {newVersion} ({0})"
-msgstr "WebUI已升级至版本 {newVersion} ({0})"
-
-#. placeholder {0}: manga.title
-#: src/features/manga/hooks/useManageMangaLibraryState.tsx
-msgid "You are about to remove \"{0}\" from your library"
-msgstr "你将从书架移除“{0}”"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Could not save changes"
-msgstr "无法保存变更"
-
-#: src/features/settings/screens/WebUISettings.tsx
-msgid "Inform about updated version"
-msgstr "通知版本更新"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Inform about version update"
-msgstr "版本更新提醒"
-
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "No sources installed"
-msgstr "未安装任何源"
-
-#: src/features/settings/screens/WebUISettings.tsx
-msgid "Shows a dialog in case the version got updated. This dialog will be shown in case an app refresh is required, regardless of this setting."
+#: src/features/scan/screens/ScanCheck.tsx
+msgid "选择月份"
 msgstr ""
-"在版本更新时显示提示对话框。 如果需要刷新应用，该对话框将始终显示，与此设置无"
-"关。"
 
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Shows a dialog in case the version of the server has changed"
-msgstr "当服务器版本发生变化时显示提示对话框"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+#. placeholder {0}: selectableIds.size
+#: src/features/scan/components/RefreshProgressView.tsx
+msgid "重试全部失败 ({0})"
 msgstr ""
-"Flaresolverr 是一个<0><1>独立</1></0>的程序，与 Suwayomi<2><3>无关</3></2>，"
-"需要手动<4><5>安装</5></4>并<6><7>运行</7></6>。<8/>请参阅 <9>FlareSolverr</"
-"9> 了解如何进行设置<10/><11/>如果未<12><13>正确</13></12>设置并运行，启用此选"
-"项<14><15>不会</15></14>产生任何效果"
 
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Flaresolverr setup confirmation"
-msgstr "Flaresolverr 设置确认"
-
-#. placeholder {0}: noMatchEntries.length
-#: src/features/migration/screens/MigrationExecute.tsx
-#: src/features/migration/screens/MigrationSearch.tsx
-msgid "{0, plural, one {1 entry with no match} other {# entries with no match}}"
-msgstr "{0, plural, one {1 部作品无匹配项} other {# 部作品无匹配项}}"
-
-#. placeholder {0}: excludedEntries.length
-#: src/features/migration/screens/MigrationExecute.tsx
-msgid "{0, plural, one {1 excluded entry} other {# excluded entries}}"
-msgstr "{0, plural, one {1 部已排除的作品} other {# 部已排除的作品}}"
-
-#. placeholder {0}: failedEntries.length
-#: src/features/migration/screens/MigrationExecute.tsx
-#: src/features/migration/screens/MigrationSearch.tsx
-msgid "{0, plural, one {1 failed entry} other {# failed entries}}"
-msgstr "{0, plural, one {1 部失败的作品} other {# 部失败的作品}}"
-
-#. placeholder {0}: matchedEntries.length
-#: src/features/migration/screens/MigrationSearch.tsx
-msgid "{0, plural, one {1 matched entry} other {# matched entries}}"
-msgstr "{0, plural, one {1 部匹配的作品} other {# 部匹配的作品}}"
-
-#. placeholder {0}: migratedEntries.length
-#: src/features/migration/screens/MigrationExecute.tsx
-msgid "{0, plural, one {1 migrated entry} other {# migrated entries}}"
-msgstr "{0, plural, one {1 部已迁移的作品} other {# 部已迁移的作品}}"
-
-#. placeholder {0}: migratingEntries.length
-#: src/features/migration/screens/MigrationExecute.tsx
-msgid "{0, plural, one {1 migrating entry} other {# migrating entries}}"
-msgstr "{0, plural, one {1 部正在迁移的作品} other {# 部正在迁移的作品}}"
-
-#. placeholder {0}: searchingEntries.length
-#: src/features/migration/screens/MigrationSearch.tsx
-msgid "{0, plural, one {1 searching} other {# searching}}"
-msgstr "{0, plural, one {1 个正在搜索} other {# 个正在搜索}}"
-
-#. placeholder {0}: searchProgress.completed
-#. placeholder {1}: searchProgress.total
-#: src/features/migration/screens/MigrationSearch.tsx
-msgid "{0} / {1}"
-msgstr "{0} / {1}"
-
-#. placeholder {0}: progress.completed
-#. placeholder {1}: progress.total
-#. placeholder {2}: progress.failed > 0 ? ` (${progress.failed} failed)` : ''
-#: src/features/migration/screens/MigrationExecute.tsx
-msgid "{0} / {1}{2}"
-msgstr "{0} / {1}{2}"
-
-#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
-#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
-msgid "{otherResultsCount, plural, one {# more match} other {# more matches}}"
-msgstr "{otherResultsCount, plural, one {# 个更多匹配} other {# 个更多匹配}}"
-
-#: src/features/migration/screens/MigrationExecute.tsx
-msgid "Abort"
-msgstr "中止"
-
-#: src/features/migration/MigrationManager.ts
-msgid "Abort migration"
-msgstr "中止迁移"
-
-#: src/features/migration/MigrationManager.ts
-msgid "Are you sure you want to abort the migration?"
-msgstr "确定要中止迁移吗？"
-
-#: src/features/migration/components/MigrationSourceList.tsx
-msgid "Available"
-msgstr "可用"
-
-#: src/features/migration/components/MigrationContinueButton.tsx
-msgid "Continue"
-msgstr "继续"
-
-#: src/features/migration/components/MigrationSourceList.tsx
-msgid "Current source"
-msgstr "当前图源"
-
-#. placeholder {0}: entry.sourceTitle
-#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
-msgid "Destination — {0}"
-msgstr "目标位置 — {0}"
-
-#: src/features/migration/screens/MigrationExecute.tsx
-msgid "Done"
-msgstr "已完成"
-
-#: src/features/migration/components/MigrationSourceList.tsx
-msgid "Drag to prioritize"
-msgstr "拖动以调整优先级"
-
-#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
-#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
-msgid "Exclude"
-msgstr "排除"
-
-#: src/features/migration/Migration.constants.ts
-msgid "Excluded"
-msgstr "已排除"
-
-#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
-#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
-msgid "Include"
-msgstr "包含"
-
-#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
-msgid "Latest: {latestChapterNumber}"
-msgstr "最新章节：{latestChapterNumber}"
-
-#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
-#: src/features/migration/components/migration-entry/MigrationEntry.tsx
-#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
-#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
-msgid "Manual search"
-msgstr "手动搜索"
-
-#: src/features/migration/Migration.constants.ts
-msgid "Match found"
-msgstr "找到匹配项"
-
-#: src/features/migration/components/migration-entry/MigrationEntry.tsx
-#: src/features/migration/components/migration-entry/MigrationEntry.tsx
-msgid "Matches"
-msgstr "匹配项"
-
-#: src/features/migration/screens/MigrationExecute.tsx
-msgid "Migrating"
-msgstr "迁移"
-
-#: src/features/migration/Migration.constants.ts
-msgid "Migrating…"
-msgstr "正在迁移……"
-
-#: src/features/migration/screens/MigrationExecute.tsx
-msgid "Migration complete"
-msgstr "迁移完成"
-
-#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
-#: src/features/migration/Migration.constants.ts
-msgid "Migration failed"
-msgstr "迁移失败"
-
-#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
-msgid "Migration for \"{title}\" failed with error:"
-msgstr "“{title}” 的迁移失败，错误信息："
-
-#: src/features/migration/MigrationManager.ts
-msgid "Migration information"
-msgstr "迁移信息"
-
-#: src/features/migration/components/MigrationOptionsDialog.tsx
-msgid "Migration options"
-msgstr "迁移选项"
-
-#: src/features/migration/Migration.constants.ts
-msgid "No match found"
-msgstr "未找到匹配项"
-
-#: src/features/migration/Migration.constants.ts
-msgid "Pending…"
-msgstr "待处理……"
-
-#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
-#: src/features/migration/Migration.constants.ts
-msgid "Search failed"
-msgstr "搜索失败"
-
-#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
-msgid "Search for \"{title}\" failed with error:"
-msgstr "搜索 “{title}” 失败，错误信息："
-
-#: src/features/migration/screens/MigrationSearch.tsx
-msgid "Search results"
-msgstr "搜索结果"
-
-#: src/features/migration/Migration.constants.ts
-msgid "Searching…"
-msgstr "正在搜索……"
-
-#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
-msgid "Select destination sources"
-msgstr "选择目标图源"
-
-#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
-msgid "Select enabled sources"
-msgstr "选择已启用的图源"
-
-#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
-msgid "Select pinned sources"
-msgstr "选择已置顶的图源"
-
-#: src/features/migration/components/MigrationSourceList.tsx
-msgid "Selected"
-msgstr "已选择"
-
-#: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
-#: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
-msgid "Source entry — {sourceTitle}"
-msgstr "图源作品 — {sourceTitle}"
-
-#: src/features/migration/screens/MigrationSearch.tsx
-msgid "Start migration"
-msgstr "开始迁移"
-
-#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
-msgid "Start Search"
-msgstr "开始搜索"
-
-#: src/features/migration/Migration.constants.ts
-msgid "Successfully migrated"
-msgstr "已成功迁移"
-
-#: src/features/migration/MigrationManager.ts
-msgid ""
-"The migration runs on the client on the current device, NOT the server.\n"
-"As long as the client is open, the migration will run in the background.\n"
-"The client can be closed. The migration will be resumed once it gets opened again on the same device it got started on."
+#: src/features/scan/components/RefreshProgressView.tsx
+msgid "重试选中 ({selectedCount})"
 msgstr ""
-"迁移在当前设备的客户端本地执行，而不是在服务器上执行。\n"
-"只要客户端保持开启，迁移就会在后台运行。\n"
-"客户端可以关闭，迁移将在同一设备上重新打开时继续进行。"
 
-#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
-msgid "Unable to load sources"
-msgstr "无法加载图源"
-
-#: src/features/migration/MigrationManager.ts
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Understood"
-msgstr "已知悉"
-
-#. placeholder {0}: outdatedEntries.length
-#: src/features/migration/screens/MigrationExecute.tsx
-#: src/features/migration/screens/MigrationSearch.tsx
-msgid "{0, plural, one {1 entry with only outdated matches} other {# entries with only outdated matches}}"
+#: src/features/scan/components/ScanProgressView.tsx
+msgid "错误"
 msgstr ""
-"{0, plural, one {1 部作品仅包含过期匹配项} other {# 1 部作品仅包含过期匹配"
-"项}}"
 
-#: src/features/manga/services/Mangas.ts
-msgid "A migration is already in progress"
-msgstr "已有迁移正在进行中"
-
-#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
-msgid "Advanced search mode"
-msgstr "高级搜索模式"
-
-#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
-msgid "Apply safe area padding"
-msgstr "应用安全区域边距"
-
-#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
-msgid "Breaks down the title into keywords for a wider search"
-msgstr "将标题拆分为关键词，以扩大搜索范围"
-
-#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
-msgid ""
-"If enabled, chooses the match furthest ahead.\n"
-"Otherwise, picks the first match by source priority."
+#: src/features/scan/components/ScanProgressView.tsx
+msgid "页数修正"
 msgstr ""
-"启用后，将选择进度最靠前的匹配项。\n"
-"否则，将根据源优先级选择第一个匹配项。"
-
-#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
-msgid "Ignore matches without newer chapters"
-msgstr "忽略没有新章节的匹配项"
-
-#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
-msgid "Match based on chapter number"
-msgstr "根据章节号匹配"
-
-#: src/features/migration/Migration.constants.ts
-msgid "Only outdated matches found"
-msgstr "仅找到过期的匹配项"
-
-#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
-msgid "Prevents content from overlapping device cutouts and screen edges"
-msgstr "防止内容与设备刘海区域和屏幕边缘重叠"
-
-#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
-msgid "Search options"
-msgstr "搜索选项"
-
-#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
-msgid "These options are slow and dangerous and may lead to restrictions from sources"
-msgstr "这些选项速度较慢且存在风险，可能会导致被源站限制"
-
-#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
-msgid "Top"
-msgstr "顶部"
-
-#: src/features/migration/screens/MigrationExecute.tsx
-msgid "Aborted"
-msgstr "已中止"
-
-#: src/features/manga/Manga.constants.ts
-msgid "Migrate selected"
-msgstr "迁移所选项"
-
-#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
-msgid "Automatically select matches if they have additional chapters"
-msgstr "如果匹配项包含更多章节，则自动选择它们"
-
-#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
-msgid "Automatically select matches if they have at least the same latest chapter"
-msgstr "如果匹配项的最新章节至少与当前源相同，则自动选择它们"
-
-#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
-msgid "Automatically select matches if they have no missing chapters"
-msgstr "如果匹配项没有缺失章节，则自动选择它们"
-
-#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
-msgid "Ignore matches that are behind in chapters"
-msgstr "忽略章节进度落后的匹配项"
-
-#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
-msgid "Ignore matches with missing chapters"
-msgstr "忽略存在缺失章节的匹配项"
-
-#: src/features/migration/MigrationManager.ts
-msgid "Manual migration search for \"{title}\""
-msgstr "手动迁移搜索\"{title}\""
-
-#. placeholder {0}: entry.missingChapters
-#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
-msgid "Missing: {0}"
-msgstr "缺失： {0}"
-
-#: src/features/migration/components/MigrationDestinationSourceList.tsx
-msgid "No sources available to migrate to"
-msgstr "没有可用于迁移的源"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "NSFW (18+) sources"
-msgstr "NSFW (18+) 源"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show in sources and extensions lists"
-msgstr "在源和扩展列表中显示"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Sources"
-msgstr "源"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "This does not prevent unofficial or potentially incorrectly flagged extensions from surfacing NSFW (18+) content within the app."
-msgstr "这不会阻止非官方或可能被错误标记的扩展在应用内显示 NSFW（18+）内容。"
-
-#. placeholder {0}: abortedEntries.length
-#: src/features/migration/screens/MigrationExecute.tsx
-#: src/features/migration/screens/MigrationSearch.tsx
-msgid "{0, plural, one {1 aborted entry} other {# aborted entries}}"
-msgstr "{0, plural, one {1 部已中止的作品} other {# 部已中止的作品}}"
-
-#: src/base/components/buttons/SelectButton.tsx
-msgid "Active setting ({title})"
-msgstr "当前生效的设置（{title}）"
-
-#: src/base/utils/Languages.ts
-#: src/features/extension/Extensions.constants.ts
-msgid "Multi"
-msgstr "多语言"
-
-#: src/features/migration/MangaMigration.ts
-msgid "Can't migrate an entry to itself"
-msgstr "无法迁移作品到自身"
-
-#: src/features/migration/MigrationManager.ts
-msgid "WebUI must be kept open. Migration can't be resumed"
-msgstr "WebUI 必须保持开启状态。迁移无法恢复"
-
-#: src/features/manga/components/cards/MangaCard.tsx
-msgid "Bulk migration manual search"
-msgstr "批量迁移手动搜索"
-
-#: src/features/category/components/CategorySettingsCard.tsx
-msgid "Could not delete category"
-msgstr "无法删除分类"
-
-#. placeholder {0}: category.name
-#: src/features/category/components/CategorySettingsCard.tsx
-msgid "You are about to delete category \"{0}\""
-msgstr "你即将删除分类“{0}”"
-
-#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
-msgid "Could not retry \"{title}\""
-msgstr "无法重试“{title}”"
-
-#. placeholder {0}: entry.mangaTitle
-#. placeholder {1}: entry.mangaId
-#. placeholder {2}: entry.sourceId
-#. placeholder {3}: entry.status
-#: src/features/migration/MigrationManager.ts
-msgid "Entry \"{0} ({1}; {sourceTitle} ({2}))\" in invalid state \"{3}\""
-msgstr "条目“{0}（{1}；{sourceTitle}（{2}））”处于无效状态“{3}”"
-
-#: src/features/migration/MigrationManager.ts
-msgid "Entry \"{id}\" not found"
-msgstr "未找到条目“{id}”"
-
-#: src/features/migration/MigrationManager.ts
-msgid "Unknown source"
-msgstr "未知源"
-
-#: src/features/extension/store/screens/ExtensionStores.tsx
-msgid "{extensionCount, plural, one {# extension} other {# extensions}}"
-msgstr "{extensionCount, plural, one {# 个扩展} other {# 个扩展}}"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "{extensionStoreCount, plural, one {# extension store} other {# extension stores}}"
-msgstr "{extensionStoreCount, plural, one {# 个扩展商店} other {# 个扩展商店}}"
-
-#: src/features/extension/store/screens/ExtensionStores.tsx
-msgid "{installedExtensionCount, plural, one {# installed} other {# installed}}"
-msgstr ""
-"{installedExtensionCount, plural, one {已安装 # 个扩展} other {已安装 # 个扩"
-"展}}"
-
-#: src/features/browse/extensions/Extensions.tsx
-#: src/features/extension/store/screens/ExtensionStores.tsx
-msgid "Add extension store"
-msgstr "添加扩展商店"
-
-#: src/features/extension/store/screens/ExtensionStores.tsx
-msgid "Copy index url"
-msgstr "复制索引地址"
-
-#: src/features/extension/store/screens/ExtensionStores.tsx
-msgid "Could not add extension store"
-msgstr "无法添加扩展商店"
-
-#: src/features/extension/store/screens/ExtensionStores.tsx
-msgid "Could not remove extension store \"{name}\""
-msgstr "无法移除扩展商店“{name}”"
-
-#: src/features/settings/Settings.constants.ts
-msgid "Daily"
-msgstr "每日"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Enable the WebView via CEF (Chromium)"
-msgstr "通过 CEF（Chromium）启用 WebView"
-
-#: src/features/settings/Settings.constants.ts
-msgid "Every 12 hours"
-msgstr "每12小时"
-
-#: src/features/settings/Settings.constants.ts
-msgid "Every 3 hours"
-msgstr "每3小时"
-
-#: src/features/settings/Settings.constants.ts
-msgid "Every 30 minutes"
-msgstr "每30分钟"
-
-#: src/features/settings/Settings.constants.ts
-msgid "Every 6 hours"
-msgstr "每6小时"
-
-#: src/features/settings/Settings.constants.ts
-msgid "Every hour"
-msgstr "每小时"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Exclude: {excludedSyncDataText}"
-msgstr "排除：{excludedSyncDataText}"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-#: src/features/extension/store/screens/ExtensionStores.tsx
-msgid "Extension stores"
-msgstr "扩展商店"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Include: {includedSyncDataText}"
-msgstr "包含：{excludedSyncDataText}"
-
-#: src/features/extension/store/screens/ExtensionStores.tsx
-msgid "Open discord"
-msgstr "打开discord"
-
-#: src/features/extension/store/screens/ExtensionStores.tsx
-msgid "Open website"
-msgstr "打开网站"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Skip chapter metadata feed"
-msgstr "跳过章节元数据更新流"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Sync"
-msgstr "同步"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Sync data"
-msgstr "同步数据"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Sync interval"
-msgstr "同步间隔"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "SyncYomi"
-msgstr "SyncYomi"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "SyncYomi API key"
-msgstr "SyncYomi API密钥"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "SyncYomi enabled"
-msgstr "已启用SyncYomi"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "SyncYomi host"
-msgstr "SyncYomi 主机地址"
-
-#: src/features/extension/store/screens/ExtensionStores.tsx
-msgid "Unable to load extension stores"
-msgstr "无法加载扩展商店"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "WebView"
-msgstr "WebView"
-
-#: src/features/settings/Settings.constants.ts
-msgid "Weekly"
-msgstr "每星期"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "When enabled, download and streaming links are provided directly in the chapter list. KoSync strategies are applied, but PROMPT conflicts are ignored (treating local progress as priority)"
-msgstr ""
-"启用后，下载和流式链接将直接显示在章节列表中。将应用 KoSync 策略，但会忽略 "
-"PROMPT 冲突（以本地进度为优先）"
-
-#: src/features/extension/store/screens/ExtensionStores.tsx
-msgid "You are about to remove \"{name}\" from the extension stores"
-msgstr "你即将从扩展商店中移除“{name}”"
-
-#: src/features/browse/extensions/Extensions.tsx
-msgid "You have to add a extension store to be able to install extensions"
-msgstr "你需要添加扩展商店才能安装扩展"
-
-#. placeholder {0}: t(SYNC_STATE_TRANSLATION[syncState])
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "— State: {0}"
-msgstr "— 状态：{0}"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Could not start sync"
-msgstr "无法开始同步"
-
-#: src/features/settings/Settings.constants.ts
-msgid "Creating backup"
-msgstr "正在创建备份"
-
-#: src/features/settings/Settings.constants.ts
-msgid "Merging"
-msgstr "合并中"
-
-#: src/features/settings/Settings.constants.ts
-msgid "Restoring"
-msgstr "恢复中"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Start sync"
-msgstr "开始同步"
-
-#: src/features/settings/Settings.constants.ts
-msgid "Sync disabled"
-msgstr "已禁止同步"
-
-#: src/features/settings/Settings.constants.ts
-msgid "Sync in progress"
-msgstr "同步进行中"
-
-#: src/features/settings/Settings.constants.ts
-msgid "Sync started"
-msgstr "已开始同步"
-
-#: src/features/settings/Settings.constants.ts
-msgid "Uploading"
-msgstr "上传中"
-
-#. placeholder {0}: otherChapters.length
-#: src/features/updates/components/ChapterUpdateCard.tsx
-msgid "{0, plural, one {Show # more chapter} other {Show # more chapters}}"
-msgstr "{0, plural, one {显示另外 # 章} other {显示另外 # 章}}"
-
-#: src/features/backup/screens/Backup.tsx
-msgid "Automated backup"
-msgstr "自动备份"
-
-#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
-#. js-lingui-explicit-id
-#: src/features/manga/Manga.constants.ts
-msgid "entry-type-detection-comic"
-msgstr "美漫"
-
-#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
-#. js-lingui-explicit-id
-#: src/features/manga/Manga.constants.ts
-msgid "entry-type-detection-long-strip"
-msgstr "条漫"
-
-#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
-#. js-lingui-explicit-id
-#: src/features/manga/Manga.constants.ts
-msgid "entry-type-detection-manga"
-msgstr "漫画"
-
-#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
-#. js-lingui-explicit-id
-#: src/features/manga/Manga.constants.ts
-msgid "entry-type-detection-manhua"
-msgstr "国漫"
-
-#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
-#. js-lingui-explicit-id
-#: src/features/manga/Manga.constants.ts
-msgid "entry-type-detection-manhwa"
-msgstr "韩漫"
-
-#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
-#. js-lingui-explicit-id
-#: src/features/manga/Manga.constants.ts
-msgid "entry-type-detection-webtoon"
-msgstr "网漫"
-
-#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
-msgid "Enable auto background color in continuous reading mode"
-msgstr "连续阅读模式下自动调整背景颜色"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Last sync: {syncDate}"
-msgstr "上一次同步：{syncDate}"
-
-#: src/features/library/components/LibraryToolbarMenu.tsx
-msgid "Could not open random entry"
-msgstr "无法打开随机条目"
-
-#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
-msgid "Keep screen on"
-msgstr "保持屏幕常亮"
-
-#: src/features/library/components/LibraryToolbarMenu.tsx
-msgid "Open random entry"
-msgstr "打开随机条目"
-
-#: src/features/library/components/LibraryOptionsPanel.tsx
-msgid "Random"
-msgstr "随机"
-
-#: src/lib/HelperFunctions.ts
-msgid "Copied to clipboard"
-msgstr "已复制到剪贴板"
-
-#: src/lib/HelperFunctions.ts
-msgid "Could not copy to clipboard"
-msgstr "无法复制到剪贴板"
-
-#: src/features/settings/components/DebugInformation.tsx
-msgid "Could not load data"
-msgstr "无法加载数据"
-
-#: src/features/settings/screens/About.tsx
-msgid "Debug information"
-msgstr "调试信息"
-
-#: src/features/settings/components/DebugInformation.tsx
-msgid "Show"
-msgstr "展示"

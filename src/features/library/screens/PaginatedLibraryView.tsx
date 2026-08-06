@@ -77,7 +77,7 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
     } = requestManager.useGetCategories<GetCategoriesLibraryQuery, GetCategoriesLibraryQueryVariables>(
         GET_CATEGORIES_LIBRARY,
     );
-    const tabsData = categoriesResponse?.categories.nodes.filter(
+    const tabsData = categoriesResponse?.categories?.nodes?.filter(
         (category) => category.id !== 0 || (category.id === 0 && category.mangas.totalCount),
     );
     const tabs = tabsData ?? STABLE_EMPTY_ARRAY;
@@ -288,7 +288,7 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
             {!isSelectModeActive && activeTab && (
                 <>
                     <AppbarSearch />
-                    <LibraryToolbarMenu category={activeTab} />
+                    <LibraryToolbarMenu category={activeTab} mangas={mangas} />
                     <UpdateChecker categoryId={activeTab?.id} />
                 </>
             )}
