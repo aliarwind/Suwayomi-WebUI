@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { useLingui } from '@lingui/react/macro';
 import Box from '@mui/material/Box';
@@ -10,7 +18,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
-import dayjs, { Dayjs } from 'dayjs';
+import type { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -54,7 +63,9 @@ const DownloadMarkRepairSection = () => {
 
     // Initialize state from query result (runs once on mount)
     useEffect(() => {
-        if (initializedRef.current || !scanStatus) return;
+        if (initializedRef.current || !scanStatus) {
+            return;
+        }
 
         const fixed = (scanStatus.fixedChapters ?? []).map((fc) => ({ ...fc }));
         const errs = (scanStatus.errors ?? []).map((e) => ({ ...e }));
@@ -102,19 +113,19 @@ const DownloadMarkRepairSection = () => {
     }, [scanStatus]);
 
     // Subscribe to scan progress (only when scanning)
-    useSubscription(SCAN_PROGRESS_SUBSCRIPTION, {
+    useSubscription<{ scanProgressChanged: ScanProgress | null }>(SCAN_PROGRESS_SUBSCRIPTION, {
         client: (requestManager as any).graphQLClient?.client,
         skip: !scanning,
         onData: ({ data }) => {
             const event = data?.data?.scanProgressChanged as ScanProgress | undefined;
-            if (!event) return;
+            if (!event) {
+                return;
+            }
 
             setProgress(event);
 
             if (event.chapterFixed) {
-                const alreadyExists = fixedRef.current.some(
-                    (f) => f?.chapterId === event.chapterFixed!.chapterId,
-                );
+                const alreadyExists = fixedRef.current.some((f) => f?.chapterId === event.chapterFixed!.chapterId);
                 if (!alreadyExists) {
                     fixedRef.current = [...fixedRef.current, event.chapterFixed];
                     setFixedChapters([...fixedRef.current]);
@@ -191,11 +202,7 @@ const DownloadMarkRepairSection = () => {
 
             {/* Progress display */}
             {(progress || isRunning) && (
-                <ScanProgressView
-                    progress={progress}
-                    fixedChapters={fixedChapters}
-                    errors={errors}
-                />
+                <ScanProgressView progress={progress} fixedChapters={fixedChapters} errors={errors} />
             )}
         </Paper>
     );
@@ -246,7 +253,9 @@ const MangaRefreshSection = () => {
 
     // Initialize state from query result (runs once on mount)
     useEffect(() => {
-        if (initializedRef.current || !refreshStatus) return;
+        if (initializedRef.current || !refreshStatus) {
+            return;
+        }
 
         const refreshed = (refreshStatus.refreshedMangaList ?? []).map((r) => ({ ...r }));
         const failed = (refreshStatus.failedMangaList ?? []).map((e) => ({ ...e }));
@@ -275,9 +284,8 @@ const MangaRefreshSection = () => {
             failedRef.current = failed;
             setRefreshedMangaList(refreshed);
             setFailedMangaList(failed);
-            const statusType = refreshStatus.type ?? 'COMPLETED';
             setProgress({
-                type: statusType as RefreshProgress['type'],
+                type: 'COMPLETED',
                 totalManga: refreshStatus.totalManga,
                 refreshedManga: refreshStatus.refreshedManga,
                 currentMangaTitle: null,
@@ -291,12 +299,14 @@ const MangaRefreshSection = () => {
     }, [refreshStatus]);
 
     // Subscribe to refresh progress (only when refreshing)
-    useSubscription(REFRESH_PROGRESS_SUBSCRIPTION, {
+    useSubscription<{ refreshProgressChanged: RefreshProgress | null }>(REFRESH_PROGRESS_SUBSCRIPTION, {
         client: (requestManager as any).graphQLClient?.client,
         skip: !refreshing,
         onData: ({ data }) => {
             const event = data?.data?.refreshProgressChanged as RefreshProgress | undefined;
-            if (!event) return;
+            if (!event) {
+                return;
+            }
 
             const isIntermediate = event.type === 'REFRESHING_MANGA';
             const isResult = event.type === 'MANGA_REFRESHED' || event.type === 'MANGA_FAILED';
@@ -307,21 +317,23 @@ const MangaRefreshSection = () => {
             // Result and final events always update immediately.
             if (isIntermediate) {
                 const now = Date.now();
-                if (now - lastProgressUpdateRef.current < 500) return;
+                if (now - lastProgressUpdateRef.current < 500) {
+                    return;
+                }
                 lastProgressUpdateRef.current = now;
                 setProgress(event);
                 return; // intermediate events don't carry result/error data
             }
 
             // Always update progress for meaningful events
-            if (isFinal) lastProgressUpdateRef.current = 0;
+            if (isFinal) {
+                lastProgressUpdateRef.current = 0;
+            }
             setProgress(event);
 
             if (isResult) {
                 if (event.mangaResult) {
-                    const alreadyExists = refreshedRef.current.some(
-                        (r) => r?.mangaId === event.mangaResult!.mangaId,
-                    );
+                    const alreadyExists = refreshedRef.current.some((r) => r?.mangaId === event.mangaResult!.mangaId);
                     if (!alreadyExists) {
                         refreshedRef.current = [...refreshedRef.current, event.mangaResult];
                         setRefreshedMangaList([...refreshedRef.current]);
@@ -404,7 +416,7 @@ const MangaRefreshSection = () => {
                 const idx = failedRef.current.findIndex((e) => e?.mangaId === mangaId);
                 if (idx !== -1) {
                     failedRef.current = failedRef.current.map((e, i) =>
-                        i === idx ? { ...e, error: payload?.error ?? e.error } : e,
+                        i === idx ? { ...e!, error: payload?.error ?? e!.error } : e,
                     );
                     setFailedMangaList([...failedRef.current]);
                 }
@@ -414,7 +426,7 @@ const MangaRefreshSection = () => {
             const idx = failedRef.current.findIndex((err) => err?.mangaId === mangaId);
             if (idx !== -1) {
                 failedRef.current = failedRef.current.map((err, i) =>
-                    i === idx ? { ...err, error: e?.message ?? String(e) } : err,
+                    i === idx ? { ...err!, error: e?.message ?? String(e) } : err,
                 );
                 setFailedMangaList([...failedRef.current]);
             }
@@ -429,7 +441,9 @@ const MangaRefreshSection = () => {
 
     const handleRetrySelected = useCallback(async () => {
         const ids = [...selectedFailedIds];
-        if (ids.length === 0) return;
+        if (ids.length === 0) {
+            return;
+        }
 
         // Mark all selected as retrying
         setRetryingIds((prev) => {
@@ -441,6 +455,7 @@ const MangaRefreshSection = () => {
         // Process sequentially to avoid overwhelming the server
         for (const mangaId of ids) {
             try {
+                // oxlint-disable-next-line no-await-in-loop
                 const result = await requestManager.retryRefreshManga(mangaId).response;
                 const payload = result?.data?.retryRefreshManga;
                 if (payload?.success) {
@@ -466,7 +481,7 @@ const MangaRefreshSection = () => {
                     const idx = failedRef.current.findIndex((e) => e?.mangaId === mangaId);
                     if (idx !== -1) {
                         failedRef.current = failedRef.current.map((e, i) =>
-                            i === idx ? { ...e, error: payload?.error ?? e.error } : e,
+                            i === idx ? { ...e!, error: payload?.error ?? e!.error } : e,
                         );
                         setFailedMangaList([...failedRef.current]);
                     }
@@ -475,7 +490,7 @@ const MangaRefreshSection = () => {
                 const idx = failedRef.current.findIndex((err) => err?.mangaId === mangaId);
                 if (idx !== -1) {
                     failedRef.current = failedRef.current.map((err, i) =>
-                        i === idx ? { ...err, error: e?.message ?? String(e) } : err,
+                        i === idx ? { ...err!, error: e?.message ?? String(e) } : err,
                     );
                     setFailedMangaList([...failedRef.current]);
                 }
@@ -491,10 +506,10 @@ const MangaRefreshSection = () => {
 
     const handleRetryAll = useCallback(async () => {
         // Collect all failed manga IDs (not just the visible/selected ones)
-        const ids = failedRef.current
-            .filter((e) => e?.mangaId != null)
-            .map((e) => e!.mangaId!);
-        if (ids.length === 0) return;
+        const ids = failedRef.current.filter((e) => e?.mangaId != null).map((e) => e!.mangaId!);
+        if (ids.length === 0) {
+            return;
+        }
 
         // Mark all as retrying
         setRetryingIds((prev) => {
@@ -506,6 +521,7 @@ const MangaRefreshSection = () => {
         // Process sequentially to avoid overwhelming the server
         for (const mangaId of ids) {
             try {
+                // oxlint-disable-next-line no-await-in-loop
                 const result = await requestManager.retryRefreshManga(mangaId).response;
                 const payload = result?.data?.retryRefreshManga;
                 if (payload?.success) {
@@ -530,7 +546,7 @@ const MangaRefreshSection = () => {
                     const idx = failedRef.current.findIndex((e) => e?.mangaId === mangaId);
                     if (idx !== -1) {
                         failedRef.current = failedRef.current.map((e, i) =>
-                            i === idx ? { ...e, error: payload?.error ?? e.error } : e,
+                            i === idx ? { ...e!, error: payload?.error ?? e!.error } : e,
                         );
                         setFailedMangaList([...failedRef.current]);
                     }
@@ -539,7 +555,7 @@ const MangaRefreshSection = () => {
                 const idx = failedRef.current.findIndex((err) => err?.mangaId === mangaId);
                 if (idx !== -1) {
                     failedRef.current = failedRef.current.map((err, i) =>
-                        i === idx ? { ...err, error: e?.message ?? String(e) } : err,
+                        i === idx ? { ...err!, error: e?.message ?? String(e) } : err,
                     );
                     setFailedMangaList([...failedRef.current]);
                 }
@@ -571,15 +587,15 @@ const MangaRefreshSection = () => {
                         options={sources}
                         value={selectedSource}
                         onChange={(_event, newValue) => {
-                            if (newValue) setSelectedSource(newValue);
+                            if (newValue) {
+                                setSelectedSource(newValue);
+                            }
                         }}
                         getOptionLabel={(option) => option.label}
                         isOptionEqualToValue={(option, value) => option.id === value.id}
                         disableClearable
                         sx={{ minWidth: 260 }}
-                        renderInput={(params) => (
-                            <TextField {...params} label={t`选择插件`} size="small" />
-                        )}
+                        renderInput={(params) => <TextField {...params} label={t`选择插件`} size="small" />}
                     />
 
                     <DatePicker
@@ -607,7 +623,9 @@ const MangaRefreshSection = () => {
                         value={dateFrom}
                         onChange={(newValue) => {
                             setDateFrom(newValue);
-                            if (newValue) setSelectedMonth(null);
+                            if (newValue) {
+                                setSelectedMonth(null);
+                            }
                         }}
                         slotProps={{
                             textField: { size: 'small', sx: { minWidth: 180 } },
@@ -624,7 +642,9 @@ const MangaRefreshSection = () => {
                         value={dateTo}
                         onChange={(newValue) => {
                             setDateTo(newValue);
-                            if (newValue) setSelectedMonth(null);
+                            if (newValue) {
+                                setSelectedMonth(null);
+                            }
                         }}
                         slotProps={{
                             textField: { size: 'small', sx: { minWidth: 180 } },
