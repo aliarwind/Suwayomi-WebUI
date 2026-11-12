@@ -288,7 +288,7 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
         <>
             {!isSelectModeActive && activeTab && (
                 <>
-                    <AppbarSearch />
+                    <AppbarSearch searchHistoryKey="library" />
                     <LibraryToolbarMenu category={activeTab} mangas={mangas} />
                     <UpdateChecker categoryId={activeTab?.id} />
                 </>

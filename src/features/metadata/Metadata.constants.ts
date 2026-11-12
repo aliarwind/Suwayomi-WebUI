@@ -189,7 +189,6 @@ export const APP_METADATA: Record<
     notifyNewChaptersLastNotifiedAt: {
         convert: convertToNumber,
     },
-    },
     sortBy: {
         convert: convertToStringNullAndUndefined, // LibrarySortMode
     },
