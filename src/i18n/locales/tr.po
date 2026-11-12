@@ -103,11 +103,6 @@ msgstr "Hepsi"
 msgid "Allow deleting bookmarked chapters"
 msgstr "Yer imlerine eklenmiş bölümleri silmeye izin ver"
 
-#: src/base/components/inputs/LanguageSelect.tsx
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "Allowed Languages"
-msgstr "İzin verilen diller"
-
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Alpha"
 msgstr "Alfa"
@@ -539,10 +534,6 @@ msgstr "Kuyruktan tüm bölümleri silme işlemi gerçekleştirilemedi"
 msgid "Could not remove non library manga from categories"
 msgstr "Kütüphane dışı mangalar kategorilerden kaldırılamadı"
 
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "Kuyruktan silme işlemi gerçekleştirilemedi."
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"
@@ -947,10 +938,6 @@ msgstr ""
 "\n"
 "Bu ayarı değiştirdikten sonra \"Hakkında\" sayfasına gidin ve bir webUI güncellemesi olup olmadığını kontrol edin ve yükleyin\n"
 ""
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Feel free to translate the project on"
-msgstr "Projeyi tercüme etmekten çekinmeyin"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"
@@ -2214,17 +2201,6 @@ msgstr "Aşağıdaki kaynaklar yüklü değil:"
 msgid "The following trackers are not logged in:"
 msgstr "Aşağıdaki izleyiciler oturum açmamış:"
 
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The next chapter has a different scanlator then the current one.\n"
-"Current: {currentScanlator}\n"
-"Next: {nextScanlator}"
-msgstr ""
-"Sonraki bölüm başka bir ekip tarafından çevrilmiştir.\n"
-"Mevcut ekip: {currentScanlator}\n"
-"Sonraki ekip: {nextScanlator}\n"
-""
-
 #: src/features/backup/screens/Backup.tsx
 msgid "The path to the directory on the server where automated backups should get saved in"
 msgstr "Otomatik yedeklemelerin kaydedileceği sunucudaki dizinin yolu"
@@ -2240,17 +2216,6 @@ msgstr "Yerel kaynak dosyalarının kaydedildiği sunucudaki dizinin yolu"
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "The path to the electron installation on the server"
 msgstr "Sunucudaki elektron kurulumunun yolu"
-
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The previous chapter has a different scanlator then the current one.\n"
-"Previous: {nextScanlator}\n"
-"Current: {currentScanlator}"
-msgstr ""
-"Bir önceki bölüm başka bir ekip tarafından çevrilmiştir.\n"
-"Önceki Ekip: {nextScanlator}\n"
-"Şimdiki Ekip: {currentScanlator}\n"
-""
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "The theme name must be unique and has a limit of 16 characters"
@@ -2531,10 +2496,6 @@ msgstr "VUI"
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Warning"
 msgstr "Uyarı"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Weblate"
-msgstr "Weblate"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/reader/settings/ReaderSettings.constants.tsx

@@ -15,12 +15,12 @@ import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { LibraryOptionsPanel } from '@/features/library/components/LibraryOptionsPanel.tsx';
 import { getCategoryMetadata } from '@/features/category/services/CategoryMetadata.ts';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export const LibraryToolbarMenu = ({
     category,
@@ -33,15 +33,23 @@ export const LibraryToolbarMenu = ({
 
     const [open, setOpen] = useState(false);
     const options = getCategoryMetadata(category);
+
+    const isStatusFilterActive = Object.values(options.hasStatus).some((hasStatus) => hasStatus != null);
+    const isTrackerFilterActive = Object.values(options.hasTrackerBinding.filters).some(
+        (trackerFilterStatus) => trackerFilterStatus != null,
+    );
+    const isSourceFilterActive = Object.values(options.hasSource).some(
+        (sourceFilterStatus) => sourceFilterStatus != null,
+    );
     const active =
         options.hasDownloadedChapters != null ||
         options.hasUnreadChapters != null ||
         options.hasReadChapters != null ||
         options.hasBookmarkedChapters != null ||
         options.hasDuplicateChapters != null ||
-        Object.values(options.hasStatus).some((hasStatus) => hasStatus != null) ||
-        Object.values(options.hasTrackerBinding).some((trackerFilterStatus) => trackerFilterStatus != null) ||
-        Object.values(options.hasSource).some((sourceFilterStatus) => sourceFilterStatus != null);
+        isSourceFilterActive ||
+        isTrackerFilterActive ||
+        isStatusFilterActive;
 
     return (
         <>
@@ -56,7 +64,7 @@ export const LibraryToolbarMenu = ({
 
                             ReactRouter.navigate(AppRoutes.manga.path(randomManga.id));
                         } catch (e) {
-                            makeToast(t`Could not open random entry`, 'error', getErrorMessage(e));
+                            Notifications.error(t`Could not open random entry`, getErrorMessage(e));
                         }
                     }}
                     color="inherit"
@@ -69,7 +77,15 @@ export const LibraryToolbarMenu = ({
                     <FilterList />
                 </IconButton>
             </CustomTooltip>
-            <LibraryOptionsPanel category={category} open={open} onClose={() => setOpen(false)} />
+            <LibraryOptionsPanel
+                category={category}
+                open={open}
+                onClose={() => setOpen(false)}
+                active={active}
+                isStatusFilterActive={isStatusFilterActive}
+                isTrackerFilterActive={isTrackerFilterActive}
+                isSourceFilterActive={isSourceFilterActive}
+            />
         </>
     );
 };

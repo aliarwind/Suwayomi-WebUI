@@ -12,8 +12,8 @@ import type {
     SourceDisplayNameInfo,
     SourceIdInfo,
     SourceLanguageInfo,
-    SourceNsfwInfo,
     SourceMetaInfo,
+    SourceNsfwInfo,
     SourceStoreInfo,
 } from '@/features/source/Source.types.ts';
 import {
@@ -28,7 +28,6 @@ import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import type { SourceBaseFieldsFragment } from '@/lib/graphql/generated/graphql.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -37,6 +36,7 @@ import { SOURCE_BASE_FIELDS } from '@/lib/graphql/source/SourceFragments.ts';
 import { isNsfw as isNsfwFnc } from '@/features/extension/Extensions.utils.ts';
 import { SortBy, SortOrder, type SortSettings, type TMigratableSource } from '@/features/migration/Migration.types.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export class Sources {
     static readonly LOCAL_SOURCE_ID = '0';
@@ -177,6 +177,23 @@ export class Sources {
         return sources.find((source) => source.id === lastUsedSourceId);
     }
 
+    static isLanguageEnabled<Source extends SourceMetaInfo & SourceLanguageInfo>(
+        source: Source,
+        browseLanguage: string[],
+    ): boolean {
+        return toComparableLanguages(toUniqueLanguageCodes(browseLanguage)).includes(source.lang);
+    }
+
+    static isEnabled<Source extends SourceIdInfo & SourceMetaInfo & SourceLanguageInfo>(
+        source: Source,
+        browseLanguages: string[],
+    ): boolean {
+        const isLanguageEnabled = Sources.isLanguageEnabled(source, browseLanguages);
+        const { isEnabled } = getSourceMetadata(source);
+
+        return isEnabled && isLanguageEnabled;
+    }
+
     static useLanguages(): {
         languages: string[];
         setLanguages: (languages: string[]) => Promise<void>;
@@ -187,7 +204,7 @@ export class Sources {
         } = useMetadataServerSettings();
 
         const updateSetting = createUpdateMetadataServerSettings<'browseLanguages'>((e) =>
-            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
+            Notifications.error(t`Failed to save changes`, getErrorMessage(e)),
         );
         const setLanguages = useCallback((languages: string[]) => updateSetting('browseLanguages', languages), []);
 

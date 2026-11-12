@@ -20,7 +20,6 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import { useLingui } from '@lingui/react/macro';
 import { t as translate } from '@lingui/core/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { SpinnerImage } from '@/base/components/SpinnerImage.tsx';
 import { FlexWrapButton } from '@/base/components/buttons/FlexWrapButton.tsx';
@@ -38,6 +37,7 @@ import type {
     MangaIdInfo,
     MangaInLibraryInfo,
     MangaLocationState,
+    MangaMetaInfo,
     MangaSourceIdInfo,
     MangaStatusInfo,
     MangaThumbnailInfo,
@@ -57,6 +57,7 @@ import { IconWebView } from '@/assets/icons/IconWebView.tsx';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { copyToClipboard } from '@/lib/HelperFunctions.ts';
 import { ClipBoardGuard } from '@/base/components/guard/ClipBoardGuard.tsx';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -65,7 +66,7 @@ const DetailsWrapper = styled('div')(({ theme }) => ({
     padding: theme.spacing(1),
     [theme.breakpoints.up('md')]: {
         flexBasis: '40%',
-        height: 'calc(100vh - 64px)',
+        height: 'calc(100dvh - 64px)',
         overflowY: 'auto',
     },
 }));
@@ -222,7 +223,8 @@ export const MangaDetails = ({
         MangaGenreInfo &
         MangaThumbnailInfo &
         MangaSourceIdInfo &
-        MangaTrackRecordInfo & {
+        MangaTrackRecordInfo &
+        MangaMetaInfo & {
             source?: Pick<SourceType, 'id' | 'displayName'> | null;
         };
     mode: MangaLocationState['mode'];
@@ -235,7 +237,7 @@ export const MangaDetails = ({
 
     useEffect(() => {
         if (!manga.source) {
-            makeToast(t`Could not find source. Check your installed extensions.`, 'error');
+            Notifications.error(t`Could not find source. Check your installed extensions.`);
         }
     }, [manga.source, t]);
 

@@ -16,6 +16,7 @@ import type { GridLayout } from '@/base/Base.types.ts';
 import type {
     ChapterIdInfo,
     ChapterListOptions,
+    ChapterMangaInfo,
     ChapterNameInfo,
     ChapterNumberInfo,
     ChapterReadInfo,
@@ -25,6 +26,7 @@ import type { MigrationMatch } from '@/features/migration/Migration.types.ts';
 import type {
     MangaType as MangaTypeGql,
     Maybe,
+    MetaType,
     SourceType,
     TrackRecordType,
 } from '@/lib/graphql/generated/graphql-base.types.ts';
@@ -36,7 +38,12 @@ type MangaCardBaseProps = Pick<MangaTypeGql, 'id' | 'title' | 'sourceId' | 'inLi
     Omit<SingleModeProps['manga'], 'downloadCount' | 'unreadCount' | 'chapters'> &
     Partial<Pick<MangaTypeGql, 'downloadCount' | 'unreadCount'>> & {
         firstUnreadChapter?:
-            | (ChapterIdInfo & ChapterSourceOrderInfo & ChapterReadInfo & ChapterNumberInfo & ChapterNameInfo)
+            | (ChapterIdInfo &
+                  ChapterSourceOrderInfo &
+                  ChapterReadInfo &
+                  ChapterNumberInfo &
+                  ChapterNameInfo &
+                  ChapterMangaInfo)
             | null;
     };
 
@@ -60,6 +67,7 @@ export type MangaTitleInfo = Pick<MangaTypeGql, 'title'>;
 export type MangaDescriptionInfo = Pick<MangaTypeGql, 'description'>;
 export type MangaStatusInfo = Pick<MangaTypeGql, 'status'>;
 export type MangaUrlInfo = Pick<MangaTypeGql, 'realUrl'>;
+export type MangaMetaInfo = { meta?: Pick<MetaType, 'key' | 'value'>[] };
 
 type MangaCardSpecificProps = MangaCardBaseProps & MangaThumbnailInfo;
 
@@ -83,7 +91,9 @@ export type SpecificMangaCardProps = Omit<MangaCardProps, 'manga'> &
         mangaBadges: JSX.Element;
     };
 
-export type MangaMetadata = ChapterListOptions;
+export type MangaMetadata = ChapterListOptions & {
+    notes: string;
+};
 
 export type MangaMetadataKeys = keyof MangaMetadata;
 

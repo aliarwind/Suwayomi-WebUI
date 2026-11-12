@@ -20,6 +20,7 @@ export type AboutServerPayload = {
     discord: Scalars['String']['output'];
     github: Scalars['String']['output'];
     name: Scalars['String']['output'];
+    platformInfo: PlatformInfo;
     /** @deprecated The version includes the revision as the patch number */
     revision: Scalars['String']['output'];
     version: Scalars['String']['output'];
@@ -179,6 +180,7 @@ export type CategoryType = {
     id: Scalars['Int']['output'];
     includeInDownload: IncludeOrExclude;
     includeInUpdate: IncludeOrExclude;
+    isDefaultCategory: Scalars['Boolean']['output'];
     mangas: MangaNodeList;
     meta: Array<CategoryMetaType>;
     name: Scalars['String']['output'];
@@ -214,6 +216,11 @@ export type ChapterConditionInput = {
     sourceOrder?: InputMaybe<Scalars['Int']['input']>;
     uploadDate?: InputMaybe<Scalars['LongString']['input']>;
     url?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ChapterDownloadReorderInput = {
+    chapterId: Scalars['Int']['input'];
+    to: Scalars['Int']['input'];
 };
 
 export type ChapterEdge = Edge & {
@@ -341,6 +348,15 @@ export type ClearCachedImagesPayload = {
     cachedThumbnails?: Maybe<Scalars['Boolean']['output']>;
     clientMutationId?: Maybe<Scalars['String']['output']>;
     downloadedThumbnails?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type ClearCookiesAndCacheInput = {
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ClearCookiesAndCachePayload = {
+    __typename?: 'ClearCookiesAndCachePayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
 };
 
 export type ClearDownloaderInput = {
@@ -1077,6 +1093,14 @@ export type IntFilterInput = {
     notIn?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
+export type JvmInfo = {
+    __typename?: 'JvmInfo';
+    javaVersion: Scalars['String']['output'];
+    vmName: Scalars['String']['output'];
+    vmVendor: Scalars['String']['output'];
+    vmVersion: Scalars['String']['output'];
+};
+
 export type KoSyncConnectPayload = {
     __typename?: 'KoSyncConnectPayload';
     clientMutationId?: Maybe<Scalars['String']['output']>;
@@ -1445,6 +1469,7 @@ export type Mutation = {
     bindTrack: BindTrackPayload;
     bindTrackRecord?: Maybe<BindTrackRecordPayload>;
     clearCachedImages: ClearCachedImagesPayload;
+    clearCookiesAndCache: ClearCookiesAndCachePayload;
     clearDownloader?: Maybe<ClearDownloaderPayload>;
     connectKoSyncAccount: KoSyncConnectPayload;
     createBackup: CreateBackupPayload;
@@ -1486,6 +1511,7 @@ export type Mutation = {
     refreshToken: RefreshTokenPayload;
     removeExtensionStore?: Maybe<RemoveExtensionStorePayload>;
     reorderChapterDownload?: Maybe<ReorderChapterDownloadPayload>;
+    reorderChapterDownloads?: Maybe<ReorderChapterDownloadPayload>;
     resetSettings: ResetSettingsPayload;
     resetWebUIUpdateStatus?: Maybe<WebUiUpdateStatus>;
     restoreBackup: RestoreBackupPayload;
@@ -1539,6 +1565,10 @@ export type MutationBindTrackRecordArgs = {
 
 export type MutationClearCachedImagesArgs = {
     input: ClearCachedImagesInput;
+};
+
+export type MutationClearCookiesAndCacheArgs = {
+    input?: InputMaybe<ClearCookiesAndCacheInput>;
 };
 
 export type MutationClearDownloaderArgs = {
@@ -1695,6 +1725,10 @@ export type MutationRemoveExtensionStoreArgs = {
 
 export type MutationReorderChapterDownloadArgs = {
     input: ReorderChapterDownloadInput;
+};
+
+export type MutationReorderChapterDownloadsArgs = {
+    input: ReorderChapterDownloadsInput;
 };
 
 export type MutationResetSettingsArgs = {
@@ -1871,6 +1905,13 @@ export type NodeList = {
     totalCount: Scalars['Int']['output'];
 };
 
+export type OsInfo = {
+    __typename?: 'OSInfo';
+    build?: Maybe<Scalars['String']['output']>;
+    name: Scalars['String']['output'];
+    version: Scalars['String']['output'];
+};
+
 export type PageInfo = {
     __typename?: 'PageInfo';
     /** When paginating forwards, the cursor to continue. */
@@ -1921,6 +1962,7 @@ export type PartialSettingsType = Settings & {
     /** @deprecated Removed - prefer authUsername, replace with authUsername */
     basicAuthUsername?: Maybe<Scalars['String']['output']>;
     databasePassword?: Maybe<Scalars['String']['output']>;
+    databaseSchema?: Maybe<Scalars['String']['output']>;
     databaseType?: Maybe<DatabaseType>;
     databaseUrl?: Maybe<Scalars['String']['output']>;
     databaseUsername?: Maybe<Scalars['String']['output']>;
@@ -1933,7 +1975,7 @@ export type PartialSettingsType = Settings & {
     excludeEntryWithUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
     excludeNotStarted?: Maybe<Scalars['Boolean']['output']>;
     excludeUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
-    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations */
+    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations, replace with extensionStores */
     extensionRepos?: Maybe<Array<Scalars['String']['output']>>;
     flareSolverrAsResponseFallback?: Maybe<Scalars['Boolean']['output']>;
     flareSolverrEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -1944,6 +1986,7 @@ export type PartialSettingsType = Settings & {
     globalUpdateInterval?: Maybe<Scalars['Float']['output']>;
     /** @deprecated Removed - does not do anything */
     gqlDebugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
+    hikariMaxPoolSize?: Maybe<Scalars['Int']['output']>;
     initialOpenInBrowserEnabled?: Maybe<Scalars['Boolean']['output']>;
     ip?: Maybe<Scalars['String']['output']>;
     jwtAudience?: Maybe<Scalars['String']['output']>;
@@ -2023,6 +2066,7 @@ export type PartialSettingsTypeInput = {
     backupTTL?: InputMaybe<Scalars['Int']['input']>;
     backupTime?: InputMaybe<Scalars['String']['input']>;
     databasePassword?: InputMaybe<Scalars['String']['input']>;
+    databaseSchema?: InputMaybe<Scalars['String']['input']>;
     databaseType?: InputMaybe<DatabaseType>;
     databaseUrl?: InputMaybe<Scalars['String']['input']>;
     databaseUsername?: InputMaybe<Scalars['String']['input']>;
@@ -2042,6 +2086,7 @@ export type PartialSettingsTypeInput = {
     flareSolverrTimeout?: InputMaybe<Scalars['Int']['input']>;
     flareSolverrUrl?: InputMaybe<Scalars['String']['input']>;
     globalUpdateInterval?: InputMaybe<Scalars['Float']['input']>;
+    hikariMaxPoolSize?: InputMaybe<Scalars['Int']['input']>;
     initialOpenInBrowserEnabled?: InputMaybe<Scalars['Boolean']['input']>;
     ip?: InputMaybe<Scalars['String']['input']>;
     jwtAudience?: InputMaybe<Scalars['String']['input']>;
@@ -2090,6 +2135,14 @@ export type PartialSettingsTypeInput = {
     webUIFlavor?: InputMaybe<WebUiFlavor>;
     webUIInterface?: InputMaybe<WebUiInterface>;
     webUIUpdateCheckInterval?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type PlatformInfo = {
+    __typename?: 'PlatformInfo';
+    arch: Scalars['String']['output'];
+    headless: Scalars['Boolean']['output'];
+    jvm: JvmInfo;
+    os: OsInfo;
 };
 
 export type Preference =
@@ -2341,6 +2394,11 @@ export type ReorderChapterDownloadPayload = {
     downloadStatus: DownloadStatus;
 };
 
+export type ReorderChapterDownloadsInput = {
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    reorders: Array<ChapterDownloadReorderInput>;
+};
+
 export type ResetSettingsInput = {
     clientMutationId?: InputMaybe<Scalars['String']['input']>;
 };
@@ -2558,6 +2616,7 @@ export type Settings = {
     /** @deprecated Removed - prefer authUsername, replace with authUsername */
     basicAuthUsername?: Maybe<Scalars['String']['output']>;
     databasePassword?: Maybe<Scalars['String']['output']>;
+    databaseSchema?: Maybe<Scalars['String']['output']>;
     databaseType?: Maybe<DatabaseType>;
     databaseUrl?: Maybe<Scalars['String']['output']>;
     databaseUsername?: Maybe<Scalars['String']['output']>;
@@ -2570,7 +2629,7 @@ export type Settings = {
     excludeEntryWithUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
     excludeNotStarted?: Maybe<Scalars['Boolean']['output']>;
     excludeUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
-    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations */
+    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations, replace with extensionStores */
     extensionRepos?: Maybe<Array<Scalars['String']['output']>>;
     flareSolverrAsResponseFallback?: Maybe<Scalars['Boolean']['output']>;
     flareSolverrEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -2581,6 +2640,7 @@ export type Settings = {
     globalUpdateInterval?: Maybe<Scalars['Float']['output']>;
     /** @deprecated Removed - does not do anything */
     gqlDebugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
+    hikariMaxPoolSize?: Maybe<Scalars['Int']['output']>;
     initialOpenInBrowserEnabled?: Maybe<Scalars['Boolean']['output']>;
     ip?: Maybe<Scalars['String']['output']>;
     jwtAudience?: Maybe<Scalars['String']['output']>;
@@ -2713,6 +2773,7 @@ export type SettingsType = Settings & {
     /** @deprecated Removed - prefer authUsername, replace with authUsername */
     basicAuthUsername: Scalars['String']['output'];
     databasePassword: Scalars['String']['output'];
+    databaseSchema: Scalars['String']['output'];
     databaseType: DatabaseType;
     databaseUrl: Scalars['String']['output'];
     databaseUsername: Scalars['String']['output'];
@@ -2725,7 +2786,7 @@ export type SettingsType = Settings & {
     excludeEntryWithUnreadChapters: Scalars['Boolean']['output'];
     excludeNotStarted: Scalars['Boolean']['output'];
     excludeUnreadChapters: Scalars['Boolean']['output'];
-    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations */
+    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations, replace with extensionStores */
     extensionRepos: Array<Scalars['String']['output']>;
     flareSolverrAsResponseFallback: Scalars['Boolean']['output'];
     flareSolverrEnabled: Scalars['Boolean']['output'];
@@ -2736,6 +2797,7 @@ export type SettingsType = Settings & {
     globalUpdateInterval: Scalars['Float']['output'];
     /** @deprecated Removed - does not do anything */
     gqlDebugLogsEnabled: Scalars['Boolean']['output'];
+    hikariMaxPoolSize: Scalars['Int']['output'];
     initialOpenInBrowserEnabled: Scalars['Boolean']['output'];
     ip: Scalars['String']['output'];
     jwtAudience: Scalars['String']['output'];

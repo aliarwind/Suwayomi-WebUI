@@ -158,6 +158,7 @@ const GLOBAL_READER_SETTING_OBJECT: Record<keyof IReaderSettingsGlobal, undefine
     shouldUseInfiniteScroll: undefined,
     shouldShowTransitionPage: undefined,
     safeAreaInset: undefined,
+    shouldEnterFullscreen: undefined,
 };
 
 export const GLOBAL_READER_SETTING_KEYS = Object.keys(GLOBAL_READER_SETTING_OBJECT);
@@ -247,12 +248,14 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     scrollAmount: ReaderScrollAmount.LARGE,
     shouldUseInfiniteScroll: true,
     shouldShowTransitionPage: true,
+    shouldCropBorders: false,
     safeAreaInset: {
         top: true,
         right: true,
         bottom: true,
         left: true,
     },
+    shouldEnterFullscreen: false,
 };
 
 export const READER_PROGRESS_BAR_POSITION_TO_PLACEMENT: Record<ProgressBarPosition, TooltipProps['placement']> = {

@@ -22,28 +22,59 @@ import { translateExtensionLanguage } from '@/features/extension/Extensions.util
 import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
 import { StyledGroupItemWrapper } from '@/base/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
+import type {
+    SourceConfigurableInfo,
+    SourceIdInfo,
+    SourceLanguageInfo,
+    SourceMetaInfo,
+} from '@/features/source/Source.types.ts';
+import { useMemo } from 'react';
+import { getISOLanguage } from '@/lib/ISOLanguageUtil.ts';
+import Stack from '@mui/material/Stack';
 import { createUpdateSourceMetadata, useGetSourceMetadata } from '@/features/source/services/SourceMetadata.ts';
-import type { SourceConfigurableInfo, SourceIdInfo, SourceLanguageInfo } from '@/features/source/Source.types.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
-export const SourceCard = (source: SourceIdInfo & SourceLanguageInfo & SourceConfigurableInfo) => {
+export const SourceCard = (source: SourceIdInfo & SourceMetaInfo & SourceLanguageInfo & SourceConfigurableInfo) => {
     const { id, isConfigurable } = source;
 
     const { t } = useLingui();
     const { isEnabled } = useGetSourceMetadata(source);
+    const { languages, setLanguages } = Sources.useLanguages();
+
+    const isLanguageEnabled = useMemo(() => Sources.isLanguageEnabled(source, languages), [languages, source.lang]);
+    const finalIsEnabled = useMemo(() => Sources.isEnabled(source, languages), [source, languages]);
 
     const updateSetting = createUpdateSourceMetadata(source, (e) =>
-        makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
+        Notifications.error(t`Failed to save changes`, getErrorMessage(e)),
     );
 
     return (
         <StyledGroupItemWrapper key={id} sx={{ px: 0 }}>
             <Card>
-                <CardActionArea onClick={() => updateSetting('isEnabled', !isEnabled)}>
+                <CardActionArea
+                    onClick={() => {
+                        if (!isLanguageEnabled) {
+                            setLanguages([...languages, source.lang]);
+
+                            if (!isEnabled) {
+                                updateSetting('isEnabled', !isEnabled);
+                            }
+
+                            return;
+                        }
+
+                        updateSetting('isEnabled', !isEnabled);
+                    }}
+                >
                     <ListCardContent>
-                        <Typography variant="h6" component="h3" sx={{ flexGrow: 1 }}>
-                            {translateExtensionLanguage(Sources.getLanguage(source))}
-                        </Typography>
+                        <Stack sx={{ flexGrow: 1 }}>
+                            <Typography variant="h6" component="h3">
+                                {translateExtensionLanguage(Sources.getLanguage(source))}
+                            </Typography>
+                            <Typography variant="body1" color="textSecondary">
+                                {getISOLanguage(Sources.getLanguage(source))?.name}
+                            </Typography>
+                        </Stack>
                         {isConfigurable && (
                             <CustomTooltip title={t`Settings`}>
                                 <IconButton
@@ -57,7 +88,7 @@ export const SourceCard = (source: SourceIdInfo & SourceLanguageInfo & SourceCon
                                 </IconButton>
                             </CustomTooltip>
                         )}
-                        <Switch checked={isEnabled} />
+                        <Switch checked={finalIsEnabled} />
                     </ListCardContent>
                 </CardActionArea>
             </Card>

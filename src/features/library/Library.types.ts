@@ -14,6 +14,7 @@ import type { TrackerIdInfo } from '@/features/tracker/Tracker.types.ts';
 export type MetadataLibrarySettings = {
     showAddToLibraryCategorySelectDialog: boolean;
     ignoreFilters: boolean;
+    fuzzySearch: boolean;
     removeMangaFromCategories: boolean;
     showTabSize: boolean;
     showContinueReadingButton: boolean;
@@ -22,6 +23,9 @@ export type MetadataLibrarySettings = {
     gridLayout: GridLayout;
     paginationEnabled: boolean;
     paginationSize: number;
+    /** the notification permission is granted per browser, thus, this only takes effect where it was granted */
+    notifyNewChapters: boolean;
+    notifyNewChaptersLastNotifiedAt: number;
 };
 export type LibrarySortMode =
     | 'unreadChapters'
@@ -44,7 +48,10 @@ export interface LibraryOptions {
     hasUnreadChapters: NullAndUndefined<boolean>;
     hasReadChapters: NullAndUndefined<boolean>;
     hasDuplicateChapters: NullAndUndefined<boolean>;
-    hasTrackerBinding: Record<TrackerIdInfo['id'], NullAndUndefined<boolean>>;
+    hasTrackerBinding: {
+        filters: Record<TrackerIdInfo['id'], NullAndUndefined<boolean>>;
+        mode: FilterMode;
+    };
     hasStatus: Record<MangaStatus, NullAndUndefined<boolean>>;
     hasSource: Record<string, NullAndUndefined<boolean>>;
 }
@@ -69,3 +76,8 @@ export type LibraryOptionsContextType = {
     options: LibraryOptions;
     setOptions: React.Dispatch<React.SetStateAction<LibraryOptions>>;
 };
+
+export enum FilterMode {
+    AND = 'AND',
+    OR = 'OR',
+}

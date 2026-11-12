@@ -74,11 +74,6 @@ msgstr "Alles"
 msgid "Allow deleting bookmarked chapters"
 msgstr "Sta het verwijderen van hoofdstukken met bladwijzers toe"
 
-#: src/base/components/inputs/LanguageSelect.tsx
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "Allowed Languages"
-msgstr "Toegestane talen"
-
 #: src/features/chapter/services/Chapters.ts
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
@@ -315,10 +310,6 @@ msgstr "Kan niet alle downloads uit de wachtrij verwijderen"
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Could not remove non library manga from categories"
 msgstr "Kan manga die niet in de bibliotheek staan, niet uit de categorieën verwijderen"
-
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "Kan niet alle downloads uit de wachtrij verwijderen."
 
 #: src/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx
 msgid "Could not retry failed download."
@@ -1476,10 +1467,6 @@ msgstr "Verticaal"
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Warning"
 msgstr "Waarschuwing"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Weblate"
-msgstr "Weblate"
 
 #: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
 msgid "White"

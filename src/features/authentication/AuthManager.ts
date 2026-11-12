@@ -8,17 +8,20 @@
 
 import { useMemo, useSyncExternalStore } from 'react';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
-
-let notifierValue = 0;
+import { assertIsDefined } from '@/base/Asserts.ts';
+import type { DecodedJwt, TokenPayload } from '@/features/authentication/Auth.types.ts';
+import { epochToDate } from '@/base/utils/DateHelper.ts';
+import { d } from 'koration';
+import { getUniqueId } from '@/lib/HelperFunctions.ts';
 
 export class AuthManager {
     static readonly REFRESH_TOKEN_KEY = 'auth-refresh-token';
 
-    private static subscribedCount: number = 0;
+    private static notifierValue: string = '';
 
-    private static subscribers = new Map<number, () => void>();
+    private static subscribers = new Map<string, () => void>();
 
-    private static accessToken: string | null = null;
+    private static accessToken: TokenPayload | null = null;
 
     private static authInitialized: boolean = false;
 
@@ -27,19 +30,18 @@ export class AuthManager {
     private static refreshingToken: boolean = false;
 
     private static subscribe(callback: () => void): () => void {
-        // oxlint-disable-next-line no-plusplus
-        const key = AuthManager.subscribedCount++;
+        const key = getUniqueId();
         this.subscribers.set(key, callback);
 
         return () => this.unsubscribe(key);
     }
 
-    private static unsubscribe(key: number): void {
+    private static unsubscribe(key: string): void {
         this.subscribers.delete(key);
     }
 
     private static notify(): void {
-        notifierValue = (notifierValue + 1) % Number.MAX_SAFE_INTEGER;
+        this.notifierValue = getUniqueId();
         this.subscribers.forEach((callback) => callback());
     }
 
@@ -50,7 +52,7 @@ export class AuthManager {
         isInitialized: typeof AuthManager.authInitialized;
         isRefreshingToken: typeof AuthManager.refreshingToken;
     } {
-        useSyncExternalStore(AuthManager.subscribe.bind(AuthManager), () => notifierValue);
+        useSyncExternalStore(AuthManager.subscribe.bind(AuthManager), () => this.notifierValue);
 
         return useMemo(
             () => ({
@@ -88,8 +90,23 @@ export class AuthManager {
         return AuthManager.refreshingToken;
     }
 
+    static isAccessTokenExpired(): boolean {
+        return (
+            Date.now() >= (AuthManager.accessToken?.expireTimestamp ?? Date.now()) - d(30).seconds.inWholeMilliseconds
+        );
+    }
+
+    static shouldRefreshAccessToken(): boolean {
+        return (
+            !!AuthManager.isAuthRequired() &&
+            !!AuthManager.getRefreshToken() &&
+            !AuthManager.isRefreshingToken() &&
+            AuthManager.isAccessTokenExpired()
+        );
+    }
+
     static getAccessToken(): string | null {
-        return AuthManager.accessToken;
+        return AuthManager.accessToken?.token ?? null;
     }
 
     static getRefreshToken(): string | null {
@@ -118,8 +135,44 @@ export class AuthManager {
         AuthManager.notify();
     }
 
+    private static decodeToken<T extends object>(token: string): DecodedJwt<T> {
+        const parts = token.split('.');
+
+        if (parts.length !== 3) {
+            throw new Error('Invalid JWT');
+        }
+
+        // oxlint-disable-next-line unicorn/consistent-function-scoping
+        const decode = (part: string) => {
+            const base64 = part.replaceAll('-', '+').replaceAll('_', '/');
+
+            const json = decodeURIComponent(
+                atob(base64)
+                    .split('')
+                    .map((char) => `%${char.charCodeAt(0).toString(16).padStart(2, '0')}`)
+                    .join(''),
+            );
+
+            return JSON.parse(json);
+        };
+
+        return {
+            header: decode(parts[0]),
+            payload: decode(parts[1]),
+        };
+    }
+
     static setAccessToken(token: string): void {
-        AuthManager.accessToken = token;
+        const {
+            payload: { exp },
+        } = AuthManager.decodeToken(token);
+
+        assertIsDefined(exp);
+
+        AuthManager.accessToken = {
+            token,
+            expireTimestamp: epochToDate(exp).valueOf(),
+        };
         AuthManager.notify();
     }
 

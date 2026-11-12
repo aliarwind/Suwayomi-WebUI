@@ -20,6 +20,7 @@ import { AppStorage } from '@/lib/storage/AppStorage.ts';
  */
 export const i18nResources = [
     'ar',
+    'ca',
     'de',
     'el',
     'en',
@@ -29,7 +30,6 @@ export const i18nResources = [
     'hu',
     'id',
     'ko',
-    'pl',
     'pt',
     'ru',
     'vi',

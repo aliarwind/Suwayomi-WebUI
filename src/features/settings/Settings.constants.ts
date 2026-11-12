@@ -51,6 +51,7 @@ export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
     // library
     showAddToLibraryCategorySelectDialog: true,
     ignoreFilters: false,
+    fuzzySearch: true,
     removeMangaFromCategories: false,
     showTabSize: false,
     showContinueReadingButton: false,
@@ -59,6 +60,8 @@ export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
     gridLayout: GridLayout.Compact,
     paginationEnabled: false,
     paginationSize: 20,
+    notifyNewChapters: false,
+    notifyNewChaptersLastNotifiedAt: 0,
 
     // client
     devices: [DEFAULT_DEVICE],
@@ -112,6 +115,7 @@ const AUTH_MODES_TO_TRANSLATION: { [mode in AuthMode]: SelectSettingValueDisplay
     [AuthMode.BasicAuth]: {
         text: msg`Basic Authentication`,
         description: msg`Your browser will prompt you to enter credentials with a dialog.`,
+        disclaimer: msg`This mode is deprecated and will be removed in the future`,
     },
     [AuthMode.SimpleLogin]: {
         text: msg`Simple Login`,

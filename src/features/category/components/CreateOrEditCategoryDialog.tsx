@@ -19,8 +19,8 @@ import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import type { CategoryDefaultInfo, CategoryIdInfo, CategoryNameInfo } from '@/features/category/Category.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export const CreateOrEditCategoryDialog = ({
     category,
@@ -44,17 +44,19 @@ export const CreateOrEditCategoryDialog = ({
 
         onClose();
 
+        const newName = dialogName.trim();
+
         if (isEditMode) {
             requestManager
-                .updateCategory(category.id, { name: dialogName, default: dialogDefault })
-                .response.catch((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
+                .updateCategory(category.id, { name: newName, default: dialogDefault })
+                .response.catch((e) => Notifications.error(t`Failed to save changes`, getErrorMessage(e)));
 
             return;
         }
 
         requestManager
-            .createCategory({ name: dialogName, default: dialogDefault })
-            .response.catch((e) => makeToast(t`Could not create category`, 'error', getErrorMessage(e)));
+            .createCategory({ name: newName, default: dialogDefault })
+            .response.catch((e) => Notifications.error(t`Could not create category`, getErrorMessage(e)));
     };
 
     return (
@@ -69,7 +71,7 @@ export const CreateOrEditCategoryDialog = ({
                     type="text"
                     fullWidth
                     value={dialogName}
-                    onChange={(e) => setDialogName(e.target.value.trim())}
+                    onChange={(e) => setDialogName(e.target.value)}
                     error={isInvalidName}
                     helperText={isInvalidName ? t`Invalid input` : undefined}
                 />

@@ -25,6 +25,7 @@ import { LibraryToolbarMenu } from '@/features/library/components/LibraryToolbar
 import { LibraryMangaGrid } from '@/features/library/components/LibraryMangaGrid.tsx';
 import { AppbarSearch } from '@/base/components/AppbarSearch.tsx';
 import { UpdateChecker } from '@/features/updates/components/UpdateChecker.tsx';
+import { SyncButton } from '@/features/sync/components/SyncButton.tsx';
 import { useSelectableCollection } from '@/base/collection/hooks/useSelectableCollection.ts';
 import { SelectableCollectionSelectMode } from '@/base/collection/components/SelectableCollectionSelectMode.tsx';
 import { useGetVisibleLibraryMangas } from '@/features/library/hooks/useGetVisibleLibraryMangas.ts';
@@ -52,7 +53,8 @@ import { SearchParam } from '@/base/Base.types.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { PaginatedLibraryView } from '@/features/library/screens/PaginatedLibraryView.tsx';
-import { OffsetComponent } from '@/base/OffsetComponent.tsx';
+import { OffsetComponent } from '@/base/components/OffsetComponent.tsx';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 const TitleWithSizeTag = styled('span')({
     display: 'flex',
@@ -60,7 +62,7 @@ const TitleWithSizeTag = styled('span')({
 });
 
 const TitleSizeTag = ({ sx, ...props }: ChipProps) => (
-    <Chip {...props} size="small" sx={{ ...sx, marginLeft: '5px' }} />
+    <Chip {...props} size="small" sx={MUIUtil.mergeSx(sx, { marginLeft: '5px' })} />
 );
 
 function LibraryInfiniteScroll() {
@@ -102,10 +104,11 @@ function LibraryInfiniteScroll() {
         error: mangaError,
         loading: mangaLoading,
         refetch: refetchCategoryMangas,
-    } = requestManager.useGetCategoryMangas(activeTab?.id, { skip: !activeTab });
+    } = requestManager.useGetCategoryMangas(activeTab?.id, activeTab?.isDefaultCategory, { skip: !activeTab });
     const categoryMangas = categoryMangaResponse?.mangas.nodes ?? STABLE_EMPTY_ARRAY;
     const {
         visibleMangas: mangas,
+        searchSuggestions,
         showFilteredOutMessage,
         filterKey,
     } = useGetVisibleLibraryMangas(categoryMangas, activeTab);
@@ -124,6 +127,7 @@ function LibraryInfiniteScroll() {
     );
 
     const mangaIds = useMemo(() => mangas.map((manga) => manga.id), [mangas]);
+    const mangaTitles = useMemo(() => searchSuggestions.map((manga) => manga.title), [searchSuggestions]);
 
     const [isSelectModeActive, setIsSelectModeActive] = useState(false);
     const {
@@ -205,20 +209,21 @@ function LibraryInfiniteScroll() {
             {t`Library`}
             {showTabSize && !librarySizeResponse.loading && (
                 <TitleSizeTag
-                    sx={{ ...theme.applyStyles('light', { backgroundColor: 'background.paper' }) }}
+                    sx={theme.applyStyles('light', { backgroundColor: 'background.paper' })}
                     label={librarySize}
                 />
             )}
         </TitleWithSizeTag>,
         t`Library`,
-        [t, showTabSize, librarySize, librarySizeResponse.loading],
+        [t, showTabSize, librarySize, theme, librarySizeResponse.loading],
     );
     useAppAction(
         <>
             {!isSelectModeActive && activeTab && (
                 <>
-                    <AppbarSearch />
+                    <AppbarSearch searchHistoryKey="library" suggestions={mangaTitles} />
                     <LibraryToolbarMenu category={activeTab} mangas={mangas} />
+                    <SyncButton />
                     <UpdateChecker categoryId={activeTab?.id} />
                 </>
             )}
@@ -242,7 +247,7 @@ function LibraryInfiniteScroll() {
                 />
             )}
         </>,
-        [isSelectModeActive, areNoItemsSelected, areAllItemsSelected, activeTab, mangas],
+        [isSelectModeActive, areNoItemsSelected, areAllItemsSelected, activeTab, mangas, mangaTitles],
     );
 
     const handleTabChange = (newTab: number) => {
@@ -324,7 +329,7 @@ function LibraryInfiniteScroll() {
             </OffsetComponent>
             {triggerGlobalSearchButton}
             {tabs.map((tab) => (
-                <TabPanel key={tab.order} index={tab.order} currentIndex={activeTab.order}>
+                <TabPanel key={tab.id} index={tab.order} currentIndex={activeTab.order}>
                     {tab === activeTab && (
                         <LibraryMangaGrid
                             // the key needs to include filters and query to force a re-render of the virtuoso grid to prevent https://github.com/petyosi/react-virtuoso/issues/1242

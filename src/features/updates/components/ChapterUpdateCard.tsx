@@ -11,7 +11,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import Card from '@mui/material/Card';
 import { Link } from 'react-router-dom';
 import { memo, useState } from 'react';
-import { DownloadStateIndicator } from '@/base/components/downloads/DownloadStateIndicator.tsx';
+import { DownloadStateIndicatorCircular } from '@/base/components/downloads/DownloadStateIndicatorCircular.tsx';
 import type { ChapterUpdateListFieldsFragment } from '@/lib/graphql/generated/graphql.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { ChapterCardThumbnail } from '@/features/chapter/components/cards/ChapterCardThumbnail.tsx';
@@ -20,17 +20,12 @@ import { ChapterDownloadButton } from '@/features/chapter/components/buttons/Cha
 import { ChapterDownloadRetryButton } from '@/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
-import { plural } from '@lingui/core/macro';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import { MUIUtil } from '@/lib/mui/MUI.util.ts';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Collapse from '@mui/material/Collapse';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
-import { useTheme } from '@mui/material/styles';
-import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 import { Virtuoso } from 'react-virtuoso';
+import { ReaderService } from '@/features/reader/services/ReaderService.ts';
+import { ChapterCardExpandButton } from '@/features/chapter/components/buttons/ChapterCardExpandButton.tsx';
 
 export const ChapterUpdateCard = memo(
     ({
@@ -42,8 +37,6 @@ export const ChapterUpdateCard = memo(
     }) => {
         const { manga } = chapter;
 
-        const theme = useTheme();
-
         const [isExpanded, setIsExpanded] = useState(false);
 
         const isGroup = !!otherChapters.length;
@@ -54,8 +47,13 @@ export const ChapterUpdateCard = memo(
                     component={Link}
                     to={AppRoutes.reader.path(chapter.manga.id, chapter.sourceOrder)}
                     state={Chapters.getReaderOpenChapterLocationState(chapter)}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        ReaderService.openReader(chapter);
+                    }}
                     sx={{
-                        color: theme.palette.text[chapter.isRead ? 'disabled' : 'primary'],
+                        color: (theme) => theme.palette.text[chapter.isRead ? 'disabled' : 'primary'],
                     }}
                 >
                     <ListCardContent sx={{ justifyContent: 'space-between' }}>
@@ -66,31 +64,7 @@ export const ChapterUpdateCard = memo(
                                 mangaTitle={manga.title}
                                 thumbnailUrl={manga.thumbnailUrl}
                                 thumbnailUrlLastFetched={manga.thumbnailUrlLastFetched}
-                                slots={
-                                    isGroup
-                                        ? {
-                                              listCardAvatar: {
-                                                  slots: {
-                                                      spinnerImageProps: {
-                                                          spinnerStyle: {
-                                                              height: 74,
-                                                              aspectRatio: '3 / 4',
-                                                          },
-                                                          imgStyle: {
-                                                              height: 74,
-                                                              aspectRatio: '3 / 4',
-                                                          },
-                                                      },
-                                                      avatarProps: {
-                                                          sx: {
-                                                              height: 74,
-                                                          },
-                                                      },
-                                                  },
-                                              },
-                                          }
-                                        : undefined
-                                }
+                                isGroup={isGroup}
                             />
                             <Stack>
                                 <ChapterCardMetadata
@@ -99,41 +73,23 @@ export const ChapterUpdateCard = memo(
                                     ternaryText={chapter.name}
                                 />
                                 {isGroup && (
-                                    <Button
-                                        sx={{
-                                            maxWidth: 'fit-content',
-                                            justifyContent: 'flex-start',
-                                            ...theme.typography.caption,
-                                        }}
-                                        variant="text"
-                                        size="small"
-                                        endIcon={isExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                                        {...MUIUtil.preventRippleProp()}
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            setIsExpanded(!isExpanded);
-                                        }}
-                                    >
-                                        <TypographyMaxLines lines={1} variant="caption" sx={{ textAlign: 'start' }}>
-                                            {plural(otherChapters.length, {
-                                                one: 'Show # more chapter',
-                                                other: 'Show # more chapters',
-                                            })}
-                                        </TypographyMaxLines>
-                                    </Button>
+                                    <ChapterCardExpandButton
+                                        count={otherChapters.length}
+                                        expanded={isExpanded}
+                                        setExpanded={setIsExpanded}
+                                    />
                                 )}
                             </Stack>
                         </Box>
-                        <DownloadStateIndicator chapterId={chapter.id} />
+                        <DownloadStateIndicatorCircular chapterId={chapter.id} />
                         <ChapterDownloadRetryButton chapterId={chapter.id} />
                         <ChapterDownloadButton chapterId={chapter.id} isDownloaded={chapter.isDownloaded} />
                     </ListCardContent>
                 </CardActionArea>
                 {isGroup && (
-                    <Collapse in={isExpanded} unmountOnExit>
+                    <Collapse in={isExpanded}>
                         <Virtuoso
                             useWindowScroll
-                            overscan={window.innerHeight * 0.5}
                             data={otherChapters}
                             computeItemKey={(index) => otherChapters[index].id}
                             itemContent={(_index, otherChapter) => <ChapterUpdateCard chapter={otherChapter} />}

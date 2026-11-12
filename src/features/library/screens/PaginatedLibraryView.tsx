@@ -190,6 +190,7 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
         refetch: refetchCategoryMangas,
     } = requestManager.useGetCategoryMangas(
         activeTab?.id,
+        activeTab?.isDefaultCategory,
         { skip: !activeTab, fetchPolicy: 'network-only' as const },
         paginationSize,
         safeCurrentPage * paginationSize,

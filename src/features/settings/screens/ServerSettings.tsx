@@ -12,7 +12,6 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
-import ListSubheader from '@mui/material/ListSubheader';
 import { d } from 'koration';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { plural, t as translate } from '@lingui/core/macro';
@@ -27,7 +26,6 @@ import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
 import type { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
@@ -63,6 +61,9 @@ import { AwaitableComponent } from 'awaitable-component';
 import { convertToAutoBackupFlags, getAutoBackupFlagsInfo } from '@/features/backup/Backup.utils.ts';
 import type { BackupFlagInclusionState } from '@/features/backup/Backup.types.ts';
 import { getDateString } from '@/base/utils/DateHelper.ts';
+import { ListSubheader } from '@/base/components/lists/ListSubheader.tsx';
+import { Notifications } from '@/base/notification/Notifications.ts';
+import { BasicAuthDeprecationReminder } from '@/base/notification/BasicAuthDeprecationReminder.ts';
 
 const convertSyncDataToBackupFlags = (settings: ServerSettingsType): BackupFlagInclusionState => ({
     includeManga: settings.syncDataManga,
@@ -106,7 +107,7 @@ export const ServerSettings = () => {
     } = useMetadataServerSettings();
     const updateMetadataServerSettings = createUpdateMetadataServerSettings<
         keyof Pick<MetadataUpdateSettings, 'serverInformAvailableUpdate' | 'serverInformVersionUpdated'>
-    >((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
+    >((e) => Notifications.error(t`Failed to save changes`, getErrorMessage(e)));
 
     const {
         data,
@@ -117,6 +118,7 @@ export const ServerSettings = () => {
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
     const koSyncStatus = requestManager.useKoSyncStatus();
+    const clearWebViewCookiesCache = requestManager.useClearWebViewCookiesCache();
 
     const updateSetting = async <Setting extends keyof ServerSettingsType>(
         setting: Setting,
@@ -127,7 +129,7 @@ export const ServerSettings = () => {
             await mutateSettings({ variables: { input: { settings: { [setting]: value } } } });
             onCompletion?.(true);
         } catch (e) {
-            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e));
+            Notifications.error(t`Failed to save changes`, getErrorMessage(e));
             onCompletion?.(false);
         }
     };
@@ -136,7 +138,7 @@ export const ServerSettings = () => {
             await mutateSettings({ variables: { input: { settings } } });
             onCompletion?.(true);
         } catch (e) {
-            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e));
+            Notifications.error(t`Failed to save changes`, getErrorMessage(e));
             onCompletion?.(false);
         }
     };
@@ -331,6 +333,12 @@ export const ServerSettings = () => {
 
                             if (mode !== AuthMode.UiLogin) {
                                 AuthManager.removeTokens();
+                            }
+
+                            if (mode !== AuthMode.BasicAuth) {
+                                BasicAuthDeprecationReminder.resolve();
+                            } else {
+                                BasicAuthDeprecationReminder.start();
                             }
 
                             AuthManager.setAuthRequired(mode === AuthMode.UiLogin);
@@ -717,6 +725,12 @@ export const ServerSettings = () => {
                     disabled={isH2Database}
                     isPassword
                 />
+                <TextSetting
+                    settingName={t`Schema`}
+                    value={serverSettings.databaseSchema}
+                    handleChange={(schema) => updateSetting('databaseSchema', schema)}
+                    disabled={isH2Database}
+                />
                 <ListItem>
                     <ListItemText
                         primary={t`Hikari connection pool`}
@@ -728,6 +742,28 @@ export const ServerSettings = () => {
                         onChange={(e) => updateSetting('useHikariConnectionPool', e.target.checked)}
                     />
                 </ListItem>
+                <NumberSetting
+                    settingTitle={t`Hikari max pool size`}
+                    settingValue={serverSettings.hikariMaxPoolSize.toString()}
+                    dialogDescription={
+                        <Trans>
+                            The maximum number of actual connections to the database; see{' '}
+                            <Link
+                                href="https://github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                HikariCP: About-Pool-Sizing
+                            </Link>
+                        </Trans>
+                    }
+                    value={serverSettings.hikariMaxPoolSize}
+                    defaultValue={6}
+                    minValue={1}
+                    valueUnit={t`Connection`}
+                    handleUpdate={(value) => updateSetting('hikariMaxPoolSize', value)}
+                    disabled={!serverSettings.useHikariConnectionPool}
+                />
             </List>
             <List
                 subheader={
@@ -744,6 +780,18 @@ export const ServerSettings = () => {
                         onChange={(e) => updateSetting('kcefEnabled', e.target.checked)}
                     />
                 </ListItem>
+                <ListItemButton
+                    onClick={() =>
+                        clearWebViewCookiesCache[0]()
+                            .then(() => Notifications.success(t`Cleared WebView cookies and cache`))
+                            .catch((e) =>
+                                Notifications.error(t`Could not clear WebView cookies and cache`, getErrorMessage(e)),
+                            )
+                    }
+                    disabled={clearWebViewCookiesCache[1].loading}
+                >
+                    <ListItemText primary={t`Clear cookies and cache`} />
+                </ListItemButton>
             </List>
             <List
                 subheader={
@@ -760,12 +808,11 @@ export const ServerSettings = () => {
                             .response.then((response) => {
                                 const startResult = response.data?.startSync.result;
 
-                                makeToast(
-                                    t(SYNC_START_RESULT_TRANSLATION[startResult!]),
-                                    startResult === StartSyncResult.Success ? 'success' : 'error',
-                                );
+                                Notifications.show(t(SYNC_START_RESULT_TRANSLATION[startResult!]), {
+                                    variant: startResult === StartSyncResult.Success ? 'success' : 'error',
+                                });
                             })
-                            .catch((e) => makeToast(t`Could not start sync`, 'error', getErrorMessage(e)))
+                            .catch((e) => Notifications.error(t`Could not start sync`, getErrorMessage(e)))
                     }
                 >
                     <ListItemText

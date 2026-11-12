@@ -180,6 +180,7 @@ export interface IReaderSettingsGlobal {
     shouldUseInfiniteScroll: boolean;
     shouldShowTransitionPage: boolean;
     safeAreaInset: SafeAreaInset;
+    shouldEnterFullscreen: boolean;
 }
 
 export interface IReaderSettingsManga {
@@ -201,6 +202,7 @@ export interface IReaderSettingsManga {
         value: number;
         enabled: boolean;
     };
+    shouldCropBorders: boolean;
 }
 
 export type IReaderSettings = IReaderSettingsGlobal & IReaderSettingsManga;

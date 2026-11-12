@@ -11,19 +11,16 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
-import ListSubheader from '@mui/material/ListSubheader';
+import Link from '@mui/material/Link';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-import { useLingui } from '@lingui/react/macro';
+import { useState } from 'react';
+import { ListSubheader } from '@/base/components/lists/ListSubheader.tsx';
+import { Trans, useLingui } from '@lingui/react/macro';
 import { plural, t as translate } from '@lingui/core/macro';
 import { GlobalUpdateSettings } from '@/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx';
-import { makeToast } from '@/base/utils/Toast.ts';
-import {
-    createUpdateMetadataServerSettings,
-    useMetadataServerSettings,
-} from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
@@ -42,6 +39,13 @@ import type { MetadataLibrarySettings } from '@/features/library/Library.types.t
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
+import { DeviceNotifications } from '@/lib/DeviceNotifications.ts';
+import { LibraryUpdateNotifier } from '@/features/updates/LibraryUpdateNotifier.ts';
+import {
+    createUpdateMetadataServerSettings,
+    useMetadataServerSettings,
+} from '@/features/settings/services/ServerSettingsMetadata.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
     try {
@@ -64,14 +68,27 @@ const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
                 clearCategories: true,
             }).response;
         }
-        makeToast(translate`Removed non library manga from categories`, 'success');
+        Notifications.success(translate`Removed non library manga from categories`);
     } catch (e) {
-        makeToast(translate`Could not remove non library manga from categories`, 'error', getErrorMessage(e));
+        Notifications.error(translate`Could not remove non library manga from categories`, getErrorMessage(e));
     }
+};
+
+const setNotifyNewChapters = async (enable: boolean) => {
+    if (!enable) {
+        await LibraryUpdateNotifier.disable();
+        return;
+    }
+
+    // without the permission, updates still get shown while Suwayomi is in use
+    await DeviceNotifications.requestPermission();
+    await LibraryUpdateNotifier.enable();
 };
 
 export function LibrarySettings() {
     const { t } = useLingui();
+
+    const [notificationPermission, setNotificationPermission] = useState(DeviceNotifications.getPermission());
 
     useAppTitle(t`Library`);
 
@@ -86,7 +103,7 @@ export function LibrarySettings() {
     } = useMetadataServerSettings();
 
     const setSettingValue = createUpdateMetadataServerSettings<keyof MetadataLibrarySettings>((e) =>
-        makeToast(t`Could not save the default search settings to the server`, 'error', getErrorMessage(e)),
+        Notifications.error(t`Could not save the default search settings to the server`, getErrorMessage(e)),
     );
 
     // -1 for the DEFAULT category
@@ -181,6 +198,58 @@ export function LibrarySettings() {
                         edge="end"
                         checked={settings.ignoreFilters}
                         onChange={(e) => setSettingValue('ignoreFilters', e.target.checked)}
+                    />
+                </ListItem>
+                <ListItem>
+                    <ListItemText
+                        primary={t`Fuzzy search`}
+                        secondary={t`Match the library search even with typos or words in a different order, and show the closest matches first`}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={settings.fuzzySearch}
+                        onChange={(e) => setSettingValue('fuzzySearch', e.target.checked)}
+                    />
+                </ListItem>
+                <ListItem>
+                    <ListItemText
+                        primary={t`Notify about new chapters`}
+                        secondary={(() => {
+                            if (!settings.notifyNewChapters || notificationPermission === 'granted') {
+                                return t`Notify about new chapters of library entries`;
+                            }
+
+                            if (notificationPermission === 'default') {
+                                return (
+                                    <Trans>
+                                        Only while Suwayomi is in use.{' '}
+                                        <Link
+                                            component="button"
+                                            onClick={() =>
+                                                DeviceNotifications.requestPermission().then(() =>
+                                                    setNotificationPermission(DeviceNotifications.getPermission()),
+                                                )
+                                            }
+                                        >
+                                            Allow browser notifications
+                                        </Link>
+                                    </Trans>
+                                );
+                            }
+
+                            return t`Only while Suwayomi is in use, notification permission have not been granted`;
+                        })()}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={settings.notifyNewChapters}
+                        onChange={(e) =>
+                            setNotifyNewChapters(e.target.checked)
+                                .then(() => setNotificationPermission(DeviceNotifications.getPermission()))
+                                .catch((saveError) =>
+                                    Notifications.error(t`Failed to save changes`, getErrorMessage(saveError)),
+                                )
+                        }
                     />
                 </ListItem>
             </List>

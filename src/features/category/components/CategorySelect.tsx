@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useState, useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -23,8 +23,6 @@ import { useSelectableCollection } from '@/base/collection/hooks/useSelectableCo
 import { ThreeStateCheckboxInput } from '@/base/components/inputs/ThreeStateCheckboxInput.tsx';
 import { Categories } from '@/features/category/services/Categories.ts';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
-import { makeToast } from '@/base/utils/Toast.ts';
-import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { updateMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import type {
@@ -37,6 +35,10 @@ import { GET_CATEGORIES_BASE } from '@/lib/graphql/category/CategoryQuery.ts';
 import { GET_MANGA_CATEGORIES } from '@/lib/graphql/manga/MangaQuery.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
+import Box from '@mui/material/Box';
+import { Notifications } from '@/base/notification/Notifications.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
 type BaseProps = AwaitableComponentProps<{ addToCategories?: number[]; removeFromCategories?: number[] }>;
 
@@ -165,7 +167,7 @@ export function CategorySelect(props: CategorySelectProps) {
 
         if (doNotShowAddToLibraryDialogAgain) {
             updateMetadataServerSettings('showAddToLibraryCategorySelectDialog', false).catch((e) =>
-                makeToast(t`Could not save the default search settings to the server`, 'error', getErrorMessage(e)),
+                Notifications.error(t`Could not save the default search settings to the server`, getErrorMessage(e)),
             );
         }
 
@@ -188,22 +190,38 @@ export function CategorySelect(props: CategorySelectProps) {
     };
 
     return (
-        <Dialog
-            sx={{
-                '.MuiDialog-paper': {
-                    maxHeight: 435,
-                    width: '80%',
-                },
-            }}
-            maxWidth="xs"
-            open={isVisible}
-            onTransitionExited={onExitComplete}
-            onClose={handleCancel}
-        >
+        <Dialog maxWidth="xs" open={isVisible} onTransitionExited={onExitComplete} onClose={handleCancel}>
             <DialogTitle>{t`Set categories`}</DialogTitle>
             <DialogContent dividers>
                 <FormGroup>
-                    {allCategories.length === 0 && <span>{t`You don't have any categories yet.`}</span>}
+                    <Box sx={{ pb: Number(!!allCategories.length) }}>
+                        {!allCategories.length ? (
+                            <TypographyMaxLines>{t`You don't have any categories yet.`}</TypographyMaxLines>
+                        ) : (
+                            <TypographyMaxLines color="textSecondary">{t`An entry can not be in the Default category and other categories at the same time`}</TypographyMaxLines>
+                        )}
+                    </Box>
+
+                    <ThreeStateCheckboxInput
+                        label={t`Default (Suwayomi)`}
+                        checked={(() => {
+                            if (categoriesToRemove.length === allCategories.length) {
+                                return true;
+                            }
+
+                            if (!isSingleSelectionMode && categoriesToAdd.length) {
+                                return false;
+                            }
+
+                            if (!categoriesToAdd.length && !categoriesToRemove.length) {
+                                return true;
+                            }
+                        })()}
+                        onChange={() => {
+                            setSelectionForKey('categoriesToAdd', []);
+                            setSelectionForKey('categoriesToRemove', Categories.getIds(allCategories));
+                        }}
+                    />
                     {allCategories.map((category) => (
                         <ThreeStateCheckboxInput
                             checked={getCategoryCheckedState(

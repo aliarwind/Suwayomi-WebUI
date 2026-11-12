@@ -14,17 +14,21 @@ import type { ReactNode } from 'react';
 import { useState } from 'react';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 export const Collapsable = ({
     header,
+    headerEnd,
     collapse,
     initialState,
     slots,
 }: {
     header: ReactNode;
+    headerEnd?: ReactNode;
     collapse: ReactNode;
     initialState?: boolean;
     slots?: {
+        headerContainer?: StackProps;
         headerWrapper?: StackProps;
         collapse?: CollapseProps;
     };
@@ -34,18 +38,33 @@ export const Collapsable = ({
     return (
         <>
             <Stack
-                {...slots?.headerWrapper}
-                sx={{
-                    flexDirection: 'row',
-                    alignItems: 'flex-end',
-                    gap: 1,
-                    cursor: 'pointer',
-                    ...slots?.headerWrapper?.sx,
-                }}
-                onClick={() => setIsOpen(!isOpen)}
+                {...slots?.headerContainer}
+                sx={MUIUtil.mergeSx(
+                    {
+                        flexDirection: 'row',
+                        gap: 1,
+                        alignItems: 'center',
+                    },
+                    slots?.headerContainer?.sx,
+                )}
             >
-                {header}
-                {isOpen ? <ExpandLess /> : <ExpandMore />}
+                <Stack
+                    {...slots?.headerWrapper}
+                    sx={MUIUtil.mergeSx(
+                        {
+                            flexDirection: 'row',
+                            alignItems: 'flex-end',
+                            gap: 1,
+                            cursor: 'pointer',
+                        },
+                        slots?.headerWrapper?.sx,
+                    )}
+                    onClick={() => setIsOpen(!isOpen)}
+                >
+                    {header}
+                    {isOpen ? <ExpandLess /> : <ExpandMore />}
+                </Stack>
+                {headerEnd}
             </Stack>
             <Collapse
                 {...slots?.collapse}
@@ -58,11 +77,13 @@ export const Collapsable = ({
 
                         return {
                             ...wrapperInnerProps,
-                            sx: {
-                                display: 'flex',
-                                flexDirection: 'column',
-                                ...wrapperInnerProps?.sx,
-                            },
+                            sx: MUIUtil.mergeSx(
+                                {
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                },
+                                wrapperInnerProps?.sx,
+                            ),
                         };
                     },
                 }}

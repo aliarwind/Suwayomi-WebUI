@@ -27,6 +27,7 @@ type Actions = {
     extra?: Action & { link?: string };
     cancel?: Action;
     confirm?: Action;
+    autoFocus?: 'extra' | 'cancel' | 'confirm';
 };
 
 export const ConfirmDialog = ({
@@ -38,11 +39,13 @@ export const ConfirmDialog = ({
     onSubmit,
     isVisible,
     onExitComplete,
+    requireExplicitAction = false,
 }: AwaitableComponentProps & {
     title: ReactNode;
     message: ReactNode;
     actions?: Actions;
     onExtra?: () => void;
+    requireExplicitAction?: boolean;
 }) => {
     const { t } = useLingui();
 
@@ -67,10 +70,15 @@ export const ConfirmDialog = ({
                 !passedActions?.confirm?.contain &&
                 true,
         },
+        autoFocus: passedActions?.autoFocus ?? 'confirm',
     } satisfies Actions;
 
     return (
-        <Dialog open={isVisible} onTransitionExited={onExitComplete} onClose={onDismiss}>
+        <Dialog
+            open={isVisible}
+            onTransitionExited={onExitComplete}
+            onClose={requireExplicitAction ? undefined : onDismiss}
+        >
             <DialogTitle>{title}</DialogTitle>
             <DialogContent
                 sx={{
@@ -103,6 +111,7 @@ export const ConfirmDialog = ({
                                         onExtra?.();
                                     }}
                                     variant={actions.extra.contain ? 'contained' : undefined}
+                                    autoFocus={actions.autoFocus === 'extra'}
                                 >
                                     {actions.extra.title}
                                 </Button>
@@ -116,6 +125,7 @@ export const ConfirmDialog = ({
                                     onExtra?.();
                                 }}
                                 variant={actions.extra.contain ? 'contained' : undefined}
+                                autoFocus={actions.autoFocus === 'extra'}
                             >
                                 {actions.extra.title}
                             </Button>
@@ -128,12 +138,20 @@ export const ConfirmDialog = ({
                         }}
                     >
                         {actions.cancel.show && (
-                            <Button onClick={onDismiss} variant={actions.cancel.contain ? 'contained' : undefined}>
+                            <Button
+                                onClick={onDismiss}
+                                variant={actions.cancel.contain ? 'contained' : undefined}
+                                autoFocus={actions.autoFocus === 'cancel'}
+                            >
                                 {actions.cancel.title}
                             </Button>
                         )}
                         {actions.confirm.show && (
-                            <Button onClick={onSubmit} variant={actions.confirm.contain ? 'contained' : undefined}>
+                            <Button
+                                onClick={onSubmit}
+                                variant={actions.confirm.contain ? 'contained' : undefined}
+                                autoFocus={actions.autoFocus === 'confirm'}
+                            >
                                 {actions.confirm.title}
                             </Button>
                         )}

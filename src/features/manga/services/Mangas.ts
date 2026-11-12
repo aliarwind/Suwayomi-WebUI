@@ -19,7 +19,6 @@ import type {
     MangaBaseFieldsFragment,
 } from '@/lib/graphql/generated/graphql.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { getMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { GET_MANGA_META, GET_MANGAS_BASE } from '@/lib/graphql/manga/MangaQuery.ts';
 import { MANGA_BASE_FIELDS, MANGA_MIGRATION_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
@@ -53,14 +52,16 @@ import uniq from 'lodash/fp/uniq';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import {
-    ChapterOrderBy,
     type ChapterConditionInput,
+    ChapterOrderBy,
     type UpdateMangaCategoriesPatchInput,
 } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { GET_MANGAS_CHAPTER_IDS_WITH_STATE } from '@/lib/graphql/chapter/ChapterQuery.ts';
 import { filterChapters } from '@/features/chapter/utils/ChapterList.util.tsx';
 import mapValues from 'lodash/fp/mapValues';
 import { getMangaMetadata } from '@/features/manga/services/MangaMetadata.ts';
+import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 const I18N_PLURAL = 9999;
 
@@ -421,9 +422,11 @@ export class Mangas {
 
     static async migrate(mangaIds: MangaIdInfo['id'][]): Promise<void> {
         if (MigrationManager.isActive()) {
-            makeToast(t`A migration is already in progress`, 'error');
+            Notifications.error(t`A migration is already in progress`);
             return;
         }
+
+        MigrationManager.reset();
 
         const mangas = mangaIds.map((mangaId) => {
             const manga = Mangas.getFromCache(mangaId, MANGA_MIGRATION_FIELDS, 'MANGA_MIGRATION_FIELDS');
@@ -434,12 +437,13 @@ export class Mangas {
         const sourceIds = uniq(mangas.map((manga) => manga.sourceId));
 
         MigrationManager.selectSources(sourceIds);
-        MigrationManager.selectMangas(mangas);
+        MigrationManager.selectMangas(mangas, {
+            pathname: SubpathUtil.getPathname(),
+            search: document.location.search,
+            hash: document.location.hash,
+        });
 
-        const isBulkMigration = mangas.length > 1;
-        if (isBulkMigration) {
-            ReactRouter.navigate(AppRoutes.migrate.path);
-        }
+        ReactRouter.navigate(AppRoutes.migrate.path);
     }
 
     private static async executeAction(
@@ -481,16 +485,14 @@ export class Mangas {
                 return;
             }
 
-            makeToast(
+            Notifications.success(
                 /* lingui-extract-ignore */
                 i18n.t({ ...MANGA_ACTION_TO_TRANSLATION[action].success, values: { count: itemCount } }),
-                'success',
             );
         } catch (e) {
-            makeToast(
+            Notifications.error(
                 /* lingui-extract-ignore */
                 i18n.t({ ...MANGA_ACTION_TO_TRANSLATION[action].error, values: { count: itemCount } }),
-                'error',
                 getErrorMessage(e),
             );
             throw e;

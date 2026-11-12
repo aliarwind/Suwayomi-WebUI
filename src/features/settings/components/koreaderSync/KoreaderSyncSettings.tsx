@@ -7,16 +7,13 @@
  */
 
 import List from '@mui/material/List';
-import ListSubheader from '@mui/material/ListSubheader';
+import { ListSubheader } from '@/base/components/lists/ListSubheader.tsx';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
-
 import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { SelectSetting } from '@/base/components/settings/SelectSetting.tsx';
 import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
-import { makeToast } from '@/base/utils/Toast.ts';
-import { getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
 import type {
     KoreaderSyncChecksumMethod,
     KoreaderSyncConflictStrategy,
@@ -30,6 +27,8 @@ import {
 import { CredentialsLogin } from '@/base/components/modals/LoginDialog.tsx';
 import type { ServerSettings as ServerSettingsType, ServerSettings } from '@/features/settings/Settings.types.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
+import { getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export const KoreaderSyncSettings = ({
     settings: {
@@ -93,7 +92,7 @@ export const KoreaderSyncSettings = ({
 
                             controlled.submit();
                         } catch (e) {
-                            makeToast(t`Failed to disconnect from KOReader Sync server.`, 'error', getErrorMessage(e));
+                            Notifications.error(t`Failed to disconnect from KOReader Sync server.`, getErrorMessage(e));
                         }
 
                         return;
@@ -105,7 +104,7 @@ export const KoreaderSyncSettings = ({
 
                         controlled.submit();
                     } catch (e) {
-                        makeToast(t`Failed to connect to KOReader Sync server.`, 'error', getErrorMessage(e));
+                        Notifications.error(t`Failed to connect to KOReader Sync server.`, getErrorMessage(e));
 
                         const RETRY_KEY = '__retry__';
                         const retry = await Promise.race([controlled.promise, Promise.resolve(RETRY_KEY)]);

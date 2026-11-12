@@ -15,7 +15,7 @@ import { useLingui } from '@lingui/react/macro';
 import { memo, useCallback, useState, useRef } from 'react';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
@@ -83,9 +83,8 @@ export const MangaDownloadButton = memo(
                     const chapters = refreshResult.data?.fetchMangaAndChapters?.chapters;
                     if (!chapters || chapters.length === 0) {
                         if (mountedRef.current) {
-                            makeToast(
+                            Notifications.warn(
                                 t`No chapters available`,
-                                'warning',
                                 t`"${mangaTitle}" has no chapters to download`,
                             );
                             setStatus('idle');
@@ -106,9 +105,8 @@ export const MangaDownloadButton = memo(
                     // Success
                     if (mountedRef.current) {
                         setStatus('success');
-                        makeToast(
+                        Notifications.success(
                             t`Download started`,
-                            'success',
                             t`"${mangaTitle}" download has been queued`,
                         );
                         setTimeout(() => {
@@ -119,9 +117,8 @@ export const MangaDownloadButton = memo(
                     }
                 } catch (err) {
                     if (mountedRef.current) {
-                        makeToast(
+                        Notifications.error(
                             t`Download failed`,
-                            'error',
                             t`"${mangaTitle}": ${getErrorMessage(err)}`,
                         );
                         setStatus('error');

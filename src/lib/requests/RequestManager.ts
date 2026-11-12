@@ -8,13 +8,15 @@
 
 import type {
     ApolloClient,
+    ApolloLink,
     DocumentNode,
     InMemoryCache,
     MaybeMasked,
     OperationVariables,
+    SubscriptionObservable,
     TypedDocumentNode,
 } from '@apollo/client/core';
-import { CombinedGraphQLErrors } from '@apollo/client/core';
+import { CombinedGraphQLErrors, Observable } from '@apollo/client/core';
 import { useMutation, useQuery, useSubscription } from '@apollo/client/react';
 import type { Reference } from '@apollo/client/utilities';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -112,12 +114,16 @@ import type {
     KoSyncLoginMutationVariables,
     KoSyncLogoutMutation,
     KoSyncLogoutMutationVariables,
+    RefreshAccessTokenMutation,
+    RefreshAccessTokenMutationVariables,
     RefreshMangaMutation,
     RefreshMangaMutationVariables,
     RemoveExtensionStoreMutation,
     RemoveExtensionStoreMutationVariables,
     ReorderChapterDownloadMutation,
     ReorderChapterDownloadMutationVariables,
+    ReorderChapterDownloadsMutation,
+    ReorderChapterDownloadsMutationVariables,
     ResetWebuiUpdateStatusMutation,
     ResetWebuiUpdateStatusMutationVariables,
     RestoreBackupMutation,
@@ -192,12 +198,12 @@ import type {
     UpdateWebuiMutationVariables,
     UserLoginMutation,
     UserLoginMutationVariables,
-    UserRefreshMutation,
-    UserRefreshMutationVariables,
     ValidateBackupQuery,
     ValidateBackupQueryVariables,
     WebuiUpdateSubscription,
     WebuiUpdateSubscriptionVariables,
+    WebviewClearCacheCookiesMutation,
+    WebviewClearCacheCookiesMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import type {
     CreateBackupInput,
@@ -277,6 +283,7 @@ import {
     ENQUEUE_CHAPTER_DOWNLOAD,
     ENQUEUE_CHAPTER_DOWNLOADS,
     REORDER_CHAPTER_DOWNLOAD,
+    REORDER_CHAPTER_DOWNLOADS,
     START_DOWNLOADER,
     STOP_DOWNLOADER,
 } from '@/lib/graphql/download/DownloaderMutation.ts';
@@ -341,7 +348,7 @@ import { CHAPTER_META_FIELDS } from '@/lib/graphql/chapter/ChapterFragments.ts';
 import type { MetadataMigrationSettings } from '@/features/migration/Migration.types.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { updateMetadataList } from '@/features/metadata/services/MetadataApolloCacheHandler.ts';
-import { USER_LOGIN, USER_REFRESH } from '@/lib/graphql/user/UserMutation.ts';
+import { USER_LOGIN, REFRESH_ACCESS_TOKEN } from '@/lib/graphql/user/UserMutation.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { KO_SYNC_LOGIN, KO_SYNC_LOGOUT } from '@/lib/graphql/koreader/KoreaderSyncMutation.ts';
@@ -356,6 +363,8 @@ import { GET_EXTENSION_STORE, GET_EXTENSION_STORES } from '@/lib/graphql/extensi
 import { SYNC_SUBSCRIPTION } from '@/lib/graphql/sync/SyncSubscription.ts';
 import { START_SYNC } from '@/lib/graphql/sync/SyncMutation.ts';
 import { GET_SYNC_STATUS } from '@/lib/graphql/sync/SyncQuery.ts';
+import { WEBVIEW_CLEAR_CACHE_COOKIES } from '@/lib/graphql/web-view/WebViewMutation.ts';
+import type { Subscriber } from 'rxjs';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -363,6 +372,7 @@ enum GQLMethod {
     USE_MUTATION = 'USE_MUTATION',
     MUTATION = 'MUTATION',
     USE_SUBSCRIPTION = 'USE_SUBSCRIPTION',
+    SUBSCRIPTION = 'SUBCRIPTION',
 }
 
 type CustomApolloOptions = {
@@ -401,6 +411,10 @@ type ApolloPaginatedMutationOptions<Data = any, Variables extends OperationVaria
 > & { skipRequest?: boolean };
 type SubscriptionHookOptions<Data = any, Variables extends OperationVariables = OperationVariables> = Partial<
     useSubscription.Options<Data, Variables>
+> &
+    Omit<CustomApolloOptions, 'addAbortSignal'> & { addAbortSignal?: never };
+type SubscriptionOptions<Data = any, Variables extends OperationVariables = OperationVariables> = Partial<
+    Omit<ApolloClient.SubscribeOptions<Data, Variables>, 'query'>
 > &
     Omit<CustomApolloOptions, 'addAbortSignal'> & { addAbortSignal?: never };
 
@@ -470,9 +484,9 @@ export const SPECIAL_ED_SOURCES = {
 export class RequestManager {
     public static readonly API_VERSION = '/api/v1/';
 
-    public readonly graphQLClient = new GraphQLClient(this.refreshUser.bind(this));
+    public readonly graphQLClient = new GraphQLClient(this.refreshAccessToken.bind(this));
 
-    private readonly restClient: RestClient = new RestClient(this.refreshUser.bind(this));
+    private readonly restClient: RestClient = new RestClient(this.refreshAccessToken.bind(this));
 
     private readonly cache = new CustomCache();
 
@@ -1180,6 +1194,13 @@ export class RequestManager {
     ): useSubscription.Result<Data>;
 
     private doRequest<Data, Variables extends OperationVariables = OperationVariables>(
+        method: GQLMethod.SUBSCRIPTION,
+        operation: DocumentNode | TypedDocumentNode<Data, Variables>,
+        variables: Variables | undefined,
+        options?: SubscriptionOptions<Data, Variables>,
+    ): SubscriptionObservable<ApolloClient.SubscribeResult<MaybeMasked<Data>>>;
+
+    private doRequest<Data, Variables extends OperationVariables = OperationVariables>(
         method: GQLMethod,
         operation: DocumentNode | TypedDocumentNode<Data, Variables>,
         variables: Variables | undefined,
@@ -1188,13 +1209,15 @@ export class RequestManager {
             | QueryHookOptions<Data, Variables>
             | MutationHookOptions<Data, Variables>
             | MutationOptions<Data, Variables>
-            | SubscriptionHookOptions<Data, Variables>,
+            | SubscriptionHookOptions<Data, Variables>
+            | SubscriptionOptions<Data, Variables>,
     ):
         | AbortabaleApolloQueryResponse<Data>
         | AbortableApolloUseQueryResponse<Data, Variables>
         | AbortableApolloUseMutationResponse<Data, Variables>
         | AbortableApolloMutationResponse<Data>
-        | useSubscription.Result<Data> {
+        | useSubscription.Result<Data>
+        | SubscriptionObservable<ApolloClient.SubscribeResult<MaybeMasked<Data>>> {
         const { signal, abortRequest } = this.createAbortController();
         switch (method) {
             case GQLMethod.QUERY: {
@@ -1287,6 +1310,63 @@ export class RequestManager {
                 this.graphQLClient.useRestartSubscription(subscription.restart);
 
                 return subscription;
+            }
+            case GQLMethod.SUBSCRIPTION: {
+                let apolloObservable: SubscriptionObservable<ApolloClient.SubscribeResult<Data>>;
+                let apolloSubscription: ReturnType<typeof apolloObservable.subscribe> | undefined;
+                let observer: Subscriber<ApolloLink.Result<Data>> | undefined;
+
+                let disposed = false;
+
+                const start = () => {
+                    apolloSubscription?.unsubscribe();
+                    apolloSubscription = undefined;
+
+                    apolloObservable = this.graphQLClient.client.subscribe({
+                        query: operation,
+                        variables,
+                        ...(options as SubscriptionOptions<Data, Variables>),
+                    } as ApolloClient.SubscribeOptions<Data, Variables>);
+
+                    apolloSubscription = apolloObservable.subscribe({
+                        next: (value) => observer?.next(value),
+                        error: (error) => observer?.error(error),
+                        complete: () => {
+                            // Keep the wrapper alive.
+                        },
+                    });
+                };
+
+                const restart = () => {
+                    if (disposed || !observer || observer.closed) {
+                        return;
+                    }
+
+                    start();
+                };
+
+                const observable = new Observable<ApolloLink.Result<Data>>((subscriptionObserver) => {
+                    observer = subscriptionObserver;
+                    disposed = false;
+
+                    start();
+
+                    const unregister = this.graphQLClient.registerSubscription(restart);
+
+                    return () => {
+                        disposed = true;
+
+                        apolloSubscription?.unsubscribe();
+                        apolloSubscription = undefined;
+                        observer = undefined;
+
+                        unregister();
+                    };
+                }) as SubscriptionObservable<ApolloClient.SubscribeResult<Data>>;
+
+                observable.restart = restart;
+
+                return observable;
             }
             default:
                 throw new Error(`unexpected GQLRequest type "${method}"`);
@@ -1419,6 +1499,12 @@ export class RequestManager {
         );
     }
 
+    public getAbout(
+        options?: QueryOptions<GetAboutQueryVariables, GetAboutQuery>,
+    ): AbortabaleApolloQueryResponse<GetAboutQuery> {
+        return this.doRequest(GQLMethod.QUERY, GET_ABOUT, {}, options);
+    }
+
     public useGetAbout(
         options?: QueryHookOptions<GetAboutQuery, GetAboutQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetAboutQuery, GetAboutQueryVariables> {
@@ -1529,6 +1615,54 @@ export class RequestManager {
         options?: QueryHookOptions<GetExtensionsQuery, GetExtensionsQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetExtensionsQuery, GetExtensionsQueryVariables> {
         return this.doRequest(GQLMethod.USE_QUERY, GET_EXTENSIONS, {}, options);
+    }
+
+    public getExtensionListFetch(
+        options?: MutationOptions<GetExtensionsFetchMutation, GetExtensionsFetchMutationVariables>,
+    ): AbortableApolloMutationResponse<GetExtensionsFetchMutation> {
+        const request = this.doRequest<GetExtensionsFetchMutation, GetExtensionsFetchMutationVariables>(
+            GQLMethod.MUTATION,
+            GET_EXTENSIONS_FETCH,
+            {},
+            {
+                ...options,
+                refetchQueries: [GET_EXTENSIONS],
+                update(cache, { data: mutationData }) {
+                    if (!mutationData?.fetchExtensions?.extensions) {
+                        return;
+                    }
+
+                    cache.updateQuery<GetExtensionsQuery, GetExtensionsQueryVariables>(
+                        { query: GET_EXTENSIONS },
+                        () => ({
+                            __typename: 'Query',
+                            extensions: {
+                                __typename: 'ExtensionNodeList',
+                                nodes: mutationData?.fetchExtensions?.extensions ?? [],
+                                pageInfo: {
+                                    __typename: 'PageInfo',
+                                    hasNextPage: false,
+                                    hasPreviousPage: false,
+                                    startCursor: null,
+                                    endCursor: null,
+                                },
+                                totalCount: mutationData?.fetchExtensions?.extensions.length ?? 0,
+                            },
+                        }),
+                    );
+                },
+            },
+        );
+
+        request.response.then((result) => {
+            if (!result.data?.fetchExtensions?.extensions) {
+                return;
+            }
+
+            this.cache.cacheResponse(EXTENSION_LIST_CACHE_KEY, undefined, result);
+        });
+
+        return request;
     }
 
     public useExtensionListFetch(
@@ -2067,9 +2201,8 @@ export class RequestManager {
 
         const cachedPages = this.cache.getResponseFor<Set<number>>(CACHE_PAGES_KEY, getVariablesFor(0)) ?? new Set();
         const cachedResults = [...cachedPages]
-            .map(
-                (cachedPage) =>
-                    this.cache.getResponseFor<MutationDataResult>(CACHE_RESULTS_KEY, getVariablesFor(cachedPage))!,
+            .map((cachedPage) =>
+                this.cache.getResponseFor<MutationDataResult>(CACHE_RESULTS_KEY, getVariablesFor(cachedPage))!,
             )
             .sort((a, b) => a.size - b.size);
         const areFetchingInitialPages = !!this.cache.getResponseFor<boolean>(
@@ -3058,34 +3191,23 @@ export class RequestManager {
 
     public useGetCategoryMangas(
         id: number,
+        isDefault: boolean,
         options?: QueryHookOptions<GetMangasLibraryQuery, GetMangasLibraryQueryVariables>,
         first?: number,
         offset?: number,
         filter?: GetMangasLibraryQueryVariables['filter'],
         order?: GetMangasLibraryQueryVariables['order'],
     ): AbortableApolloUseQueryResponse<GetMangasLibraryQuery, GetMangasLibraryQueryVariables> {
-        const isDefaultCategory = id === 0;
-        if (isDefaultCategory) {
-            // Default category (id=0) = all library manga.
-            // Can't filter by categoryIds: [0] because manga are not mapped to the default category in the DB.
-            // Use GET_MANGAS_LIBRARY with only inLibrary: true — this supports first/offset for pagination.
-            return this.useGetMangas(
-                GET_MANGAS_LIBRARY,
-                {
-                    condition: { inLibrary: true },
-                    ...(first != null ? { first } : {}),
-                    ...(offset != null ? { offset } : {}),
-                    ...(filter != null ? { filter } : {}),
-                    ...(order != null ? { order } : {}),
-                },
-                options,
-            );
-        }
-
+        // Default category (isDefault) = all library manga.
+        // Can't filter by categoryIds: [id] because manga are not mapped to the default category in the DB.
+        // Use GET_MANGAS_LIBRARY with only inLibrary: true — this supports first/offset for pagination.
         return this.useGetMangas(
             GET_MANGAS_LIBRARY,
             {
-                condition: { inLibrary: true, categoryIds: [id] },
+                condition: {
+                    inLibrary: true,
+                    ...(isDefault ? {} : { categoryIds: [id] }),
+                },
                 ...(first != null ? { first } : {}),
                 ...(offset != null ? { offset } : {}),
                 ...(filter != null ? { filter } : {}),
@@ -3475,6 +3597,62 @@ export class RequestManager {
         return [wrappedMutate, result];
     }
 
+    public useReorderChaptersInDownloadQueue(
+        options?: MutationHookOptions<ReorderChapterDownloadsMutation, ReorderChapterDownloadsMutationVariables>,
+    ): AbortableApolloUseMutationResponse<ReorderChapterDownloadsMutation, ReorderChapterDownloadsMutationVariables> {
+        const [mutate, result] = this.doRequest(GQLMethod.USE_MUTATION, REORDER_CHAPTER_DOWNLOADS, undefined, options);
+
+        const wrappedMutate = (mutationOptions: Parameters<typeof mutate>[0]) => {
+            const variables = mutationOptions?.variables?.input;
+            const cachedDownloadStatus = this.graphQLClient.client.readFragment<
+                GetDownloadStatusQuery['downloadStatus']
+            >({
+                id: 'DownloadStatus:{}',
+                fragment: DOWNLOAD_STATUS_FIELDS,
+                fragmentName: 'DOWNLOAD_STATUS_FIELDS',
+            });
+
+            if (!variables) {
+                throw new Error('useReorderChapterInDownloadQueue: no variables passed');
+            }
+
+            if (!cachedDownloadStatus) {
+                throw new Error('useReorderChapterInDownloadQueue: there are no cached results');
+            }
+
+            const movedChapterIds = new Set(variables.reorders.map(({ chapterId }) => chapterId));
+
+            const movedChapters = variables.reorders
+                .map(({ chapterId }) => cachedDownloadStatus.queue.find(({ chapter }) => chapter.id === chapterId))
+                .filter((download) => download != null);
+
+            const queueWithoutMovedChapters = cachedDownloadStatus.queue.filter(
+                ({ chapter }) => !movedChapterIds.has(chapter.id),
+            );
+
+            const updatedQueue = variables.reorders.reduce(
+                (queue, reorder, index) => queue.toSpliced(reorder.to, 0, movedChapters[index]),
+                queueWithoutMovedChapters,
+            );
+
+            return mutate({
+                optimisticResponse: {
+                    __typename: 'Mutation',
+                    reorderChapterDownloads: {
+                        __typename: 'ReorderChapterDownloadPayload',
+                        downloadStatus: {
+                            ...cachedDownloadStatus,
+                            queue: updatedQueue,
+                        },
+                    },
+                },
+                ...mutationOptions,
+            });
+        };
+
+        return [wrappedMutate, result];
+    }
+
     public addChaptersToDownloadQueue(
         ids: number[],
         options?: MutationOptions<EnqueueChapterDownloadsMutation, EnqueueChapterDownloadsMutationVariables>,
@@ -3613,36 +3791,28 @@ export class RequestManager {
         return this.doRequest(GQLMethod.USE_QUERY, GET_DOWNLOAD_STATUS, {}, options);
     }
 
-    public useDownloadSubscription(
-        options?: SubscriptionHookOptions<DownloadStatusSubscription, DownloadStatusSubscriptionVariables>,
-    ): useSubscription.Result<DownloadStatusSubscription> {
-        return this.doRequest<DownloadStatusSubscription, DownloadStatusSubscriptionVariables>(
-            GQLMethod.USE_SUBSCRIPTION,
+    public getDownloadStatus(
+        options?: QueryOptions<GetDownloadStatusQueryVariables>,
+    ): AbortabaleApolloQueryResponse<GetDownloadStatusQuery> {
+        return this.doRequest(GQLMethod.QUERY, GET_DOWNLOAD_STATUS, {}, options);
+    }
+
+    public downloadSubscription(
+        options?: SubscriptionOptions<DownloadStatusSubscription, DownloadStatusSubscriptionVariables>,
+    ): Observable<ApolloLink.Result<DownloadStatusSubscription>> {
+        const observable = this.doRequest<DownloadStatusSubscription, DownloadStatusSubscriptionVariables>(
+            GQLMethod.SUBSCRIPTION,
             DOWNLOAD_STATUS_SUBSCRIPTION,
-            { input: { maxUpdates: 30 } },
-            {
-                ...options,
-                onData: (onDataOptions) => {
-                    const downloadChanged = onDataOptions.data.data?.downloadStatusChanged;
+            { input: {} },
+            options,
+        );
+
+        return new Observable((subscriber) => {
+            const subscription = observable.subscribe({
+                next: (result) => {
+                    const downloadChanged = result.data?.downloadStatusChanged;
 
                     const { cache } = this.graphQLClient.client;
-
-                    if (downloadChanged?.omittedUpdates) {
-                        const cacheData = (cache as InMemoryCache).extract();
-
-                        this.graphQLClient.client.refetchQueries({
-                            updateCache() {
-                                for (const [id, value] of Object.entries(cacheData)) {
-                                    if ((value as any)?.__typename === 'DownloadType') {
-                                        cache.evict({ id });
-                                    }
-                                }
-                                cache.evict({ id: 'DownloadStatus:{}' });
-                                cache.evict({ fieldName: 'downloadStatus' });
-                            },
-                        });
-                        return;
-                    }
 
                     if (downloadChanged?.state) {
                         cache.modify({
@@ -3715,48 +3885,50 @@ export class RequestManager {
                             }),
                         });
                     });
+
+                    subscriber.next(result);
                 },
-            } as SubscriptionHookOptions<DownloadStatusSubscription, DownloadStatusSubscriptionVariables>,
-        ) as useSubscription.Result<DownloadStatusSubscription>;
+                error: (error) => subscriber.error(error),
+                complete: () => subscriber.complete(),
+            });
+
+            return () => subscription.unsubscribe();
+        });
     }
 
-    public useUpdaterSubscription(
-        options?: SubscriptionHookOptions<UpdaterSubscription, UpdaterSubscriptionVariables>,
-    ): useSubscription.Result<UpdaterSubscription> {
-        return this.doRequest<UpdaterSubscription, UpdaterSubscriptionVariables>(
-            GQLMethod.USE_SUBSCRIPTION,
+    public updaterSubscription(
+        options?: SubscriptionOptions<UpdaterSubscription, UpdaterSubscriptionVariables>,
+    ): Observable<ApolloLink.Result<UpdaterSubscription>> {
+        const observable = this.doRequest<UpdaterSubscription, UpdaterSubscriptionVariables>(
+            GQLMethod.SUBSCRIPTION,
             UPDATER_SUBSCRIPTION,
-            { input: { maxUpdates: 30 } },
-            {
-                ...options,
-                onData: (onDataOptions) => {
-                    const updatesChanged = onDataOptions.data.data?.libraryUpdateStatusChanged;
+            { input: {} },
+            options,
+        );
+
+        return new Observable((subscriber) => {
+            const subscription = observable.subscribe({
+                next: (result) => {
+                    const updatesChanged = result.data?.libraryUpdateStatusChanged;
 
                     const cache = this.graphQLClient.client.cache as InMemoryCache;
 
-                    if (!updatesChanged?.omittedUpdates) {
-                        updatesChanged?.mangaUpdates
-                            .filter((update) => update.status === MangaJobStatus.Complete)
-                            .forEach((update) =>
-                                Object.keys(cache.extract().ROOT_QUERY as object)
-                                    .filter(
-                                        (key) =>
-                                            key.includes('chapters') && key.includes(`mangaId":${update.manga.id}`),
-                                    )
-                                    .forEach((key) => cache.evict({ fieldName: key })),
-                            );
-                        return;
-                    }
+                    updatesChanged?.mangaUpdates
+                        .filter((update) => update.status === MangaJobStatus.Complete)
+                        .forEach((update) =>
+                            Object.keys(cache.extract().ROOT_QUERY as object)
+                                .filter(
+                                    (key) => key.includes('chapters') && key.includes(`mangaId":${update.manga.id}`),
+                                )
+                                .forEach((key) => cache.evict({ fieldName: key })),
+                        );
 
-                    this.graphQLClient.client.refetchQueries({
-                        updateCache() {
-                            cache.evict({ fieldName: 'chapters' });
-                            cache.evict({ fieldName: 'libraryUpdateStatus' });
-                        },
-                    });
+                    subscriber.next(result);
                 },
-            } as SubscriptionHookOptions<UpdaterSubscription, UpdaterSubscriptionVariables>,
-        ) as useSubscription.Result<UpdaterSubscription>;
+            });
+
+            return () => subscription.unsubscribe();
+        });
     }
 
     public getServerSettings(
@@ -3806,10 +3978,10 @@ export class RequestManager {
         return this.doRequest(GQLMethod.USE_MUTATION, CLEAR_SERVER_CACHE, { input: {} }, options);
     }
 
-    public useWebUIUpdateSubscription(
-        options?: SubscriptionHookOptions<WebuiUpdateSubscription, WebuiUpdateSubscriptionVariables>,
-    ): useSubscription.Result<WebuiUpdateSubscription> {
-        return this.doRequest(GQLMethod.USE_SUBSCRIPTION, WEBUI_UPDATE_SUBSCRIPTION, undefined, options);
+    public webUIUpdateSubscription(
+        options?: SubscriptionOptions<WebuiUpdateSubscription, WebuiUpdateSubscriptionVariables>,
+    ): Observable<ApolloLink.Result<WebuiUpdateSubscription>> {
+        return this.doRequest(GQLMethod.SUBSCRIPTION, WEBUI_UPDATE_SUBSCRIPTION, undefined, options);
     }
 
     public resetWebUIUpdateStatus(
@@ -3967,10 +4139,10 @@ export class RequestManager {
         return this.doRequest(GQLMethod.USE_QUERY, GET_SYNC_STATUS, {}, options);
     }
 
-    public useSyncSubscription(
-        options?: SubscriptionHookOptions<SyncSubscription, SyncSubscriptionVariables>,
-    ): useSubscription.Result<SyncSubscription> {
-        return this.doRequest(GQLMethod.USE_SUBSCRIPTION, SYNC_SUBSCRIPTION, undefined, options);
+    public syncSubscription(
+        options?: SubscriptionOptions<SyncSubscription, SyncSubscriptionVariables>,
+    ): Observable<ApolloLink.Result<SyncSubscription>> {
+        return this.doRequest(GQLMethod.SUBSCRIPTION, SYNC_SUBSCRIPTION, undefined, options);
     }
 
     public useKoSyncStatus(
@@ -4003,16 +4175,22 @@ export class RequestManager {
         return this.doRequest(GQLMethod.MUTATION, KO_SYNC_LOGOUT, undefined, options);
     }
 
-    public refreshUser(
+    public refreshAccessToken(
         refreshToken: string,
-        options?: MutationOptions<UserRefreshMutation, UserRefreshMutationVariables>,
-    ): AbortableApolloMutationResponse<UserRefreshMutation> {
-        return this.doRequest<UserRefreshMutation, UserRefreshMutationVariables>(
+        options?: MutationOptions<RefreshAccessTokenMutation, RefreshAccessTokenMutationVariables>,
+    ): AbortableApolloMutationResponse<RefreshAccessTokenMutation> {
+        return this.doRequest<RefreshAccessTokenMutation, RefreshAccessTokenMutationVariables>(
             GQLMethod.MUTATION,
-            USER_REFRESH,
+            REFRESH_ACCESS_TOKEN,
             { refreshToken: refreshToken ?? undefined },
             options,
         );
+    }
+
+    public useClearWebViewCookiesCache(
+        options?: MutationOptions<WebviewClearCacheCookiesMutation, WebviewClearCacheCookiesMutationVariables>,
+    ): AbortableApolloUseMutationResponse<WebviewClearCacheCookiesMutation, WebuiUpdateSubscriptionVariables> {
+        return this.doRequest(GQLMethod.USE_MUTATION, WEBVIEW_CLEAR_CACHE_COOKIES, {}, options);
     }
 }
 

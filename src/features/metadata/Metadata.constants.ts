@@ -23,7 +23,7 @@ import { coerceIn, jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { DOWNLOAD_AHEAD } from '@/features/downloads/Downloads.constants.ts';
 import { MANGA_GRID_WIDTH } from '@/features/settings/Settings.constants.ts';
 import type { SortSettings } from '@/features/migration/Migration.types.ts';
-import type { ISourceMetadata } from '@/features/source/Source.types.ts';
+import type { IPos, ISourceMetadata } from '@/features/source/Source.types.ts';
 import type { LibraryOptions } from '@/features/library/Library.types.ts';
 import type { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
 import type { TapZoneInvertMode } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
@@ -32,6 +32,7 @@ import type { I18nResourceCode } from '@/i18n';
 import { i18nResources } from '@/i18n';
 import { toUniqueLanguageCodes } from '@/base/utils/Languages.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
+import { DEFAULT_CATEGORY_METADATA } from '@/features/category/services/CategoryMetadata.ts';
 
 const MATCH_ARRAY_NUMBERS = /^\[\d+(?:,\d+)*]$/g;
 
@@ -107,6 +108,9 @@ export const APP_METADATA: Record<
     ignoreFilters: {
         convert: convertToBoolean,
     },
+    fuzzySearch: {
+        convert: convertToBoolean,
+    },
     removeMangaFromCategories: {
         convert: convertToBoolean,
     },
@@ -178,6 +182,13 @@ export const APP_METADATA: Record<
     },
     paginationSize: {
         convert: convertToNumber,
+    },
+    notifyNewChapters: {
+        convert: convertToBoolean,
+    },
+    notifyNewChaptersLastNotifiedAt: {
+        convert: convertToNumber,
+    },
     },
     sortBy: {
         convert: convertToStringNullAndUndefined, // LibrarySortMode
@@ -344,6 +355,9 @@ export const APP_METADATA: Record<
     shouldWakeLockScreen: {
         convert: convertToBoolean,
     },
+    shouldCropBorders: {
+        convert: convertToBoolean,
+    },
     hideHistory: {
         convert: convertToBoolean,
     },
@@ -406,6 +420,9 @@ export const APP_METADATA: Record<
     excludedScanlators: {
         convert: convertToObject<string[]>,
     },
+    notes: {
+        convert: convertToString,
+    },
     locale: {
         convert: convertToString,
         toConstrainedValue: (value: string) => {
@@ -420,6 +437,9 @@ export const APP_METADATA: Record<
     },
     safeAreaInset: {
         convert: convertToObject<SafeAreaInset>,
+    },
+    shouldEnterFullscreen: {
+        convert: convertToBoolean,
     },
 } as const;
 
@@ -437,8 +457,10 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     // library
     'showAddToLibraryCategorySelectDialog',
     'ignoreFilters',
+    'fuzzySearch',
     'removeMangaFromCategories',
     'showTabSize',
+    'notifyNewChaptersLastNotifiedAt',
 
     // library category options
     // filter
@@ -516,6 +538,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'unread',
     'showChapterNumber',
     'excludedScanlators',
+    'notes',
 ];
 
 /**
@@ -755,6 +778,62 @@ export const METADATA_MIGRATIONS: IMetadataMigration[] = [
                     );
 
                     return JSON.stringify(convertedToValidIsoCodes);
+                },
+            },
+        ],
+    },
+    {
+        values: [
+            {
+                key: 'hasTrackerBinding',
+                oldValue: /^\{.*}$/g,
+                newValue: (hasTrackerBindingValue) => {
+                    const convertedHasTrackerBinding = convertToObject<Record<string, NullAndUndefined<boolean>>>(
+                        hasTrackerBindingValue,
+                        {},
+                    );
+
+                    const migratedHasTrackerBinding = {
+                        ...DEFAULT_CATEGORY_METADATA.hasTrackerBinding,
+                        filters: convertedHasTrackerBinding,
+                    };
+
+                    return JSON.stringify(migratedHasTrackerBinding);
+                },
+            },
+        ],
+    },
+    {
+        values: [
+            {
+                key: 'savedSearches',
+                // filters saved before the "positions" format stored "position" and "group"
+                oldValue: /"position":/,
+                newValue: (savedSearchesValue) => {
+                    type LegacyFilter = Omit<IPos, 'positions'> & { position: number; group?: number };
+
+                    const savedSearches = convertToObject<
+                        Record<string, { query?: string; filters?: (IPos | LegacyFilter)[] }>
+                    >(savedSearchesValue, {});
+
+                    const migratedSavedSearches = Object.fromEntries(
+                        Object.entries(savedSearches).map(([name, savedSearch]) => [
+                            name,
+                            {
+                                ...savedSearch,
+                                filters: savedSearch.filters?.map((filter): IPos => {
+                                    if ('positions' in filter) {
+                                        return filter;
+                                    }
+
+                                    const { position, group, ...rest } = filter;
+                                    return { ...rest, positions: group != null ? [group, position] : [position] };
+                                }),
+                            },
+                        ]),
+                    );
+
+                    return JSON.stringify(migratedSavedSearches);
                 },
             },
         ],

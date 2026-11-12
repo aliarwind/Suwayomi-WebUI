@@ -8,7 +8,7 @@
 
 import { ErrorLink } from '@apollo/client/link/error';
 import { SetContextLink } from '@apollo/client/link/context';
-import type { ErrorLike } from '@apollo/client';
+import type { ErrorLike, Observable } from '@apollo/client';
 import { ApolloClient, ApolloLink, CombinedGraphQLErrors, InMemoryCache, ServerError } from '@apollo/client';
 import { filter, firstValueFrom, from, map, switchMap } from 'rxjs';
 import UploadHttpLink from 'apollo-upload-client/UploadHttpLink.mjs';
@@ -24,9 +24,10 @@ import type { GraphQLFormattedError } from 'graphql';
 import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
 import type { TypedTypePolicies } from '@/lib/graphql/generated/apollo-helpers.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
-import type { UserRefreshMutation } from '@/lib/graphql/generated/graphql.ts';
+import type { RefreshAccessTokenMutation } from '@/lib/graphql/generated/graphql.ts';
 import type { AbortableApolloMutationResponse } from '@/lib/requests/RequestManager.ts';
 import type { ChapterNodeList } from '@/lib/graphql/generated/graphql-base.types.ts';
+import { getUniqueId } from '@/lib/HelperFunctions.ts';
 
 const typePolicies: TypedTypePolicies = {
     MangaType: {
@@ -219,7 +220,9 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
 
     private activeConnectionSubscriptions = new Map<string, () => void>();
 
-    constructor(handleRefreshToken: (refreshToken: string) => AbortableApolloMutationResponse<UserRefreshMutation>) {
+    constructor(
+        handleRefreshToken: (refreshToken: string) => AbortableApolloMutationResponse<RefreshAccessTokenMutation>,
+    ) {
         super(handleRefreshToken);
 
         this.createClient();
@@ -240,17 +243,25 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
     }
 
     private resetWsClient(recreateClient: boolean): void {
-        this.wsClient.dispose();
-        this.wsClient.terminate();
+        const dispose = this.wsClient.dispose();
 
-        if (!recreateClient) {
+        const create = () => {
+            if (!recreateClient) {
+                return;
+            }
+
+            this.createWSClient(false);
+            this.client.setLink(this.createLink());
+
+            this.wsClient.on('opened', () => this.restartAllSubscriptions());
+        };
+
+        if (dispose instanceof Promise) {
+            dispose.then(() => create());
             return;
         }
 
-        this.createWSClient(false);
-        this.client.setLink(this.createLink());
-
-        this.restartAllSubscriptions();
+        create();
     }
 
     private restartAllSubscriptions(): void {
@@ -258,7 +269,7 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
     }
 
     protected override shouldQueueRequest(operationName: string | undefined): boolean {
-        const authOperations = ['GET_ABOUT', 'USER_LOGIN', 'USER_REFRESH'];
+        const authOperations = ['GET_ABOUT', 'USER_LOGIN', 'REFRESH_ACCESS_TOKEN'];
         if (authOperations.includes(operationName!)) {
             return false;
         }
@@ -266,9 +277,23 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
         return super.shouldQueueRequest();
     }
 
+    private refreshAccessToken(): Observable<RefreshAccessTokenMutation> {
+        return from(BaseClient.refreshAccessToken(this.handleRefreshToken)).pipe(
+            filter(Boolean),
+            map((result) => {
+                this.restartAllSubscriptions();
+                return result;
+            }),
+        );
+    }
+
     private createAuthGuardLink() {
         return new ApolloLink((operation, forward) => {
             const { operationName } = operation;
+
+            if (AuthManager.shouldRefreshAccessToken()) {
+                return this.refreshAccessToken().pipe(switchMap(() => forward(operation)));
+            }
 
             if (this.shouldQueueRequest(operationName)) {
                 return from(this.enqueueRequest(() => firstValueFrom(forward(operation)), operationName));
@@ -330,14 +355,7 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
                 return undefined;
             }
 
-            return from(BaseClient.refreshAccessToken(this.handleRefreshToken)).pipe(
-                filter(Boolean),
-                map((result) => {
-                    this.restartAllSubscriptions();
-                    return result;
-                }),
-                switchMap(() => forward(operation)),
-            );
+            return this.refreshAccessToken().pipe(switchMap(() => forward(operation)));
         });
     }
 
@@ -347,7 +365,7 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
             const accessToken = AuthManager.getAccessToken();
 
             return {
-                credentials: 'include',
+                credentials: 'same-origin',
                 headers: {
                     ...headers,
                     ...(isAuthRequired && accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
@@ -410,7 +428,9 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
         });
 
         let triedForcedReconnection = false;
-        let lastHeartbeat: number = Date.now();
+        let forcedReconnectionTimestamp = 0;
+        let lastHeartbeat = Date.now();
+
         this.wsClient.on('message', async (e) => {
             lastHeartbeat = Date.now();
             triedForcedReconnection = false;
@@ -429,24 +449,33 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
             }
         });
 
-        const checkHeartbeatInterval = heartbeatInterval + d(30).seconds.inWholeMilliseconds;
         clearInterval(this.wsClientAliveCheckInterval);
         this.wsClientAliveCheckInterval = setInterval(() => {
-            const isHeartbeatMissing = Date.now() - lastHeartbeat > checkHeartbeatInterval * 1.1;
+            const heartbeatThreshold = heartbeatInterval * 1.5;
+
+            const isHeartbeatMissing = Date.now() - lastHeartbeat > heartbeatThreshold;
             if (!isHeartbeatMissing) {
                 return;
             }
 
             if (!triedForcedReconnection) {
                 triedForcedReconnection = true;
+                forcedReconnectionTimestamp = Date.now();
+
                 this.wsClient.terminate();
 
                 return;
             }
 
+            const hasForcedReconnectionFailed =
+                Date.now() - forcedReconnectionTimestamp > d(15).seconds.inWholeMilliseconds;
+            if (!hasForcedReconnectionFailed) {
+                return;
+            }
+
             clearInterval(this.wsClientAliveCheckInterval);
             this.resetWsClient(true);
-        }, checkHeartbeatInterval);
+        }, d(5).seconds.inWholeMilliseconds);
     }
 
     protected createClient(createWsClientLazily?: boolean) {
@@ -459,6 +488,16 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
     }
 
     public override updateConfig() {}
+
+    public registerSubscription(restart: () => void): () => void {
+        const id = getUniqueId();
+
+        this.activeConnectionSubscriptions.set(id, restart);
+
+        return () => {
+            this.activeConnectionSubscriptions.delete(id);
+        };
+    }
 
     public useRestartSubscription(restart: () => void) {
         const id = useId();

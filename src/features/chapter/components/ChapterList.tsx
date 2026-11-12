@@ -11,7 +11,7 @@ import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import type { ComponentProps } from 'react';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useLingui } from '@lingui/react/macro';
 import { plural } from '@lingui/core/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -42,11 +42,12 @@ import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { shouldForwardProp } from '@/base/utils/ShouldForwardProp.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { ChapterListCard } from '@/features/chapter/components/cards/ChapterListCard.tsx';
 import { VirtuosoPersisted } from '@/lib/virtuoso/Component/VirtuosoPersisted.tsx';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import { useElementSize } from '@mantine/hooks';
+import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 type ChapterListHeaderProps = {
     scrollbarWidth: number;
@@ -69,7 +70,7 @@ const StyledVirtuoso = styled(VirtuosoPersisted, {
     listStyle: 'none',
     padding: 0,
     [theme.breakpoints.up('md')]: {
-        height: `calc(100vh - ${topOffset}px)`,
+        height: `calc(100dvh - ${topOffset}px)`,
         margin: 0,
     },
 }));
@@ -115,16 +116,17 @@ export const ChapterList = ({
 }) => {
     const { t } = useLingui();
     const { appBarHeight } = useNavBarContext();
+    const [virtuosoScrollElement, setVirtuosoScrollElement] = useState<HTMLElement | null | Window>(null);
 
     const isMobileWidth = MediaQuery.useIsBelowWidth('md');
 
     const { ref: chapterListHeaderRef, height: chapterListHeaderHeight } = useElementSize();
 
-    const scrollbarWidth = MediaQuery.useGetScrollbarSize('width');
+    const scrollbarYSize = MediaQuery.useGetScrollbarSize('Y', VirtuosoUtil.getScrollElement(virtuosoScrollElement));
 
     const options = useChapterListOptions(manga);
     const updateOption = updateChapterListOptions(manga, (e) =>
-        makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
+        Notifications.error(t`Failed to save changes`, getErrorMessage(e)),
     );
     const {
         data: chaptersData,
@@ -188,7 +190,7 @@ export const ChapterList = ({
                         alignItems: 'center',
                         justifyContent: 'space-between',
                     }}
-                    scrollbarWidth={scrollbarWidth}
+                    scrollbarWidth={scrollbarYSize}
                 >
                     <Stack>
                         <Typography variant="h5" component="h3">
@@ -232,6 +234,7 @@ export const ChapterList = ({
                 {noChaptersMatchingFilter && <EmptyViewAbsoluteCentered message={t`No chapters matching filter`} />}
 
                 <StyledVirtuoso
+                    scrollerRef={setVirtuosoScrollElement}
                     persistKey={`manga-${manga.id}-chapter-list`}
                     topOffset={appBarHeight + chapterListHeaderHeight}
                     style={{
