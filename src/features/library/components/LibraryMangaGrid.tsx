@@ -46,6 +46,8 @@ export const LibraryMangaGrid: React.FC<LibraryMangaGridProps> = ({
         <MangaGrid
             gridWrapperProps={{ sx: { p: 1 } }}
             {...gridProps}
+            // entries of the library are opened in a new tab so the library keeps its state (e.g. scroll position/page)
+            openInNewTab
             hasNextPage={false}
             loadMore={loadMoreNoop}
             message={showFilteredOutMessage ? t`No manga matches this filter` : message}

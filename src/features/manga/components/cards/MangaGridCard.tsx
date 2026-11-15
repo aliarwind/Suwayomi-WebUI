@@ -56,6 +56,7 @@ export const MangaGridCard = memo(
         continueReadingButton,
         mangaBadges,
         mode,
+        openInNewTab,
     }: SpecificMangaCardProps) => {
         const optionButtonRef = useRef<HTMLButtonElement>(null);
         const [isHovered, setIsHovered] = useState(false);
@@ -68,6 +69,8 @@ export const MangaGridCard = memo(
                 {...longPressBind(() => popupState.open(optionButtonRef.current))}
                 to={mangaLinkTo}
                 state={Mangas.createLocationState(manga, mode)}
+                target={openInNewTab ? '_blank' : undefined}
+                rel={openInNewTab ? 'noreferrer' : undefined}
                 sx={MUIUtil.mergeSx(MediaQuery.preventMobileContextMenuSx(), { textDecoration: 'none' })}
             >
                 <Box

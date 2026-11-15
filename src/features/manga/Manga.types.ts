@@ -79,6 +79,8 @@ export interface MangaCardProps {
     handleSelection?: SelectableCollectionReturnType<MangaTypeGql['id']>['handleSelection'];
     onMigrateSelect?: (manga: Omit<MigrationMatch, 'sourceTitle' | 'isManualMatch' | 'latestChapterNumber'>) => void;
     mode?: MangaCardMode;
+    /** Open the manga in a new browser tab instead of navigating in the current one */
+    openInNewTab?: boolean;
 }
 
 export type SpecificMangaCardProps = Omit<MangaCardProps, 'manga'> &

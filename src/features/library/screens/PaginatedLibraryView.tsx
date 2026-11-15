@@ -24,9 +24,16 @@ import { AppbarSearch } from '@/base/components/AppbarSearch.tsx';
 import { UpdateChecker } from '@/features/updates/components/UpdateChecker.tsx';
 import { useSelectableCollection } from '@/base/collection/hooks/useSelectableCollection.ts';
 import { SelectableCollectionSelectMode } from '@/base/collection/components/SelectableCollectionSelectMode.tsx';
-import { useGetVisibleLibraryMangas } from '@/features/library/hooks/useGetVisibleLibraryMangas.ts';
+import {
+    useGetVisibleLibraryMangas,
+    getVisibleSourceFilters,
+} from '@/features/library/hooks/useGetVisibleLibraryMangas.ts';
 import { useGetCategoryMetadata } from '@/features/category/services/CategoryMetadata.ts';
-import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
+import { Sources } from '@/features/source/services/Sources';
+import {
+    useMetadataServerSettings,
+    updateMetadataServerSettings,
+} from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { SelectionFAB } from '@/base/collection/components/SelectionFAB.tsx';
 import { MangaActionMenuItems } from '@/features/manga/components/MangaActionMenuItems.tsx';
 import { TabsMenu } from '@/base/components/tabs/TabsMenu.tsx';
@@ -35,14 +42,13 @@ import { TabPanel } from '@/base/components/tabs/TabPanel.tsx';
 import { MangaCard } from '@/features/manga/components/cards/MangaCard.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
-import { updateMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { useAppAction } from '@/features/navigation-bar/hooks/useAppAction.ts';
 import { SearchParam } from '@/base/Base.types.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
-import { MangaOrderBy, SortOrder, MangaStatus } from '@/lib/graphql/generated/graphql-base.types.ts';
-import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
-import type { MangaCardMode } from '@/features/manga/Manga.types.ts';
+import type { MangaStatus } from '@/lib/graphql/generated/graphql-base.types.ts';
+import { MangaOrderBy, SortOrder } from '@/lib/graphql/generated/graphql-base.types.ts';
+import type { MangaIdInfo, MangaCardMode } from '@/features/manga/Manga.types.ts';
 import type {
     GetCategoriesLibraryQuery,
     GetCategoriesLibraryQueryVariables,
@@ -64,6 +70,9 @@ interface PaginatedLibraryViewProps {
     paginationSize: number;
     showTabSize: boolean;
 }
+
+// --- Helper: triState boolean → server BooleanFilter ---
+const toBoolFilter = (v: boolean | null | undefined) => (v == null ? undefined : { equalTo: v });
 
 export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedLibraryViewProps) {
     const { t } = useLingui();
@@ -116,11 +125,15 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
         sortBy,
         sortDesc,
         hasStatus,
+        hasSource,
+        hasTrackerBinding,
+        hasReadChapters,
         hasDownloadedChapters,
         hasUnreadChapters,
         hasBookmarkedChapters,
         hasDuplicateChapters,
     } = categoryMeta;
+    const { sources: librarySources } = Sources.useGetMigratableSources();
     const {
         settings: { gridLayout },
     } = useMetadataServerSettings();
@@ -132,19 +145,21 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
         latestFetchedChapter: MangaOrderBy.LastFetchedAt,
     };
     const serverOrder = useMemo(() => {
-        if (!sortBy) return undefined;
+        if (!sortBy) {
+            return undefined;
+        }
         const by = SORT_MAP[sortBy];
-        if (!by) return undefined;
+        if (!by) {
+            return undefined;
+        }
         return [{ by, byType: sortDesc ? SortOrder.Desc : SortOrder.Asc }];
     }, [sortBy, sortDesc]);
 
-    // --- Helper: triState boolean → server BooleanFilter ---
-    const toBoolFilter = (v: boolean | null | undefined) =>
-        v == null ? undefined : { equalTo: v };
-
     // --- Server-side status filter ---
     const statusFilter = useMemo(() => {
-        if (!hasStatus) return undefined;
+        if (!hasStatus) {
+            return undefined;
+        }
         const included = (Object.entries(hasStatus) as [string, boolean | null | undefined][])
             .filter(([, v]) => v === true)
             .map(([s]) => s as MangaStatus);
@@ -152,10 +167,42 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
             .filter(([, v]) => v === false)
             .map(([s]) => s as MangaStatus);
 
-        if (included.length > 0) return { status: { in: included } };
-        if (excluded.length > 0) return { status: { notIn: excluded } };
+        if (included.length > 0) {
+            return { status: { in: included } };
+        }
+        if (excluded.length > 0) {
+            return { status: { notIn: excluded } };
+        }
         return undefined;
     }, [hasStatus]);
+
+    // --- Server-side source filter ---
+    // Has to be applied server-side, otherwise only the entries of the current page would get filtered.
+    // The tri-state filter is applied with "OR" logic (see "useGetVisibleLibraryMangas").
+    // Filters of sources which are not part of the library anymore are ignored, but only once the sources
+    // have been loaded, otherwise no filter would be applied while they are still loading.
+    const sourceFilter = useMemo(() => {
+        const sourceFilterStates = Object.entries(
+            librarySources.length ? getVisibleSourceFilters(hasSource ?? {}, librarySources) : (hasSource ?? {}),
+        ) as [string, boolean | null | undefined][];
+        const includedSourceIds = sourceFilterStates
+            .filter(([, state]) => state === true)
+            .map(([sourceId]) => sourceId);
+        const excludedSourceIds = sourceFilterStates
+            .filter(([, state]) => state === false)
+            .map(([sourceId]) => sourceId);
+
+        if (!includedSourceIds.length && !excludedSourceIds.length) {
+            return undefined;
+        }
+
+        return {
+            sourceId: {
+                ...(includedSourceIds.length ? { in: includedSourceIds } : {}),
+                ...(excludedSourceIds.length ? { notIn: excludedSourceIds } : {}),
+            },
+        };
+    }, [hasSource, librarySources]);
 
     // --- Server-side chapter-level filters ---
     const downloadedFilter = useMemo(() => toBoolFilter(hasDownloadedChapters), [hasDownloadedChapters]);
@@ -166,21 +213,56 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
     // --- Combined server-side filter (search + status + chapter-level) ---
     const serverFilter = useMemo(() => {
         const filters: object[] = [];
-        if (searchFilter) filters.push(searchFilter);
-        if (statusFilter) filters.push(statusFilter);
-        if (downloadedFilter) filters.push({ hasDownloadedChapters: downloadedFilter });
-        if (unreadFilter) filters.push({ hasUnreadChapters: unreadFilter });
-        if (bookmarkedFilter) filters.push({ hasBookmarkedChapters: bookmarkedFilter });
-        if (duplicateFilter) filters.push({ hasDuplicateChapters: duplicateFilter });
-        if (filters.length === 0) return undefined;
-        if (filters.length === 1) return filters[0];
+        if (searchFilter) {
+            filters.push(searchFilter);
+        }
+        if (statusFilter) {
+            filters.push(statusFilter);
+        }
+        if (sourceFilter) {
+            filters.push(sourceFilter);
+        }
+        if (downloadedFilter) {
+            filters.push({ hasDownloadedChapters: downloadedFilter });
+        }
+        if (unreadFilter) {
+            filters.push({ hasUnreadChapters: unreadFilter });
+        }
+        if (bookmarkedFilter) {
+            filters.push({ hasBookmarkedChapters: bookmarkedFilter });
+        }
+        if (duplicateFilter) {
+            filters.push({ hasDuplicateChapters: duplicateFilter });
+        }
+        if (filters.length === 0) {
+            return undefined;
+        }
+        if (filters.length === 1) {
+            return filters[0];
+        }
         return { and: filters };
-    }, [searchFilter, statusFilter, downloadedFilter, unreadFilter, bookmarkedFilter, duplicateFilter]);
+    }, [searchFilter, statusFilter, sourceFilter, downloadedFilter, unreadFilter, bookmarkedFilter, duplicateFilter]);
+
+    // Since filters are applied server-side, an empty response is not necessarily an empty category
+    const hasActiveFilter =
+        !!query ||
+        !!serverFilter ||
+        hasReadChapters != null ||
+        Object.values(hasTrackerBinding.filters).some((filterState) => filterState != null);
 
     // --- Reset page when sort or filter changes ---
     useEffect(() => {
         setCurrentPage(0);
-    }, [sortBy, sortDesc, hasStatus, hasDownloadedChapters, hasUnreadChapters, hasBookmarkedChapters, hasDuplicateChapters]);
+    }, [
+        sortBy,
+        sortDesc,
+        hasStatus,
+        hasSource,
+        hasDownloadedChapters,
+        hasUnreadChapters,
+        hasBookmarkedChapters,
+        hasDuplicateChapters,
+    ]);
 
     // --- Fetch manga page ---
     const {
@@ -257,14 +339,20 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
         () =>
             selectedItemIds
                 .map((id) =>
-                    Mangas.getFromCache<MangaChapterStatFieldsFragment>(id, MANGA_CHAPTER_STAT_FIELDS, 'MANGA_CHAPTER_STAT_FIELDS'),
+                    Mangas.getFromCache<MangaChapterStatFieldsFragment>(
+                        id,
+                        MANGA_CHAPTER_STAT_FIELDS,
+                        'MANGA_CHAPTER_STAT_FIELDS',
+                    ),
                 )
                 .filter((manga) => !!manga),
         [selectedItemIds.length, mangas],
     );
 
     const selectionFab = useMemo(() => {
-        if (!isSelectModeActive) return null;
+        if (!isSelectModeActive) {
+            return null;
+        }
         return (
             <SelectionFAB title={plural(selectedItemIds.length, { one: '# manga', other: '# manga' })}>
                 {(handleClose, setHideMenu) => (
@@ -301,8 +389,11 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
                     onSelectAll={(selectAll) => handleSelectAll(selectAll, [...new Set(mangas.map((m) => m.id))])}
                     onModeChange={(checked) => {
                         setIsSelectModeActive(checked);
-                        if (checked) handleSelectAll(true, [...new Set(mangas.map((m) => m.id))]);
-                        else tabs.forEach((tab) => handleSelectAll(false, [], tab.id.toString()));
+                        if (checked) {
+                            handleSelectAll(true, [...new Set(mangas.map((m) => m.id))]);
+                        } else {
+                            tabs.forEach((tab) => handleSelectAll(false, [], tab.id.toString()));
+                        }
                     }}
                 />
             )}
@@ -318,7 +409,9 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
             <EmptyViewAbsoluteCentered
                 message={t`Unable to load data`}
                 messageExtra={tabsError?.message}
-                retry={() => refetchCategories().catch(defaultPromiseErrorHandler('PaginatedLibrary::refetchCategories'))}
+                retry={() =>
+                    refetchCategories().catch(defaultPromiseErrorHandler('PaginatedLibrary::refetchCategories'))
+                }
             />
         );
     }
@@ -337,7 +430,13 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
         <>
             {mangaLoading && mangas.length === 0 && <LoadingPlaceholder />}
             {!mangaLoading && mangas.length === 0 && !mangaError && (
-                <EmptyViewAbsoluteCentered message={showFilteredOutMessage ? t`No manga matches this filter` : t`The category is empty`} />
+                <EmptyViewAbsoluteCentered
+                    message={
+                        showFilteredOutMessage || hasActiveFilter
+                            ? t`No manga matches this filter`
+                            : t`The category is empty`
+                    }
+                />
             )}
             {mangaError && mangas.length === 0 && (
                 <EmptyViewAbsoluteCentered
@@ -357,6 +456,7 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
                                 selected={selectedItemIds.includes(manga.id) || null}
                                 handleSelection={handleSelect}
                                 mode={mode}
+                                openInNewTab
                             />
                         </Grid>
                     ))}

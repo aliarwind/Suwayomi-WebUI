@@ -36,6 +36,7 @@ export const MangaListCard = memo(
         continueReadingButton,
         mangaBadges,
         mode,
+        openInNewTab,
     }: SpecificMangaCardProps) => {
         const [isHovered, setIsHovered] = useState(false);
 
@@ -49,6 +50,8 @@ export const MangaListCard = memo(
                     component={RouterLink}
                     to={mangaLinkTo}
                     state={Mangas.createLocationState(manga, mode)}
+                    target={openInNewTab ? '_blank' : undefined}
+                    rel={openInNewTab ? 'noreferrer' : undefined}
                     {...longPressBind(() => popupState.open(optionButtonRef.current))}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}

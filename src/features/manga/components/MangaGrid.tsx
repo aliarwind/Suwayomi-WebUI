@@ -68,6 +68,7 @@ const createMangaCard = (
     handleSelection?: DefaultGridProps['handleSelection'],
     mode?: MangaCardProps['mode'],
     onMigrateSelect?: DefaultGridProps['onMigrateSelect'],
+    openInNewTab?: MangaCardProps['openInNewTab'],
 ) => (
     <MangaCard
         manga={manga}
@@ -77,6 +78,7 @@ const createMangaCard = (
         handleSelection={handleSelection}
         mode={mode}
         onMigrateSelect={onMigrateSelect}
+        openInNewTab={openInNewTab}
     />
 );
 
@@ -103,6 +105,7 @@ const HorizontalGrid = ({
     mode,
     ref,
     onMigrateSelect,
+    openInNewTab,
 }: DefaultGridProps) => (
     <Grid
         ref={ref}
@@ -129,6 +132,7 @@ const HorizontalGrid = ({
                         handleSelection,
                         mode,
                         onMigrateSelect,
+                        openInNewTab,
                     )}
                 </GridItemContainer>
             ))
@@ -152,6 +156,7 @@ const VerticalGrid = ({
     mode,
     ref,
     onMigrateSelect,
+    openInNewTab,
 }: DefaultGridProps & {
     hasNextPage: boolean;
     loadMore: () => void;
@@ -179,6 +184,7 @@ const VerticalGrid = ({
                         handleSelection,
                         mode,
                         onMigrateSelect,
+                        openInNewTab,
                     )
                 }
             />
@@ -225,6 +231,7 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
     retry,
     gridWrapperProps,
     onMigrateSelect,
+    openInNewTab,
 }) => {
     const { t } = useLingui();
 
@@ -356,6 +363,7 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
                     handleSelection={handleSelection}
                     mode={mode}
                     onMigrateSelect={onMigrateSelect}
+                    openInNewTab={openInNewTab}
                 />
             ) : (
                 <VerticalGrid
@@ -372,6 +380,7 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
                     handleSelection={handleSelection}
                     mode={mode}
                     onMigrateSelect={onMigrateSelect}
+                    openInNewTab={openInNewTab}
                 />
             )}
         </Box>

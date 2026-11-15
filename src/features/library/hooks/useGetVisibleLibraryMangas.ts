@@ -33,6 +33,7 @@ import type {
 } from '@/features/manga/Manga.types.ts';
 import { SearchParam } from '@/base/Base.types.ts';
 import { Sources } from '@/features/source/services/Sources';
+import type { SourceIdInfo } from '@/features/source/Source.types.ts';
 import pickBy from 'lodash/fp/pickBy';
 import { CustomCache } from '@/lib/storage/CustomCache.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
@@ -98,7 +99,10 @@ const querySearchManga = (
     { title, genre: genres, description, artist, author, source, sourceId }: TMangaQueryFilter,
 ): boolean =>
     performSearch([query], [title]) ||
-    performSearch(query?.split(','), (genres ?? []).map((genre) => enhancedCleanup(genre))) ||
+    performSearch(
+        query?.split(','),
+        (genres ?? []).map((genre) => enhancedCleanup(genre)),
+    ) ||
     performSearch([query], [description]) ||
     performSearch([query], [artist]) ||
     performSearch([query], [author]) ||
@@ -316,6 +320,16 @@ const useSortedMangas = <Manga extends MangaIdInfo & TMangasFilter & TMangaSort>
     return sortedMangasUpdatedReferences;
 };
 
+/**
+ * Ignore source filters of sources which are not part of the library anymore (e.g. an uninstalled extension),
+ * otherwise those filters would filter out all manga.
+ */
+export const getVisibleSourceFilters = (
+    sourceFilters: LibraryOptions['hasSource'],
+    sources: SourceIdInfo[],
+): LibraryOptions['hasSource'] =>
+    pickBy((_state, sourceId) => sources.some((source) => source.id === sourceId), sourceFilters);
+
 const DEFAULT_CATEGORY: CategoryIdInfo = { id: -1 };
 export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFilter & TMangaSort>(
     mangas: Manga[],
@@ -340,10 +354,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
     const { settings } = useMetadataServerSettings();
     const { sources } = Sources.useGetMigratableSources();
 
-    const hasSource = useMemo(
-        () => pickBy((_state, sourceId) => sources.some((source) => source.id === sourceId), hasSourceFilter),
-        [hasSourceFilter, sources],
-    );
+    const hasSource = useMemo(() => getVisibleSourceFilters(hasSourceFilter, sources), [hasSourceFilter, sources]);
 
     const sortedMangas = useSortedMangas(category?.id, mangas, options);
 
