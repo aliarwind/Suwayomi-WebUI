@@ -3197,6 +3197,7 @@ export class RequestManager {
         offset?: number,
         filter?: GetMangasLibraryQueryVariables['filter'],
         order?: GetMangasLibraryQueryVariables['order'],
+        search?: string,
     ): AbortableApolloUseQueryResponse<GetMangasLibraryQuery, GetMangasLibraryQueryVariables> {
         // Default category (isDefault) = all library manga.
         // Can't filter by categoryIds: [id] because manga are not mapped to the default category in the DB.
@@ -3212,6 +3213,7 @@ export class RequestManager {
                 ...(offset != null ? { offset } : {}),
                 ...(filter != null ? { filter } : {}),
                 ...(order != null ? { order } : {}),
+                ...(search ? { search } : {}),
             },
             options,
         );

@@ -2739,6 +2739,7 @@ export type GetMangasLibraryQueryVariables = Exact<{
     last?: number | null | undefined;
     offset?: number | null | undefined;
     order?: Array<Types.MangaOrderInput> | Types.MangaOrderInput | null | undefined;
+    search?: string | null | undefined;
 }>;
 
 export type GetMangasLibraryQuery = {

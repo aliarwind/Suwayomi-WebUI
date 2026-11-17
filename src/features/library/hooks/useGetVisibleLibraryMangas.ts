@@ -334,6 +334,12 @@ const DEFAULT_CATEGORY: CategoryIdInfo = { id: -1 };
 export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFilter & TMangaSort>(
     mangas: Manga[],
     category?: CategoryMetadataInfo,
+    /**
+     * The server already matched the text query (e.g. the paginated library view passes `search`),
+     * so the client must not filter by the raw query again: it would drop entries the server found
+     * through folding (simplified query vs traditional title) or aliasing.
+     */
+    serverSideSearch = false,
 ): {
     visibleMangas: Manga[];
     searchSuggestions: Manga[];
@@ -359,7 +365,8 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
     const sortedMangas = useSortedMangas(category?.id, mangas, options);
 
     const isSearching = !!query?.length;
-    const isFuzzySearchActive = settings.fuzzySearch && isSearching;
+    const textQuery = serverSideSearch ? undefined : query;
+    const isFuzzySearchActive = settings.fuzzySearch && !!textQuery?.length;
 
     const filteredMangas = useMemo(
         () =>
@@ -389,12 +396,12 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
     );
 
     const visibleMangas = useMemo(() => {
-        if (fuzzySearchIndex && query) {
-            return fuzzySearch(fuzzySearchIndex, query);
+        if (fuzzySearchIndex && textQuery) {
+            return fuzzySearch(fuzzySearchIndex, textQuery);
         }
 
-        return filteredMangas.filter((manga) => querySearchManga(query, manga));
-    }, [fuzzySearchIndex, filteredMangas, query]);
+        return filteredMangas.filter((manga) => querySearchManga(textQuery, manga));
+    }, [fuzzySearchIndex, filteredMangas, textQuery]);
 
     // Suggestions are based on the "unsearched" mangas; otherwise, the search query would incorrectly shrink the suggestions
     const searchSuggestions = useMemo(

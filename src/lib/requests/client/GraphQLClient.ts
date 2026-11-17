@@ -150,7 +150,7 @@ const typePolicies: TypedTypePolicies = {
                 return toReference({ __typename: 'TrackRecordType', key: {} });
             },
             mangas: {
-                keyArgs: ['condition', 'filter', 'orderBy', 'orderByType', 'order'],
+                keyArgs: ['condition', 'filter', 'orderBy', 'orderByType', 'order', 'search'],
                 merge(existing, incoming, { mergeObjects }) {
                     return mergeObjects(existing, incoming);
                 },

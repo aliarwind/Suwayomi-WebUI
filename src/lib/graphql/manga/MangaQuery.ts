@@ -191,6 +191,7 @@ export const GET_MANGAS_LIBRARY = gql`
         $last: Int
         $offset: Int
         $order: [MangaOrderInput!]
+        $search: String
     ) {
         mangas(
             after: $after
@@ -201,6 +202,7 @@ export const GET_MANGAS_LIBRARY = gql`
             last: $last
             offset: $offset
             order: $order
+            search: $search
         ) {
             nodes {
                 ...MANGA_LIBRARY_FIELDS

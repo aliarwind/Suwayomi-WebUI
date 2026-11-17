@@ -2287,6 +2287,7 @@ export type QueryMangasArgs = {
     last?: InputMaybe<Scalars['Int']['input']>;
     offset?: InputMaybe<Scalars['Int']['input']>;
     order?: InputMaybe<Array<MangaOrderInput>>;
+    search?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type QueryMetaArgs = {

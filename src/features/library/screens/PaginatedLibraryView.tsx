@@ -105,19 +105,10 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
 
     const safeCurrentPage = currentPage;
 
-    // --- Server-side search filter (searches across ALL manga, not just current page) ---
-    // Matches the multi-field search behavior of useGetVisibleLibraryMangas/querySearchManga
-    const searchFilter = query
-        ? {
-              or: [
-                  { title: { includesInsensitive: query } },
-                  { author: { includesInsensitive: query } },
-                  { artist: { includesInsensitive: query } },
-                  { description: { includesInsensitive: query } },
-                  { genre: { includesInsensitive: query } },
-              ],
-          }
-        : undefined;
+    // --- Server-side search (searches across ALL manga, not just current page) ---
+    // The server folds the query (traditional -> simplified, katakana -> hiragana) and matches the
+    // normalized title/author/artist/genre index, so no client-side text filtering must run afterwards.
+    const searchQuery = query?.trim() || undefined;
 
     // --- Read category metadata (sort + status filter) and global settings (gridLayout) ---
     const categoryMeta = useGetCategoryMetadata(activeTab ?? { id: -1 });
@@ -210,12 +201,9 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
     const bookmarkedFilter = useMemo(() => toBoolFilter(hasBookmarkedChapters), [hasBookmarkedChapters]);
     const duplicateFilter = useMemo(() => toBoolFilter(hasDuplicateChapters), [hasDuplicateChapters]);
 
-    // --- Combined server-side filter (search + status + chapter-level) ---
+    // --- Combined server-side filter (status + chapter-level) ---
     const serverFilter = useMemo(() => {
         const filters: object[] = [];
-        if (searchFilter) {
-            filters.push(searchFilter);
-        }
         if (statusFilter) {
             filters.push(statusFilter);
         }
@@ -241,7 +229,7 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
             return filters[0];
         }
         return { and: filters };
-    }, [searchFilter, statusFilter, sourceFilter, downloadedFilter, unreadFilter, bookmarkedFilter, duplicateFilter]);
+    }, [statusFilter, sourceFilter, downloadedFilter, unreadFilter, bookmarkedFilter, duplicateFilter]);
 
     // Since filters are applied server-side, an empty response is not necessarily an empty category
     const hasActiveFilter =
@@ -278,13 +266,14 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
         safeCurrentPage * paginationSize,
         serverFilter,
         serverOrder,
+        searchQuery,
     );
     const categoryMangas = categoryMangaResponse?.mangas.nodes ?? STABLE_EMPTY_ARRAY;
     const {
         visibleMangas: filteredMangas,
         showFilteredOutMessage,
         filterKey,
-    } = useGetVisibleLibraryMangas(categoryMangas, activeTab);
+    } = useGetVisibleLibraryMangas(categoryMangas, activeTab, true);
 
     // Reset page when filter changes
     useEffect(() => {
