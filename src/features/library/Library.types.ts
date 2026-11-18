@@ -23,6 +23,8 @@ export type MetadataLibrarySettings = {
     gridLayout: GridLayout;
     paginationEnabled: boolean;
     paginationSize: number;
+    /** Send the pre-index search (five column OR filter over the raw title/author/...) instead of `search`. */
+    legacyLibrarySearch: boolean;
     /** the notification permission is granted per browser, thus, this only takes effect where it was granted */
     notifyNewChapters: boolean;
     notifyNewChaptersLastNotifiedAt: number;

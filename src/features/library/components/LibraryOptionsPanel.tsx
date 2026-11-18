@@ -179,7 +179,16 @@ export const LibraryOptionsPanel = ({
     );
 
     const {
-        settings: { showTabSize, showContinueReadingButton, showDownloadBadge, showUnreadBadge, gridLayout, paginationEnabled, paginationSize },
+        settings: {
+            showTabSize,
+            showContinueReadingButton,
+            showDownloadBadge,
+            showUnreadBadge,
+            gridLayout,
+            paginationEnabled,
+            paginationSize,
+            legacyLibrarySearch,
+        },
     } = useMetadataServerSettings();
     const setSettingValue = createUpdateMetadataServerSettings((e) =>
         Notifications.error(t`Could not save the default search settings to the server`, getErrorMessage(e)),
@@ -390,24 +399,32 @@ export const LibraryOptionsPanel = ({
                             <CheckboxInput
                                 label={t`Enable pagination`}
                                 checked={paginationEnabled}
-                                onChange={() =>
-                                    updateMetadataServerSettings('paginationEnabled', !paginationEnabled)
-                                }
+                                onChange={() => updateMetadataServerSettings('paginationEnabled', !paginationEnabled)}
                             />
                             {paginationEnabled && (
-                                <NumberSetting
-                                    settingTitle={t`Items per page`}
-                                    settingValue={String(paginationSize)}
-                                    value={paginationSize}
-                                    defaultValue={20}
-                                    minValue={1}
-                                    maxValue={500}
-                                    stepSize={1}
-                                    valueUnit=""
-                                    handleUpdate={(value: number) =>
-                                        updateMetadataServerSettings('paginationSize', value)
-                                    }
-                                />
+                                <>
+                                    <NumberSetting
+                                        settingTitle={t`Items per page`}
+                                        settingValue={String(paginationSize)}
+                                        value={paginationSize}
+                                        defaultValue={20}
+                                        minValue={1}
+                                        maxValue={500}
+                                        stepSize={1}
+                                        valueUnit=""
+                                        handleUpdate={(value: number) =>
+                                            updateMetadataServerSettings('paginationSize', value)
+                                        }
+                                    />
+                                    <FormLabel sx={{ mt: 2 }}>{t`Search`}</FormLabel>
+                                    <CheckboxInput
+                                        label={t`Use legacy search`}
+                                        checked={legacyLibrarySearch}
+                                        onChange={() =>
+                                            updateMetadataServerSettings('legacyLibrarySearch', !legacyLibrarySearch)
+                                        }
+                                    />
+                                </>
                             )}
                         </>
                     );

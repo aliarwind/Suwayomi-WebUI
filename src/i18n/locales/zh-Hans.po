@@ -4503,3 +4503,11 @@ msgstr "一个条目不能同时属于“默认”类别和其他类别"
 #: src/features/category/components/CategorySelect.tsx
 msgid "Default (Suwayomi)"
 msgstr "默认 (Suwayomi)"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Use legacy search"
+msgstr "使用旧版搜索"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Match the raw title/author/artist/description/genre instead of the normalized search index"
+msgstr "直接匹配原始标题/作者/画师/简介/标签，不走归一化搜索索引"

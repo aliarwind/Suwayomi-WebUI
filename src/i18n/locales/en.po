@@ -2685,6 +2685,10 @@ msgstr "Match found"
 msgid "Match the library search even with typos or words in a different order, and show the closest matches first"
 msgstr "Match the library search even with typos or words in a different order, and show the closest matches first"
 
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Match the raw title/author/artist/description/genre instead of the normalized search index"
+msgstr "Match the raw title/author/artist/description/genre instead of the normalized search index"
+
 #: src/features/migration/components/migration-entry/MigrationEntry.tsx
 msgid "Matches"
 msgstr "Matches"
@@ -3484,6 +3488,7 @@ msgid "Scroll forward"
 msgstr "Scroll forward"
 
 #: src/base/components/AppbarSearch.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 msgid "Search"
 msgstr "Search"
@@ -4408,6 +4413,11 @@ msgid "Use a custom WebUI.\n"
 "To use a custom WebUI replace the content of the \"webUI\" directory in the root directory on the server with the files of the custom WebUI"
 msgstr "Use a custom WebUI.\n"
 "To use a custom WebUI replace the content of the \"webUI\" directory in the root directory on the server with the files of the custom WebUI"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Use legacy search"
+msgstr "Use legacy search"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Use SOCKS proxy"

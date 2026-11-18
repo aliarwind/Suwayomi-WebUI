@@ -105,12 +105,39 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
 
     const safeCurrentPage = currentPage;
 
-    // --- Server-side search (searches across ALL manga, not just current page) ---
-    // The server folds the query (traditional -> simplified, katakana -> hiragana) and matches the
-    // normalized title/author/artist/genre index, so no client-side text filtering must run afterwards.
-    const searchQuery = query?.trim() || undefined;
+    const { sources: librarySources } = Sources.useGetMigratableSources();
+    const {
+        settings: { gridLayout, legacyLibrarySearch },
+    } = useMetadataServerSettings();
 
-    // --- Read category metadata (sort + status filter) and global settings (gridLayout) ---
+    // --- Search ---
+    // Default: the server folds the query (traditional -> simplified, katakana -> hiragana) and matches
+    // the normalized title/author/artist/genre index, so no client-side text filtering runs afterwards.
+    // Legacy mode (setting): send the five column OR filter the paginated view used before that index
+    // existed and filter the current page again on the client, i.e. the exact behavior from before.
+    const trimmedQuery = query?.trim() || undefined;
+    const legacySearchQuery = legacyLibrarySearch ? trimmedQuery : undefined;
+    const searchQuery = legacyLibrarySearch ? undefined : trimmedQuery;
+
+    const legacySearchFilter = useMemo(() => {
+        if (!legacySearchQuery) {
+            return undefined;
+        }
+
+        const includes = { includes: legacySearchQuery };
+
+        return {
+            or: [
+                { title: includes },
+                { author: includes },
+                { artist: includes },
+                { description: includes },
+                { genre: includes },
+            ],
+        };
+    }, [legacySearchQuery]);
+
+    // --- Read category metadata (sort + status filter) ---
     const categoryMeta = useGetCategoryMetadata(activeTab ?? { id: -1 });
     const {
         sortBy,
@@ -124,10 +151,6 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
         hasBookmarkedChapters,
         hasDuplicateChapters,
     } = categoryMeta;
-    const { sources: librarySources } = Sources.useGetMigratableSources();
-    const {
-        settings: { gridLayout },
-    } = useMetadataServerSettings();
 
     // --- Server-side sort ---
     const SORT_MAP: Partial<Record<string, MangaOrderBy>> = {
@@ -201,9 +224,12 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
     const bookmarkedFilter = useMemo(() => toBoolFilter(hasBookmarkedChapters), [hasBookmarkedChapters]);
     const duplicateFilter = useMemo(() => toBoolFilter(hasDuplicateChapters), [hasDuplicateChapters]);
 
-    // --- Combined server-side filter (status + chapter-level) ---
+    // --- Combined server-side filter (status + chapter-level + legacy text search) ---
     const serverFilter = useMemo(() => {
         const filters: object[] = [];
+        if (legacySearchFilter) {
+            filters.push(legacySearchFilter);
+        }
         if (statusFilter) {
             filters.push(statusFilter);
         }
@@ -229,7 +255,15 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
             return filters[0];
         }
         return { and: filters };
-    }, [statusFilter, sourceFilter, downloadedFilter, unreadFilter, bookmarkedFilter, duplicateFilter]);
+    }, [
+        legacySearchFilter,
+        statusFilter,
+        sourceFilter,
+        downloadedFilter,
+        unreadFilter,
+        bookmarkedFilter,
+        duplicateFilter,
+    ]);
 
     // Since filters are applied server-side, an empty response is not necessarily an empty category
     const hasActiveFilter =
@@ -273,7 +307,7 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
         visibleMangas: filteredMangas,
         showFilteredOutMessage,
         filterKey,
-    } = useGetVisibleLibraryMangas(categoryMangas, activeTab, true);
+    } = useGetVisibleLibraryMangas(categoryMangas, activeTab, !legacyLibrarySearch);
 
     // Reset page when filter changes
     useEffect(() => {

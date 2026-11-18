@@ -271,47 +271,61 @@ export function LibrarySettings() {
                         onChange={(e) => setSettingValue('paginationEnabled', e.target.checked)}
                     />
                 </ListItem>
-                {settings.paginationEnabled && (() => {
-                    const isPreset = [10, 20, 30].includes(settings.paginationSize);
-                    return (
-                        <ListItem sx={{ flexDirection: 'column', alignItems: 'flex-start', gap: 1 }}>
-                            <ListItemText
-                                primary={t`Items per page`}
-                                secondary={t`Number of manga shown on each page`}
-                            />
-                            <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                                <Select
-                                    size="small"
-                                    value={isPreset ? settings.paginationSize : -1}
-                                    sx={{ minWidth: 80 }}
-                                    onChange={(e) => {
-                                        const val = Number(e.target.value);
-                                        if (val > 0) {
-                                            setSettingValue('paginationSize', val);
-                                        }
-                                    }}
-                                >
-                                    <MenuItem value={10}>10</MenuItem>
-                                    <MenuItem value={20}>20</MenuItem>
-                                    <MenuItem value={30}>30</MenuItem>
-                                    <MenuItem value={-1}>{t`Custom`}</MenuItem>
-                                </Select>
-                                {!isPreset && (
-                                    <TextField
+                {settings.paginationEnabled &&
+                    (() => {
+                        const isPreset = [10, 20, 30].includes(settings.paginationSize);
+                        return (
+                            <ListItem sx={{ flexDirection: 'column', alignItems: 'flex-start', gap: 1 }}>
+                                <ListItemText
+                                    primary={t`Items per page`}
+                                    secondary={t`Number of manga shown on each page`}
+                                />
+                                <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                                    <Select
                                         size="small"
-                                        type="number"
-                                        value={settings.paginationSize}
+                                        value={isPreset ? settings.paginationSize : -1}
+                                        sx={{ minWidth: 80 }}
                                         onChange={(e) => {
-                                            const val = parseInt(e.target.value, 10);
-                                            if (val > 0) setSettingValue('paginationSize', val);
+                                            const val = Number(e.target.value);
+                                            if (val > 0) {
+                                                setSettingValue('paginationSize', val);
+                                            }
                                         }}
-                                        slotProps={{ htmlInput: { min: 1, max: 500, style: { width: 70 } } }}
-                                    />
-                                )}
-                            </Box>
-                        </ListItem>
-                    );
-                })()}
+                                    >
+                                        <MenuItem value={10}>10</MenuItem>
+                                        <MenuItem value={20}>20</MenuItem>
+                                        <MenuItem value={30}>30</MenuItem>
+                                        <MenuItem value={-1}>{t`Custom`}</MenuItem>
+                                    </Select>
+                                    {!isPreset && (
+                                        <TextField
+                                            size="small"
+                                            type="number"
+                                            value={settings.paginationSize}
+                                            onChange={(e) => {
+                                                const val = parseInt(e.target.value, 10);
+                                                if (val > 0) setSettingValue('paginationSize', val);
+                                            }}
+                                            slotProps={{ htmlInput: { min: 1, max: 500, style: { width: 70 } } }}
+                                        />
+                                    )}
+                                </Box>
+                            </ListItem>
+                        );
+                    })()}
+                {settings.paginationEnabled && (
+                    <ListItem>
+                        <ListItemText
+                            primary={t`Use legacy search`}
+                            secondary={t`Match the raw title/author/artist/description/genre instead of the normalized search index`}
+                        />
+                        <Switch
+                            edge="end"
+                            checked={settings.legacyLibrarySearch}
+                            onChange={(e) => setSettingValue('legacyLibrarySearch', e.target.checked)}
+                        />
+                    </ListItem>
+                )}
             </List>
             <GlobalUpdateSettings
                 serverSettings={serverSettings.data!.settings}

@@ -180,6 +180,9 @@ export const APP_METADATA: Record<
     paginationEnabled: {
         convert: convertToBoolean,
     },
+    legacyLibrarySearch: {
+        convert: convertToBoolean,
+    },
     paginationSize: {
         convert: convertToNumber,
     },

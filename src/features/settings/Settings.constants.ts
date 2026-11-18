@@ -60,6 +60,7 @@ export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
     gridLayout: GridLayout.Compact,
     paginationEnabled: false,
     paginationSize: 20,
+    legacyLibrarySearch: false,
     notifyNewChapters: false,
     notifyNewChaptersLastNotifiedAt: 0,
 
