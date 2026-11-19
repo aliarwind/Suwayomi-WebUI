@@ -215,6 +215,29 @@ export const GET_MANGAS_LIBRARY = gql`
     }
 `;
 
+// Ranked library search (optional AI feature): the server recalls candidates locally and lets the
+// configured chat model order them, giving every hit a score and a short reason.
+export const GET_LLM_SEARCH = gql`
+    ${MANGA_LIBRARY_FIELDS}
+
+    query GET_LLM_SEARCH($query: String!, $limit: Int!) {
+        llmSearch(query: $query, limit: $limit) {
+            enabled
+            degraded
+            parsed
+            candidates
+            tookMs
+            hits {
+                score
+                reason
+                manga {
+                    ...MANGA_LIBRARY_FIELDS
+                }
+            }
+        }
+    }
+`;
+
 // returns the current manga from the database
 export const GET_MANGAS_DUPLICATES = gql`
     ${MANGA_LIBRARY_DUPLICATE_SCREEN_FIELDS}

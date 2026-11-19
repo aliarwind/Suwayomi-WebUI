@@ -263,7 +263,12 @@ import {
     UPDATE_MANGAS,
     UPDATE_MANGAS_CATEGORIES,
 } from '@/lib/graphql/manga/MangaMutation.ts';
-import { GET_MANGA_TO_MIGRATE, GET_MANGA_TRACK_RECORDS, GET_MANGAS_LIBRARY } from '@/lib/graphql/manga/MangaQuery.ts';
+import {
+    GET_LLM_SEARCH,
+    GET_MANGA_TO_MIGRATE,
+    GET_MANGA_TRACK_RECORDS,
+    GET_MANGAS_LIBRARY,
+} from '@/lib/graphql/manga/MangaQuery.ts';
 import {
     GET_CATEGORIES_BASE,
     GET_CATEGORIES_LIBRARY,
@@ -347,6 +352,7 @@ import { SOURCE_META_FIELDS } from '@/lib/graphql/source/SourceFragments.ts';
 import { CHAPTER_META_FIELDS } from '@/lib/graphql/chapter/ChapterFragments.ts';
 import type { MetadataMigrationSettings } from '@/features/migration/Migration.types.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import type { LlmSearchQuery, LlmSearchQueryVariables } from '@/features/library/LlmSearch.types.ts';
 import { updateMetadataList } from '@/features/metadata/services/MetadataApolloCacheHandler.ts';
 import { USER_LOGIN, REFRESH_ACCESS_TOKEN } from '@/lib/graphql/user/UserMutation.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
@@ -3219,6 +3225,23 @@ export class RequestManager {
         );
     }
 
+    /**
+     * Optional AI ranked search: the server recalls candidates locally and asks the configured chat model
+     * to order them (`llmSearch`). Returns no hits when the feature is off or the model is unusable.
+     */
+    public useLlmSearch(
+        query: string | undefined,
+        limit: number,
+        options?: QueryHookOptions<LlmSearchQuery, LlmSearchQueryVariables>,
+    ): AbortableApolloUseQueryResponse<LlmSearchQuery, LlmSearchQueryVariables> {
+        return this.doRequest<LlmSearchQuery, LlmSearchQueryVariables>(
+            GQLMethod.USE_QUERY,
+            GET_LLM_SEARCH,
+            { query: query ?? '', limit },
+            { skip: !query, ...options },
+        );
+    }
+
     public deleteCategory(
         categoryId: number,
         options?: MutationOptions<DeleteCategoryMutation, DeleteCategoryMutationVariables>,
@@ -3505,15 +3528,11 @@ export class RequestManager {
         );
     }
 
-    public startScan(
-        options?: MutationOptions<any, any>,
-    ): AbortableApolloMutationResponse<any> {
+    public startScan(options?: MutationOptions<any, any>): AbortableApolloMutationResponse<any> {
         return this.doRequest(GQLMethod.MUTATION, START_SCAN, { input: {} }, options);
     }
 
-    public useGetScanStatus(
-        options?: QueryHookOptions<any, any>,
-    ): AbortableApolloUseQueryResponse<any, any> {
+    public useGetScanStatus(options?: QueryHookOptions<any, any>): AbortableApolloUseQueryResponse<any, any> {
         return this.doRequest(GQLMethod.USE_QUERY, GET_SCAN_STATUS, {}, options);
     }
 
@@ -3523,18 +3542,21 @@ export class RequestManager {
         dateTo?: string | null,
         options?: MutationOptions<any, any>,
     ): AbortableApolloMutationResponse<any> {
-        return this.doRequest(GQLMethod.MUTATION, START_REFRESH, {
-            input: {
-                sourceId: sourceId ?? null,
-                dateFrom: dateFrom ?? null,
-                dateTo: dateTo ?? null,
+        return this.doRequest(
+            GQLMethod.MUTATION,
+            START_REFRESH,
+            {
+                input: {
+                    sourceId: sourceId ?? null,
+                    dateFrom: dateFrom ?? null,
+                    dateTo: dateTo ?? null,
+                },
             },
-        }, options);
+            options,
+        );
     }
 
-    public stopRefresh(
-        options?: MutationOptions<any, any>,
-    ): AbortableApolloMutationResponse<any> {
+    public stopRefresh(options?: MutationOptions<any, any>): AbortableApolloMutationResponse<any> {
         return this.doRequest(GQLMethod.MUTATION, STOP_REFRESH, { input: {} }, options);
     }
 
@@ -3545,9 +3567,7 @@ export class RequestManager {
         return this.doRequest(GQLMethod.MUTATION, RETRY_REFRESH_MANGA, { input: { mangaId } }, options);
     }
 
-    public useGetRefreshStatus(
-        options?: QueryHookOptions<any, any>,
-    ): AbortableApolloUseQueryResponse<any, any> {
+    public useGetRefreshStatus(options?: QueryHookOptions<any, any>): AbortableApolloUseQueryResponse<any, any> {
         return this.doRequest(GQLMethod.USE_QUERY, GET_REFRESH_STATUS, {}, options);
     }
 

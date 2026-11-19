@@ -19,6 +19,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { PaginationControls } from '@/features/library/components/PaginationControls.tsx';
+import { LlmSearchStrip } from '@/features/library/components/LlmSearchStrip.tsx';
 import { LibraryToolbarMenu } from '@/features/library/components/LibraryToolbarMenu.tsx';
 import { AppbarSearch } from '@/base/components/AppbarSearch.tsx';
 import { UpdateChecker } from '@/features/updates/components/UpdateChecker.tsx';
@@ -451,6 +452,7 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
 
     const renderGrid = () => (
         <>
+            {searchQuery && <LlmSearchStrip query={searchQuery} />}
             {mangaLoading && mangas.length === 0 && <LoadingPlaceholder />}
             {!mangaLoading && mangas.length === 0 && !mangaError && (
                 <EmptyViewAbsoluteCentered

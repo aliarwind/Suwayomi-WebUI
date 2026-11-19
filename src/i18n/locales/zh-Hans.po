@@ -106,6 +106,10 @@ msgstr "在更改设置后，前往“关于”页面，查找并安装webUI的�
 msgid "Age rating"
 msgstr "年龄分级"
 
+#: src/features/library/components/LlmSearchStrip.tsx
+msgid "AI picks"
+msgstr "AI 精选"
+
 #: src/base/utils/Languages.ts
 #: src/features/backup/Backup.utils.ts
 #: src/features/category/components/CategoriesInclusionSetting.tsx
@@ -2142,6 +2146,10 @@ msgstr "排队中"
 #: src/features/reader/overlay/navigation/mobile/ReaderBottomBarMobile.tsx
 msgid "Quick settings"
 msgstr "快捷设置"
+
+#: src/features/library/components/LlmSearchStrip.tsx
+msgid "Ranked by the model, with the reason it matched"
+msgstr "由模型按相关度排序，并给出匹配理由"
 
 #: src/features/reader/settings/screens/GlobalReaderSettings.tsx
 #: src/features/settings/screens/Settings.tsx

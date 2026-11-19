@@ -516,6 +516,10 @@ msgstr "After changing this setting go to the \"About\" page and check for a web
 msgid "Age rating"
 msgstr "Age rating"
 
+#: src/features/library/components/LlmSearchStrip.tsx
+msgid "AI picks"
+msgstr "AI picks"
+
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "AI search"
 msgstr "AI search"
@@ -3281,6 +3285,10 @@ msgstr "Quick settings"
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Random"
 msgstr "Random"
+
+#: src/features/library/components/LlmSearchStrip.tsx
+msgid "Ranked by the model, with the reason it matched"
+msgstr "Ranked by the model, with the reason it matched"
 
 #: src/features/reader/settings/screens/GlobalReaderSettings.tsx
 #: src/features/settings/screens/Settings.tsx
