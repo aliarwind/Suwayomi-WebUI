@@ -516,6 +516,10 @@ msgstr "After changing this setting go to the \"About\" page and check for a web
 msgid "Age rating"
 msgstr "Age rating"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "AI search"
+msgstr "AI search"
+
 #: src/features/backup/Backup.utils.ts
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
@@ -543,6 +547,14 @@ msgstr "An entry can not be in the Default category and other categories at the 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "and"
 msgstr "and"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "API base url"
+msgstr "API base url"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "API key"
+msgstr "API key"
 
 #: src/features/settings/screens/Appearance.tsx
 #: src/features/settings/screens/Settings.tsx
@@ -1771,6 +1783,10 @@ msgid "Enable debug logs"
 msgstr "Enable debug logs"
 
 #: src/features/settings/screens/ServerSettings.tsx
+msgid "Enable LLM search"
+msgstr "Enable LLM search"
+
+#: src/features/settings/screens/ServerSettings.tsx
 msgid "Enable page read progress"
 msgstr "Enable page read progress"
 
@@ -2459,6 +2475,10 @@ msgstr "Lavender"
 msgid "Layout"
 msgstr "Layout"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Leave empty for local servers that do not need a key"
+msgstr "Leave empty for local servers that do not need a key"
+
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
 #: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
 msgid "Left"
@@ -2788,6 +2808,14 @@ msgid "Mobile"
 msgstr "Mobile"
 
 #: src/features/settings/screens/ServerSettings.tsx
+msgid "Model"
+msgstr "Model"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Model name, e.g. deepseek-chat"
+msgstr "Model name, e.g. deepseek-chat"
+
+#: src/features/settings/screens/ServerSettings.tsx
 msgid "Modern"
 msgstr "Modern"
 
@@ -3070,6 +3098,10 @@ msgstr "Open the WebUI when starting the server"
 msgid "Open website"
 msgstr "Open website"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "OpenAI compatible endpoint, e.g. https://api.deepseek.com or http://127.0.0.1:11434/v1 for Ollama"
+msgstr "OpenAI compatible endpoint, e.g. https://api.deepseek.com or http://127.0.0.1:11434/v1 for Ollama"
+
 #: src/features/chapter/components/cards/ChapterCard.tsx
 #: src/features/manga/components/MangaOptionButton.tsx
 msgid "Options"
@@ -3126,6 +3158,10 @@ msgstr "Pagination"
 #: src/features/browse/screens/BrowseSettings.tsx
 msgid "Parallel source requests"
 msgstr "Parallel source requests"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Parse search queries with an LLM"
+msgstr "Parse search queries with an LLM"
 
 #: src/base/components/inputs/PasswordTextField.tsx
 #: src/features/settings/screens/ServerSettings.tsx
@@ -3351,6 +3387,10 @@ msgstr "Remove selected from the library"
 msgid "Removed non library manga from categories"
 msgstr "Removed non library manga from categories"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Request timeout"
+msgstr "Request timeout"
+
 #: src/base/components/buttons/ResetButton.tsx
 #: src/base/components/settings/CheckboxListSetting.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
@@ -3525,6 +3565,10 @@ msgstr "Search parameters"
 msgid "Search parameters ({0})"
 msgstr "Search parameters ({0})"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Search queries are sent to the configured provider, including the words you type. Results fall back to the normal search when the provider fails."
+msgstr "Search queries are sent to the configured provider, including the words you type. Results fall back to the normal search when the provider fails."
+
 #: src/features/migration/screens/MigrationSearch.tsx
 msgid "Search results"
 msgstr "Search results"
@@ -3589,6 +3633,10 @@ msgstr "Select pinned sources"
 msgid "Selected"
 msgstr "Selected"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Sends the query to an OpenAI compatible chat API. When it is unavailable, the normal search is used."
+msgstr "Sends the query to an OpenAI compatible chat API. When it is unavailable, the normal search is used."
+
 #: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
 msgid "Sepia"
 msgstr "Sepia"
@@ -3638,6 +3686,10 @@ msgstr "Set as active theme"
 #: src/features/category/components/CategorySelect.tsx
 msgid "Set categories"
 msgstr "Set categories"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Set the API base url first"
+msgstr "Set the API base url first"
 
 #: src/features/settings/screens/Appearance.tsx
 msgid "Sets the manga thumbnail as the background image on the manga page"
@@ -4442,6 +4494,10 @@ msgstr "Use the latest released version."
 #: src/features/settings/Settings.constants.ts
 msgid "Use the version that was delivered with the server release"
 msgstr "Use the version that was delivered with the server release"
+
+#: src/features/backup/Backup.constants.ts
+msgid "User settings"
+msgstr "User settings"
 
 #: src/base/components/modals/LoginDialog.tsx
 #: src/features/authentication/screens/LoginPage.tsx

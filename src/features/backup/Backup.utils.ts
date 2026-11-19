@@ -23,6 +23,7 @@ export const convertToAutoBackupFlags = (flags: BackupFlagInclusionState): AutoB
     autoBackupIncludeManga: flags.includeManga,
     autoBackupIncludeServerSettings: flags.includeServerSettings,
     autoBackupIncludeTracking: flags.includeTracking,
+    autoBackupIncludeUserSettings: flags.includeUserSettings,
 });
 
 export const convertToBackupFlags = (flags: AutoBackupFlagInclusionState): BackupFlagInclusionState => ({
@@ -33,6 +34,7 @@ export const convertToBackupFlags = (flags: AutoBackupFlagInclusionState): Backu
     includeManga: flags.autoBackupIncludeManga,
     includeServerSettings: flags.autoBackupIncludeServerSettings,
     includeTracking: flags.autoBackupIncludeTracking,
+    includeUserSettings: flags.autoBackupIncludeUserSettings,
 });
 
 const getIncludeExcludeText = (count: number, allCount: number, specificText: string): string => {

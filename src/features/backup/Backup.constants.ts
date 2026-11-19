@@ -19,6 +19,7 @@ export const BACKUP_FLAGS_TO_TRANSLATION: Record<BackupFlag, MessageDescriptor> 
     includeHistory: msg`History`,
     includeServerSettings: msg`Server settings`,
     includeTracking: msg`Tracking`,
+    includeUserSettings: msg`User settings`,
 };
 
 export const BACKUP_FLAG_GROUP_TO_TRANSLATION: Record<BackupFlagGroup, MessageDescriptor> = {

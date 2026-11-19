@@ -3195,6 +3195,12 @@ export type ServerSettingsFragment = {
     syncYomiApiKey: string;
     syncYomiEnabled: boolean;
     syncYomiHost: string;
+    autoBackupIncludeUserSettings: boolean;
+    llmQueryEnabled: boolean;
+    llmBaseUrl: string;
+    llmApiKey: string;
+    llmChatModel: string;
+    llmQueryTimeoutMs: number;
     downloadConversions: Array<{
         __typename: 'SettingsDownloadConversionType';
         mimeType: string;
@@ -3310,6 +3316,12 @@ export type ResetServerSettingsMutation = {
             syncYomiApiKey: string;
             syncYomiEnabled: boolean;
             syncYomiHost: string;
+    autoBackupIncludeUserSettings: boolean;
+    llmQueryEnabled: boolean;
+    llmBaseUrl: string;
+    llmApiKey: string;
+    llmChatModel: string;
+    llmQueryTimeoutMs: number;
             downloadConversions: Array<{
                 __typename: 'SettingsDownloadConversionType';
                 mimeType: string;
@@ -3435,6 +3447,12 @@ export type UpdateServerSettingsMutation = {
             syncYomiApiKey: string;
             syncYomiEnabled: boolean;
             syncYomiHost: string;
+    autoBackupIncludeUserSettings: boolean;
+    llmQueryEnabled: boolean;
+    llmBaseUrl: string;
+    llmApiKey: string;
+    llmChatModel: string;
+    llmQueryTimeoutMs: number;
             downloadConversions: Array<{
                 __typename: 'SettingsDownloadConversionType';
                 mimeType: string;
@@ -3556,6 +3574,12 @@ export type GetServerSettingsQuery = {
         syncYomiApiKey: string;
         syncYomiEnabled: boolean;
         syncYomiHost: string;
+    autoBackupIncludeUserSettings: boolean;
+    llmQueryEnabled: boolean;
+    llmBaseUrl: string;
+    llmApiKey: string;
+    llmChatModel: string;
+    llmQueryTimeoutMs: number;
         downloadConversions: Array<{
             __typename: 'SettingsDownloadConversionType';
             mimeType: string;

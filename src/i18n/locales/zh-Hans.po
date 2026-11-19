@@ -4511,3 +4511,46 @@ msgstr "使用旧版搜索"
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Match the raw title/author/artist/description/genre instead of the normalized search index"
 msgstr "直接匹配原始标题/作者/画师/简介/标签，不走归一化搜索索引"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "AI search"
+msgstr "AI 搜索"
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Parse search queries with an LLM"
+msgstr "用 LLM 解析搜索语句"
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Sends the query to an OpenAI compatible chat API. When it is unavailable, the normal search is used."
+msgstr "把查询发送到兼容 OpenAI 的 Chat API；不可用时自动退回普通搜索。"
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "API base url"
+msgstr "API 地址"
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "API key"
+msgstr "API Key"
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Model"
+msgstr "模型"
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Request timeout"
+msgstr "请求超时"
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "OpenAI compatible endpoint, e.g. https://api.deepseek.com or http://127.0.0.1:11434/v1 for Ollama"
+msgstr "兼容 OpenAI 的接口地址，例如 https://api.deepseek.com；本地 Ollama 用 http://127.0.0.1:11434/v1"
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Leave empty for local servers that do not need a key"
+msgstr "本地服务不需要 key 时留空"
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Model name, e.g. deepseek-chat"
+msgstr "模型名，例如 deepseek-chat"
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Set the API base url first"
+msgstr "请先设置 API 地址"
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Enable LLM search"
+msgstr "启用 LLM 搜索"
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Search queries are sent to the configured provider, including the words you type. Results fall back to the normal search when the provider fails."
+msgstr "搜索语句会发送到你配置的服务商，包括输入的词。服务商不可用时会自动退回普通搜索。"
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Understood"
+msgstr "我明白了"

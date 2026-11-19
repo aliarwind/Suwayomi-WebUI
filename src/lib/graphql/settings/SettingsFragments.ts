@@ -98,6 +98,7 @@ export const SERVER_SETTINGS = gql`
         autoBackupIncludeManga
         autoBackupIncludeServerSettings
         autoBackupIncludeTracking
+        autoBackupIncludeUserSettings
 
         # local source
         localSourcePath
@@ -149,5 +150,12 @@ export const SERVER_SETTINGS = gql`
         syncYomiApiKey
         syncYomiEnabled
         syncYomiHost
+
+        # AI search
+        llmQueryEnabled
+        llmBaseUrl
+        llmApiKey
+        llmChatModel
+        llmQueryTimeoutMs
     }
 `;

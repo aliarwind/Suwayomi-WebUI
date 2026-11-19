@@ -73,6 +73,7 @@ const convertSyncDataToBackupFlags = (settings: ServerSettingsType): BackupFlagI
     includeTracking: settings.syncDataTracking,
     includeClientData: false,
     includeServerSettings: false,
+    includeUserSettings: false,
 });
 
 const convertBackupFlagsToSyncData = (flags: BackupFlagInclusionState): PartialSettingsTypeInput => ({
@@ -680,6 +681,77 @@ export const ServerSettings = () => {
                 updateSetting={updateSetting}
             />
             <List
+                subheader={
+                    <ListSubheader component="div" id="server-settings-ai-search">
+                        {t`AI search`}
+                    </ListSubheader>
+                }
+            >
+                <ListItem>
+                    <ListItemText
+                        primary={t`Parse search queries with an LLM`}
+                        secondary={t`Sends the query to an OpenAI compatible chat API. When it is unavailable, the normal search is used.`}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={serverSettings.llmQueryEnabled ?? false}
+                        onChange={async (e) => {
+                            if (e.target.checked && !(serverSettings.llmBaseUrl ?? '').trim()) {
+                                Notifications.error(t`Set the API base url first`);
+                                return;
+                            }
+
+                            const enabled = e.target.checked;
+
+                            if (enabled) {
+                                await Confirmation.show({
+                                    title: t`Enable LLM search`,
+                                    message: t`Search queries are sent to the configured provider, including the words you type. Results fall back to the normal search when the provider fails.`,
+                                    actions: {
+                                        confirm: {
+                                            title: t`Understood`,
+                                        },
+                                    },
+                                }).catch(() => undefined);
+                            }
+
+                            updateSetting('llmQueryEnabled', enabled);
+                        }}
+                    />
+                </ListItem>
+                <TextSetting
+                    settingName={t`API base url`}
+                    settingDescription={serverSettings.llmBaseUrl ?? ''}
+                    dialogDescription={t`OpenAI compatible endpoint, e.g. https://api.deepseek.com or http://127.0.0.1:11434/v1 for Ollama`}
+                    value={serverSettings.llmBaseUrl ?? ''}
+                    handleChange={(url) => updateSetting('llmBaseUrl', url)}
+                />
+                <TextSetting
+                    settingName={t`API key`}
+                    isPassword
+                    dialogDescription={t`Leave empty for local servers that do not need a key`}
+                    value={serverSettings.llmApiKey ?? ''}
+                    handleChange={(key) => updateSetting('llmApiKey', key)}
+                />
+                <TextSetting
+                    settingName={t`Model`}
+                    settingDescription={serverSettings.llmChatModel ?? ''}
+                    dialogDescription={t`Model name, e.g. deepseek-chat`}
+                    value={serverSettings.llmChatModel ?? ''}
+                    handleChange={(model) => updateSetting('llmChatModel', model)}
+                />
+                <NumberSetting
+                    settingTitle={t`Request timeout`}
+                    settingValue={String(serverSettings.llmQueryTimeoutMs ?? 8000)}
+                    value={serverSettings.llmQueryTimeoutMs ?? 8000}
+                    defaultValue={8000}
+                    minValue={1000}
+                    maxValue={60000}
+                    stepSize={1000}
+                    valueUnit="ms"
+                    handleUpdate={(value) => updateSetting('llmQueryTimeoutMs', value)}
+                />
+            </List>            <List
                 subheader={
                     <ListSubheader component="div" id="server-settings-database">
                         {t`Database`}

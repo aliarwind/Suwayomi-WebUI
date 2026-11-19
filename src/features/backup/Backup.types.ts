@@ -27,6 +27,7 @@ export type AutoBackupFlag = Pick<
     | 'autoBackupIncludeManga'
     | 'autoBackupIncludeServerSettings'
     | 'autoBackupIncludeTracking'
+    | 'autoBackupIncludeUserSettings'
 >;
 
 export type AutoBackupFlagInclusionState = Record<keyof AutoBackupFlag, boolean>;
@@ -44,4 +45,5 @@ export type BackupSettingsType = Pick<
     | 'autoBackupIncludeManga'
     | 'autoBackupIncludeServerSettings'
     | 'autoBackupIncludeTracking'
+    | 'autoBackupIncludeUserSettings'
 >;

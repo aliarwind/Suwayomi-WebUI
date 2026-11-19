@@ -1932,6 +1932,7 @@ export type PartialBackupFlagsInput = {
     includeManga?: InputMaybe<Scalars['Boolean']['input']>;
     includeServerSettings?: InputMaybe<Scalars['Boolean']['input']>;
     includeTracking?: InputMaybe<Scalars['Boolean']['input']>;
+    includeUserSettings?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type PartialSettingsType = Settings & {
@@ -2038,6 +2039,12 @@ export type PartialSettingsType = Settings & {
     syncYomiApiKey?: Maybe<Scalars['String']['output']>;
     syncYomiEnabled?: Maybe<Scalars['Boolean']['output']>;
     syncYomiHost?: Maybe<Scalars['String']['output']>;
+    autoBackupIncludeUserSettings?: Maybe<Scalars['Boolean']['output']>;
+    llmQueryEnabled?: Maybe<Scalars['Boolean']['output']>;
+    llmBaseUrl?: Maybe<Scalars['String']['output']>;
+    llmApiKey?: Maybe<Scalars['String']['output']>;
+    llmChatModel?: Maybe<Scalars['String']['output']>;
+    llmQueryTimeoutMs?: Maybe<Scalars['Int']['output']>;
     systemTrayEnabled?: Maybe<Scalars['Boolean']['output']>;
     updateMangas?: Maybe<Scalars['Boolean']['output']>;
     useHikariConnectionPool?: Maybe<Scalars['Boolean']['output']>;
@@ -2128,6 +2135,12 @@ export type PartialSettingsTypeInput = {
     syncYomiApiKey?: InputMaybe<Scalars['String']['input']>;
     syncYomiEnabled?: InputMaybe<Scalars['Boolean']['input']>;
     syncYomiHost?: InputMaybe<Scalars['String']['input']>;
+    autoBackupIncludeUserSettings?: InputMaybe<Scalars['Boolean']['input']>;
+    llmQueryEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+    llmBaseUrl?: InputMaybe<Scalars['String']['input']>;
+    llmApiKey?: InputMaybe<Scalars['String']['input']>;
+    llmChatModel?: InputMaybe<Scalars['String']['input']>;
+    llmQueryTimeoutMs?: InputMaybe<Scalars['Int']['input']>;
     systemTrayEnabled?: InputMaybe<Scalars['Boolean']['input']>;
     updateMangas?: InputMaybe<Scalars['Boolean']['input']>;
     useHikariConnectionPool?: InputMaybe<Scalars['Boolean']['input']>;
@@ -2693,6 +2706,12 @@ export type Settings = {
     syncYomiApiKey?: Maybe<Scalars['String']['output']>;
     syncYomiEnabled?: Maybe<Scalars['Boolean']['output']>;
     syncYomiHost?: Maybe<Scalars['String']['output']>;
+    autoBackupIncludeUserSettings?: Maybe<Scalars['Boolean']['output']>;
+    llmQueryEnabled?: Maybe<Scalars['Boolean']['output']>;
+    llmBaseUrl?: Maybe<Scalars['String']['output']>;
+    llmApiKey?: Maybe<Scalars['String']['output']>;
+    llmChatModel?: Maybe<Scalars['String']['output']>;
+    llmQueryTimeoutMs?: Maybe<Scalars['Int']['output']>;
     systemTrayEnabled?: Maybe<Scalars['Boolean']['output']>;
     updateMangas?: Maybe<Scalars['Boolean']['output']>;
     useHikariConnectionPool?: Maybe<Scalars['Boolean']['output']>;
