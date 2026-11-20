@@ -19,26 +19,43 @@ import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import { MANGA_COVER_ASPECT_RATIO } from '@/features/manga/Manga.constants.ts';
+import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 
 /** How many ranked hits the strip asks for; every one costs prompt tokens on the server. */
 const LLM_STRIP_LIMIT = 8;
 
 const CARD_WIDTH = 132;
 
+interface LlmSearchStripProps {
+    query: string;
+    /** Keep the ranking inside the category the user is looking at; undefined means the whole library. */
+    categoryId?: number;
+}
+
 /**
  * "AI picks" strip shown above the library grid when the server has the AI search enabled.
  *
  * It is purely additive: the grid keeps its normal server side search and pagination, the strip just
  * shows which books the model considers the best matches and why. When the feature is off, the model
- * fails or nothing matches, the query returns no hits and nothing is rendered.
+ * fails, the strip is disabled in the library settings or nothing matches, the query returns no hits and
+ * nothing is rendered.
  */
-export function LlmSearchStrip({ query }: { query: string }) {
+export function LlmSearchStrip({ query, categoryId }: LlmSearchStripProps) {
     const { t } = useLingui();
 
-    const { data } = requestManager.useLlmSearch(query, LLM_STRIP_LIMIT);
+    const {
+        settings: { llmSearchStripEnabled },
+    } = useMetadataServerSettings();
+
+    // Passing undefined skips the request instead of firing it and hiding the result.
+    const { data } = requestManager.useLlmSearch(
+        llmSearchStripEnabled ? query : undefined,
+        LLM_STRIP_LIMIT,
+        categoryId,
+    );
 
     const hits = data?.llmSearch.hits ?? STABLE_EMPTY_ARRAY;
-    if (hits.length === 0) {
+    if (!llmSearchStripEnabled || hits.length === 0) {
         return null;
     }
 

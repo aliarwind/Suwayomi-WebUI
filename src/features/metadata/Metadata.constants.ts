@@ -183,6 +183,9 @@ export const APP_METADATA: Record<
     legacyLibrarySearch: {
         convert: convertToBoolean,
     },
+    llmSearchStripEnabled: {
+        convert: convertToBoolean,
+    },
     paginationSize: {
         convert: convertToNumber,
     },

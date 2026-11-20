@@ -213,6 +213,17 @@ export function LibrarySettings() {
                 </ListItem>
                 <ListItem>
                     <ListItemText
+                        primary={t`AI search picks`}
+                        secondary={t`Show the books ranked by the server's AI search above the results, with a reason for each match (requires the AI search setting on the server)`}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={settings.llmSearchStripEnabled}
+                        onChange={(e) => setSettingValue('llmSearchStripEnabled', e.target.checked)}
+                    />
+                </ListItem>
+                <ListItem>
+                    <ListItemText
                         primary={t`Notify about new chapters`}
                         secondary={(() => {
                             if (!settings.notifyNewChapters || notificationPermission === 'granted') {
@@ -304,7 +315,7 @@ export function LibrarySettings() {
                                             value={settings.paginationSize}
                                             onChange={(e) => {
                                                 const val = parseInt(e.target.value, 10);
-                                                if (val > 0) setSettingValue('paginationSize', val);
+                                                if (val > 0) {setSettingValue('paginationSize', val);}
                                             }}
                                             slotProps={{ htmlInput: { min: 1, max: 500, style: { width: 70 } } }}
                                         />

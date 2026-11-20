@@ -452,7 +452,12 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
 
     const renderGrid = () => (
         <>
-            {searchQuery && <LlmSearchStrip query={searchQuery} />}
+            {searchQuery && (
+                <LlmSearchStrip
+                    query={searchQuery}
+                    categoryId={activeTab && !activeTab.isDefaultCategory ? activeTab.id : undefined}
+                />
+            )}
             {mangaLoading && mangas.length === 0 && <LoadingPlaceholder />}
             {!mangaLoading && mangas.length === 0 && !mangaError && (
                 <EmptyViewAbsoluteCentered

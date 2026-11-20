@@ -3227,17 +3227,19 @@ export class RequestManager {
 
     /**
      * Optional AI ranked search: the server recalls candidates locally and asks the configured chat model
-     * to order them (`llmSearch`). Returns no hits when the feature is off or the model is unusable.
+     * to order them (`llmSearch`). [categoryId] keeps the ranking inside the category the user is in.
+     * Returns no hits when the feature is off or the model is unusable.
      */
     public useLlmSearch(
         query: string | undefined,
         limit: number,
+        categoryId?: number,
         options?: QueryHookOptions<LlmSearchQuery, LlmSearchQueryVariables>,
     ): AbortableApolloUseQueryResponse<LlmSearchQuery, LlmSearchQueryVariables> {
         return this.doRequest<LlmSearchQuery, LlmSearchQueryVariables>(
             GQLMethod.USE_QUERY,
             GET_LLM_SEARCH,
-            { query: query ?? '', limit },
+            { query: query ?? '', limit, ...(categoryId != null ? { categoryId } : {}) },
             { skip: !query, ...options },
         );
     }

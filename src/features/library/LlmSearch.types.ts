@@ -32,4 +32,6 @@ export interface LlmSearchQuery {
 export interface LlmSearchQueryVariables {
     query: string;
     limit?: number;
+    /** Restrict the ranking to one category (the tab the user is looking at). */
+    categoryId?: number;
 }

@@ -524,6 +524,10 @@ msgstr "AI picks"
 msgid "AI search"
 msgstr "AI search"
 
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "AI search picks"
+msgstr "AI search picks"
+
 #: src/features/backup/Backup.utils.ts
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
@@ -3789,6 +3793,10 @@ msgstr "Show reading mode"
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Show tap zones overlay"
 msgstr "Show tap zones overlay"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Show the books ranked by the server's AI search above the results, with a reason for each match (requires the AI search setting on the server)"
+msgstr "Show the books ranked by the server's AI search above the results, with a reason for each match (requires the AI search setting on the server)"
 
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Show the category selection dialog when adding a manga to the library"

@@ -220,8 +220,8 @@ export const GET_MANGAS_LIBRARY = gql`
 export const GET_LLM_SEARCH = gql`
     ${MANGA_LIBRARY_FIELDS}
 
-    query GET_LLM_SEARCH($query: String!, $limit: Int!) {
-        llmSearch(query: $query, limit: $limit) {
+    query GET_LLM_SEARCH($query: String!, $limit: Int!, $categoryId: Int) {
+        llmSearch(query: $query, limit: $limit, categoryId: $categoryId) {
             enabled
             degraded
             parsed

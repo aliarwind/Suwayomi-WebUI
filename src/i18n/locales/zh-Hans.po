@@ -4562,3 +4562,9 @@ msgstr "搜索语句会发送到你配置的服务商，包括输入的词。服
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Understood"
 msgstr "我明白了"
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "AI search picks"
+msgstr "AI 搜索精选"
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Show the books ranked by the server's AI search above the results, with a reason for each match (requires the AI search setting on the server)"
+msgstr "在结果上方显示服务端 AI 搜索排序后的书，并给出匹配理由（需在服务端启用 AI 搜索）"

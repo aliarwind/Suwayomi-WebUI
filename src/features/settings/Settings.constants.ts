@@ -61,6 +61,7 @@ export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
     paginationEnabled: false,
     paginationSize: 20,
     legacyLibrarySearch: false,
+    llmSearchStripEnabled: true,
     notifyNewChapters: false,
     notifyNewChaptersLastNotifiedAt: 0,
 
