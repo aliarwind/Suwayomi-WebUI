@@ -2045,6 +2045,7 @@ export type PartialSettingsType = Settings & {
     llmApiKey?: Maybe<Scalars['String']['output']>;
     llmChatModel?: Maybe<Scalars['String']['output']>;
     llmQueryTimeoutMs?: Maybe<Scalars['Int']['output']>;
+    llmRerankCandidates?: Maybe<Scalars['Int']['output']>;
     systemTrayEnabled?: Maybe<Scalars['Boolean']['output']>;
     updateMangas?: Maybe<Scalars['Boolean']['output']>;
     useHikariConnectionPool?: Maybe<Scalars['Boolean']['output']>;
@@ -2141,6 +2142,7 @@ export type PartialSettingsTypeInput = {
     llmApiKey?: InputMaybe<Scalars['String']['input']>;
     llmChatModel?: InputMaybe<Scalars['String']['input']>;
     llmQueryTimeoutMs?: InputMaybe<Scalars['Int']['input']>;
+    llmRerankCandidates?: InputMaybe<Scalars['Int']['input']>;
     systemTrayEnabled?: InputMaybe<Scalars['Boolean']['input']>;
     updateMangas?: InputMaybe<Scalars['Boolean']['input']>;
     useHikariConnectionPool?: InputMaybe<Scalars['Boolean']['input']>;
@@ -2712,6 +2714,7 @@ export type Settings = {
     llmApiKey?: Maybe<Scalars['String']['output']>;
     llmChatModel?: Maybe<Scalars['String']['output']>;
     llmQueryTimeoutMs?: Maybe<Scalars['Int']['output']>;
+    llmRerankCandidates?: Maybe<Scalars['Int']['output']>;
     systemTrayEnabled?: Maybe<Scalars['Boolean']['output']>;
     updateMangas?: Maybe<Scalars['Boolean']['output']>;
     useHikariConnectionPool?: Maybe<Scalars['Boolean']['output']>;

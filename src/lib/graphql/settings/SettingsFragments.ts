@@ -157,5 +157,6 @@ export const SERVER_SETTINGS = gql`
         llmApiKey
         llmChatModel
         llmQueryTimeoutMs
+        llmRerankCandidates
     }
 `;

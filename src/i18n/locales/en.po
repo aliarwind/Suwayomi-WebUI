@@ -764,6 +764,10 @@ msgstr "Bookmark selected"
 msgid "Bookmarked"
 msgstr "Bookmarked"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "books"
+msgstr "books"
+
 #: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
 msgid "Both"
 msgstr "Both"
@@ -2199,6 +2203,10 @@ msgid "How many chapters should get downloaded while reading."
 msgstr "How many chapters should get downloaded while reading."
 
 #: src/features/settings/screens/ServerSettings.tsx
+msgid "How many search results are sent to the model to rank. Higher finds better picks, but costs more tokens and takes longer"
+msgstr "How many search results are sent to the model to rank. Higher finds better picks, but costs more tokens and takes longer"
+
+#: src/features/settings/screens/ServerSettings.tsx
 msgid "How much time FlareSolverr has to handle the request"
 msgstr "How much time FlareSolverr has to handle the request"
 
@@ -3293,6 +3301,10 @@ msgstr "Random"
 #: src/features/library/components/LlmSearchStrip.tsx
 msgid "Ranked by the model, with the reason it matched"
 msgstr "Ranked by the model, with the reason it matched"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Ranked candidates"
+msgstr "Ranked candidates"
 
 #: src/features/reader/settings/screens/GlobalReaderSettings.tsx
 #: src/features/settings/screens/Settings.tsx

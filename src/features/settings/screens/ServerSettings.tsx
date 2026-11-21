@@ -751,7 +751,20 @@ export const ServerSettings = () => {
                     valueUnit="ms"
                     handleUpdate={(value) => updateSetting('llmQueryTimeoutMs', value)}
                 />
-            </List>            <List
+                <NumberSetting
+                    settingTitle={t`Ranked candidates`}
+                    settingValue={String(serverSettings.llmRerankCandidates ?? 150)}
+                    dialogDescription={t`How many search results are sent to the model to rank. Higher finds better picks, but costs more tokens and takes longer`}
+                    value={serverSettings.llmRerankCandidates ?? 150}
+                    defaultValue={150}
+                    minValue={10}
+                    maxValue={400}
+                    stepSize={10}
+                    valueUnit={t`books`}
+                    handleUpdate={(value) => updateSetting('llmRerankCandidates', value)}
+                />
+            </List>{' '}
+            <List
                 subheader={
                     <ListSubheader component="div" id="server-settings-database">
                         {t`Database`}

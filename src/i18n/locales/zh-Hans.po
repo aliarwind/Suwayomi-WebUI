@@ -4568,3 +4568,15 @@ msgstr "AI 搜索精选"
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Show the books ranked by the server's AI search above the results, with a reason for each match (requires the AI search setting on the server)"
 msgstr "在结果上方显示服务端 AI 搜索排序后的书，并给出匹配理由（需在服务端启用 AI 搜索）"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Ranked candidates"
+msgstr "参与排序的候选条数"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "How many search results are sent to the model to rank. Higher finds better picks, but costs more tokens and takes longer"
+msgstr "送给模型排序的搜索结果条数。调大更容易挑到好书，但更耗 token、更慢"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "books"
+msgstr "本"
