@@ -3535,6 +3535,8 @@ export type UpdateMangaInput = {
 };
 
 export type UpdateMangaPatchInput = {
+    artist?: InputMaybe<Scalars['String']['input']>;
+    author?: InputMaybe<Scalars['String']['input']>;
     inLibrary?: InputMaybe<Scalars['Boolean']['input']>;
 };
 

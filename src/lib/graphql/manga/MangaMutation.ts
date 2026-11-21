@@ -92,6 +92,8 @@ export const UPDATE_MANGA = gql`
                 id
                 inLibrary
                 inLibraryAt
+                author
+                artist
             }
         }
     }

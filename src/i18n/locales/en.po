@@ -586,6 +586,7 @@ msgstr "Are you sure you want to abort the migration?"
 msgid "Are you sure?"
 msgstr "Are you sure?"
 
+#: src/features/manga/components/details/MangaAuthorEditDialog.tsx
 #: src/features/manga/components/details/MangaDetails.tsx
 msgid "Artist"
 msgstr "Artist"
@@ -603,9 +604,14 @@ msgstr "Authentication"
 msgid "Authentication Mode"
 msgstr "Authentication Mode"
 
+#: src/features/manga/components/details/MangaAuthorEditDialog.tsx
 #: src/features/manga/components/details/MangaDetails.tsx
 msgid "Author"
 msgstr "Author"
+
+#: src/features/manga/components/details/MangaAuthorEditDialog.tsx
+msgid "Author updated"
+msgstr "Author updated"
 
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
 #: src/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx
@@ -772,6 +778,10 @@ msgstr "books"
 msgid "Both"
 msgstr "Both"
 
+#: src/features/manga/components/details/MangaAuthorEditDialog.tsx
+msgid "Both fields are guessed from the title. A corrected value is kept when the entry is refreshed."
+msgstr "Both fields are guessed from the title. A corrected value is kept when the entry is refreshed."
+
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
 #: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
 msgid "Bottom"
@@ -866,6 +876,7 @@ msgstr "Can't migrate an entry to itself"
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
 #: src/features/downloads/components/DownloadQueueChapterCard.tsx
+#: src/features/manga/components/details/MangaAuthorEditDialog.tsx
 #: src/features/manga/components/details/MangaNotes.tsx
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 #: src/features/migration/components/MigrationOptionsDialog.tsx
@@ -1362,6 +1373,10 @@ msgstr "Could not track manga"
 msgid "Could not untrack manga"
 msgstr "Could not untrack manga"
 
+#: src/features/manga/components/details/MangaAuthorEditDialog.tsx
+msgid "Could not update the author"
+msgstr "Could not update the author"
+
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "Could not update WebUI"
 msgstr "Could not update WebUI"
@@ -1756,6 +1771,11 @@ msgstr "Edge"
 #: src/features/theme/components/ThemePreview.tsx
 msgid "Edit"
 msgstr "Edit"
+
+#: src/features/manga/components/details/MangaAuthorEditDialog.tsx
+#: src/features/manga/components/details/MangaDetails.tsx
+msgid "Edit author"
+msgstr "Edit author"
 
 #: src/features/category/screens/CategorySettings.tsx
 #: src/features/library/screens/LibrarySettings.tsx
@@ -3486,6 +3506,7 @@ msgstr "Right to left"
 msgid "Rosegold"
 msgstr "Rosegold"
 
+#: src/features/manga/components/details/MangaAuthorEditDialog.tsx
 #: src/features/manga/components/details/MangaNotes.tsx
 #: src/features/settings/screens/ImageProcessingSetting.tsx
 #: src/features/theme/components/CreateThemeDialog.tsx

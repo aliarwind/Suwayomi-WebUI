@@ -4580,3 +4580,19 @@ msgstr "送给模型排序的搜索结果条数。调大更容易挑到好书，
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "books"
 msgstr "本"
+
+#: src/features/manga/components/details/MangaDetails.tsx
+msgid "Edit author"
+msgstr "编辑作者"
+
+#: src/features/manga/components/details/MangaAuthorEditDialog.tsx
+msgid "Both fields are guessed from the title. A corrected value is kept when the entry is refreshed."
+msgstr "作者和画师都是从标题里猜的。改过的值在刷新时不会被覆盖。"
+
+#: src/features/manga/components/details/MangaAuthorEditDialog.tsx
+msgid "Author updated"
+msgstr "作者已更新"
+
+#: src/features/manga/components/details/MangaAuthorEditDialog.tsx
+msgid "Could not update the author"
+msgstr "更新作者失败"

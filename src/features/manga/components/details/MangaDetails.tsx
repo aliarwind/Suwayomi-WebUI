@@ -10,12 +10,13 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { styled } from '@mui/material/styles';
 import type { ComponentProps, ReactNode } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import EditIcon from '@mui/icons-material/Edit';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import { useLingui } from '@lingui/react/macro';
 import { t as translate } from '@lingui/core/macro';
@@ -50,6 +51,7 @@ import { Sources } from '@/features/source/services/Sources.ts';
 import type { SourceIdInfo } from '@/features/source/Source.types.ts';
 import { Thumbnail } from '@/features/manga/components/details/Thumbnail.tsx';
 import { DescriptionGenre } from '@/features/manga/components/details/DescriptionGenre.tsx';
+import { MangaAuthorEditDialog } from '@/features/manga/components/details/MangaAuthorEditDialog.tsx';
 import { SearchLink } from '@/features/manga/components/details/SearchLink.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { IconBrowser } from '@/assets/icons/IconBrowser.tsx';
@@ -242,6 +244,7 @@ export const MangaDetails = ({
     }, [manga.source, t]);
 
     const { updateLibraryState } = useManageMangaLibraryState(manga);
+    const [isAuthorEditOpen, setIsAuthorEditOpen] = useState(false);
 
     return (
         <DetailsWrapper>
@@ -270,10 +273,17 @@ export const MangaDetails = ({
                             />
                         )}
                         {manga.artist && (
-                            <Metadata
-                                title={t`Artist`}
-                                value={valuesToJoinedSearchLinks(Mangas.getArtists(manga), manga.source?.id, mode)}
-                            />
+                            <Stack sx={{ flexDirection: 'row', alignItems: 'center', gap: 0.5 }}>
+                                <Metadata
+                                    title={t`Artist`}
+                                    value={valuesToJoinedSearchLinks(Mangas.getArtists(manga), manga.source?.id, mode)}
+                                />
+                                <CustomTooltip title={t`Edit author`}>
+                                    <IconButton size="small" onClick={() => setIsAuthorEditOpen(true)} color="inherit">
+                                        <EditIcon fontSize="small" />
+                                    </IconButton>
+                                </CustomTooltip>
+                            </Stack>
                         )}
                         <Metadata title={t`Status`} value={t(MANGA_STATUS_TO_TRANSLATION[manga.status])} />
                         <Metadata title={t`Source`} value={getSourceName(manga.source)} />
@@ -293,6 +303,13 @@ export const MangaDetails = ({
                 </MangaButtonsContainer>
             </TopContentWrapper>
             <DescriptionGenre manga={manga} mode={mode} />
+            <MangaAuthorEditDialog
+                mangaId={manga.id}
+                author={manga.author ?? undefined}
+                artist={manga.artist ?? undefined}
+                open={isAuthorEditOpen}
+                onClose={() => setIsAuthorEditOpen(false)}
+            />
         </DetailsWrapper>
     );
 };
