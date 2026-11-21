@@ -3382,6 +3382,10 @@ msgstr "Refresh"
 msgid "Releasing"
 msgstr "Releasing"
 
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Relevance"
+msgstr "Relevance"
+
 #: src/features/manga/components/MangaToolbarMenu.tsx
 msgid "Reload data from source"
 msgstr "Reload data from source"

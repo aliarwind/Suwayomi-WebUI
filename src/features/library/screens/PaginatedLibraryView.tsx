@@ -154,6 +154,8 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
     } = categoryMeta;
 
     // --- Server-side sort ---
+    // `relevance` (and anything the server cannot sort by) is deliberately absent: no `order` is sent, so
+    // the server answers in its own order — relevance of the search hits, or id ascending without a search.
     const SORT_MAP: Partial<Record<string, MangaOrderBy>> = {
         alphabetically: MangaOrderBy.Title,
         dateAdded: MangaOrderBy.InLibraryAt,
@@ -169,6 +171,9 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
         }
         return [{ by, byType: sortDesc ? SortOrder.Desc : SortOrder.Asc }];
     }, [sortBy, sortDesc]);
+
+    // the page is already ordered by the server whenever we do not send an explicit sort
+    const keepServerOrder = !sortBy || !SORT_MAP[sortBy];
 
     // --- Server-side status filter ---
     const statusFilter = useMemo(() => {
@@ -308,7 +313,7 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
         visibleMangas: filteredMangas,
         showFilteredOutMessage,
         filterKey,
-    } = useGetVisibleLibraryMangas(categoryMangas, activeTab, !legacyLibrarySearch);
+    } = useGetVisibleLibraryMangas(categoryMangas, activeTab, !legacyLibrarySearch, keepServerOrder);
 
     // Reset page when filter changes
     useEffect(() => {

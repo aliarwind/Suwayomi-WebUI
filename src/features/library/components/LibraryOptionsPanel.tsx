@@ -64,6 +64,12 @@ const SORT_OPTIONS: [LibrarySortMode, MessageDescriptor][] = [
     ['random', msg`Random`],
 ];
 
+/**
+ * The order the server produces for a search (title hit before circle name before genre tag). It only
+ * exists while paginating, because that is the only mode where the server does the searching.
+ */
+const RELEVANCE_SORT_OPTION: [LibrarySortMode, MessageDescriptor] = ['relevance', msg`Relevance`];
+
 const FILTER_MODE_DISPLAY_DATA: ValueToDisplayData<FilterMode> = {
     [FilterMode.AND]: {
         title: msg`and`,
@@ -328,7 +334,10 @@ export const LibraryOptionsPanel = ({
                     );
                 }
                 if (key === 'sort') {
-                    return SORT_OPTIONS.map(([mode, label]) => (
+                    const sortOptions = paginationEnabled
+                        ? [RELEVANCE_SORT_OPTION, ...SORT_OPTIONS]
+                        : SORT_OPTIONS;
+                    return sortOptions.map(([mode, label]) => (
                         <SortRadioInput
                             key={mode}
                             label={t(label)}

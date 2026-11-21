@@ -32,6 +32,7 @@ export type MetadataLibrarySettings = {
     notifyNewChaptersLastNotifiedAt: number;
 };
 export type LibrarySortMode =
+    | 'relevance'
     | 'unreadChapters'
     | 'totalChapters'
     | 'alphabetically'

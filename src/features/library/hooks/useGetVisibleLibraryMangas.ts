@@ -227,6 +227,12 @@ const sortManga = <Manga extends TMangaSort>(
     sort: NullAndUndefined<LibrarySortMode>,
     desc: NullAndUndefined<boolean>,
 ): Manga[] => {
+    // the server already ordered the hits by relevance (and there is nothing to sort by on this side:
+    // a relevance score only exists in the search index), so keep the order it sent
+    if (sort === 'relevance') {
+        return [...manga];
+    }
+
     const result = [...manga];
 
     const primaryComparator = ((): ((a: Manga, b: Manga) => number) => {
@@ -340,6 +346,12 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
      * through folding (simplified query vs traditional title) or aliasing.
      */
     serverSideSearch = false,
+    /**
+     * The server already ordered the entries (relevance of a search, or one of the sorts it can do
+     * itself), so the client must not sort the page again: sorting only the 20 entries of the current
+     * page would hide the relevance order the server produced.
+     */
+    keepServerOrder = false,
 ): {
     visibleMangas: Manga[];
     searchSuggestions: Manga[];
@@ -362,7 +374,12 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
 
     const hasSource = useMemo(() => getVisibleSourceFilters(hasSourceFilter, sources), [hasSourceFilter, sources]);
 
-    const sortedMangas = useSortedMangas(category?.id, mangas, options);
+    // `relevance` means "keep the order the server sent": there is no relevance score on the client
+    const sortedMangas = useSortedMangas(
+        category?.id,
+        mangas,
+        keepServerOrder ? { sortBy: 'relevance', sortDesc: undefined } : options,
+    );
 
     const isSearching = !!query?.length;
     const textQuery = serverSideSearch ? undefined : query;
