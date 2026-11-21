@@ -2046,6 +2046,10 @@ export type PartialSettingsType = Settings & {
     llmChatModel?: Maybe<Scalars['String']['output']>;
     llmQueryTimeoutMs?: Maybe<Scalars['Int']['output']>;
     llmRerankCandidates?: Maybe<Scalars['Int']['output']>;
+    llmStructureJobEnabled?: Maybe<Scalars['Boolean']['output']>;
+    llmStructureJobIntervalMinutes?: Maybe<Scalars['Int']['output']>;
+    llmStructureJobInitialDelayMinutes?: Maybe<Scalars['Int']['output']>;
+    searchRelevanceSortEnabled?: Maybe<Scalars['Boolean']['output']>;
     systemTrayEnabled?: Maybe<Scalars['Boolean']['output']>;
     updateMangas?: Maybe<Scalars['Boolean']['output']>;
     useHikariConnectionPool?: Maybe<Scalars['Boolean']['output']>;
@@ -2143,6 +2147,10 @@ export type PartialSettingsTypeInput = {
     llmChatModel?: InputMaybe<Scalars['String']['input']>;
     llmQueryTimeoutMs?: InputMaybe<Scalars['Int']['input']>;
     llmRerankCandidates?: InputMaybe<Scalars['Int']['input']>;
+    llmStructureJobEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+    llmStructureJobIntervalMinutes?: InputMaybe<Scalars['Int']['input']>;
+    llmStructureJobInitialDelayMinutes?: InputMaybe<Scalars['Int']['input']>;
+    searchRelevanceSortEnabled?: InputMaybe<Scalars['Boolean']['input']>;
     systemTrayEnabled?: InputMaybe<Scalars['Boolean']['input']>;
     updateMangas?: InputMaybe<Scalars['Boolean']['input']>;
     useHikariConnectionPool?: InputMaybe<Scalars['Boolean']['input']>;
@@ -2715,6 +2723,10 @@ export type Settings = {
     llmChatModel?: Maybe<Scalars['String']['output']>;
     llmQueryTimeoutMs?: Maybe<Scalars['Int']['output']>;
     llmRerankCandidates?: Maybe<Scalars['Int']['output']>;
+    llmStructureJobEnabled?: Maybe<Scalars['Boolean']['output']>;
+    llmStructureJobIntervalMinutes?: Maybe<Scalars['Int']['output']>;
+    llmStructureJobInitialDelayMinutes?: Maybe<Scalars['Int']['output']>;
+    searchRelevanceSortEnabled?: Maybe<Scalars['Boolean']['output']>;
     systemTrayEnabled?: Maybe<Scalars['Boolean']['output']>;
     updateMangas?: Maybe<Scalars['Boolean']['output']>;
     useHikariConnectionPool?: Maybe<Scalars['Boolean']['output']>;

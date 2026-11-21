@@ -158,5 +158,11 @@ export const SERVER_SETTINGS = gql`
         llmChatModel
         llmQueryTimeoutMs
         llmRerankCandidates
+        llmStructureJobEnabled
+        llmStructureJobIntervalMinutes
+        llmStructureJobInitialDelayMinutes
+
+        # search
+        searchRelevanceSortEnabled
     }
 `;

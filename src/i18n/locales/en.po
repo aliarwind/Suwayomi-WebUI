@@ -1535,6 +1535,10 @@ msgstr "Default (Suwayomi)"
 msgid "Default category when adding new manga to the library"
 msgstr "Default category when adding new manga to the library"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Delay after a server start before the first background run, so a restart does not add model calls"
+msgstr "Delay after a server start before the first background run, so a restart does not add model calls"
+
 #: src/base/components/AppbarSearch.tsx
 #: src/base/components/settings/MutableListSetting.tsx
 #: src/features/category/components/CategorySettingsCard.tsx
@@ -2230,6 +2234,10 @@ msgstr "How many search results are sent to the model to rank. Higher finds bett
 msgid "How much time FlareSolverr has to handle the request"
 msgstr "How much time FlareSolverr has to handle the request"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "How often the background run looks for books that are not structured yet"
+msgstr "How often the background run looks for books that are not structured yet"
+
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 msgid "If enabled, chooses the match furthest ahead.\n"
 "Otherwise, picks the first match by source priority."
@@ -2439,6 +2447,10 @@ msgstr "Keep remote"
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Keep screen on"
 msgstr "Keep screen on"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Keep the title index up to date in the background"
+msgstr "Keep the title index up to date in the background"
 
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Keybinds"
@@ -2831,6 +2843,10 @@ msgid "Minute"
 msgstr "Minute"
 
 #: src/features/settings/screens/ServerSettings.tsx
+msgid "minutes"
+msgstr "minutes"
+
+#: src/features/settings/screens/ServerSettings.tsx
 msgid "Misc"
 msgstr "Misc"
 
@@ -3150,6 +3166,10 @@ msgstr "or"
 #: src/features/theme/Themes.ts
 msgid "Orange Juice"
 msgstr "Orange Juice"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Orders the hits of a library search by where the words matched (title, then series and characters, then names, then tags). Off restores the plain id order. Needs the paginated library, which is the only mode where the server searches"
+msgstr "Orders the hits of a library search by where the words matched (title, then series and characters, then names, then tags). Off restores the plain id order. Needs the paginated library, which is the only mode where the server searches"
 
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Original size"
@@ -3582,6 +3602,10 @@ msgstr "Scroll forward"
 msgid "Search"
 msgstr "Search"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Search by relevance"
+msgstr "Search by relevance"
+
 #: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
 #: src/features/migration/Migration.constants.ts
 msgid "Search failed"
@@ -3681,6 +3705,10 @@ msgstr "Select pinned sources"
 #: src/features/migration/components/MigrationDestinationSourceList.tsx
 msgid "Selected"
 msgstr "Selected"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Sends new and refreshed books to the model in small batches, so series and character names of new books stay searchable"
+msgstr "Sends new and refreshed books to the model in small batches, so series and character names of new books stay searchable"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Sends the query to an OpenAI compatible chat API. When it is unavailable, the normal search is used."
@@ -4025,6 +4053,14 @@ msgstr "Stop global update"
 #: src/features/reader/settings/layout/components/ReaderSettingStretchPage.tsx
 msgid "Stretch small pages"
 msgstr "Stretch small pages"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Structured title interval"
+msgstr "Structured title interval"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Structured title start delay"
+msgstr "Structured title start delay"
 
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
 #: src/features/source/browse/components/SourceOptions.tsx

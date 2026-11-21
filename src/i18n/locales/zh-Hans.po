@@ -4600,3 +4600,40 @@ msgstr "作者已更新"
 #: src/features/manga/components/details/MangaAuthorEditDialog.tsx
 msgid "Could not update the author"
 msgstr "更新作者失败"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Keep the title index up to date in the background"
+msgstr "后台保持标题索引最新"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Sends new and refreshed books to the model in small batches, so series and character names of new books stay searchable"
+msgstr "把新增和刷新过的书小批量发给模型，这样新书的系列名、角色名也能搜到"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Structured title interval"
+msgstr "结构化标题的间隔"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "How often the background run looks for books that are not structured yet"
+msgstr "多久扫一次还没结构化标题的书"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Structured title start delay"
+msgstr "结构化标题的启动延迟"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Delay after a server start before the first background run, so a restart does not add model calls"
+msgstr "启动后多久才跑第一次，避免一重启就额外调用模型"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Search by relevance"
+msgstr "按相关度排序搜索结果"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Orders the hits of a library search by where the words matched (title, then series and characters, then names, then tags). Off restores the plain id order. Needs the paginated library, which is the only mode where the server searches"
+msgstr "按命中位置给搜索结果排序（标题 > 系列/角色 > 作者/社团 > 标签）。关掉则回到纯 ID 顺序。需要开启分页——只有分页模式才由服务端搜索"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "minutes"
+msgstr "分钟"
+

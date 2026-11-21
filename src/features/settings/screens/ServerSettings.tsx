@@ -763,6 +763,41 @@ export const ServerSettings = () => {
                     valueUnit={t`books`}
                     handleUpdate={(value) => updateSetting('llmRerankCandidates', value)}
                 />
+                <ListItem>
+                    <ListItemText
+                        primary={t`Keep the title index up to date in the background`}
+                        secondary={t`Sends new and refreshed books to the model in small batches, so series and character names of new books stay searchable`}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={serverSettings.llmStructureJobEnabled ?? true}
+                        onChange={(e) => updateSetting('llmStructureJobEnabled', e.target.checked)}
+                    />
+                </ListItem>
+                <NumberSetting
+                    settingTitle={t`Structured title interval`}
+                    settingValue={String(serverSettings.llmStructureJobIntervalMinutes ?? 360)}
+                    dialogDescription={t`How often the background run looks for books that are not structured yet`}
+                    value={serverSettings.llmStructureJobIntervalMinutes ?? 360}
+                    defaultValue={360}
+                    minValue={5}
+                    maxValue={10080}
+                    stepSize={30}
+                    valueUnit={t`minutes`}
+                    handleUpdate={(value) => updateSetting('llmStructureJobIntervalMinutes', value)}
+                />
+                <NumberSetting
+                    settingTitle={t`Structured title start delay`}
+                    settingValue={String(serverSettings.llmStructureJobInitialDelayMinutes ?? 10)}
+                    dialogDescription={t`Delay after a server start before the first background run, so a restart does not add model calls`}
+                    value={serverSettings.llmStructureJobInitialDelayMinutes ?? 10}
+                    defaultValue={10}
+                    minValue={1}
+                    maxValue={1440}
+                    stepSize={1}
+                    valueUnit={t`minutes`}
+                    handleUpdate={(value) => updateSetting('llmStructureJobInitialDelayMinutes', value)}
+                />
             </List>{' '}
             <List
                 subheader={
@@ -986,6 +1021,17 @@ export const ServerSettings = () => {
                     </ListSubheader>
                 }
             >
+                <ListItem>
+                    <ListItemText
+                        primary={t`Search by relevance`}
+                        secondary={t`Orders the hits of a library search by where the words matched (title, then series and characters, then names, then tags). Off restores the plain id order. Needs the paginated library, which is the only mode where the server searches`}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={serverSettings.searchRelevanceSortEnabled ?? true}
+                        onChange={(e) => updateSetting('searchRelevanceSortEnabled', e.target.checked)}
+                    />
+                </ListItem>
                 <ListItem>
                     <ListItemText primary={t`Enable debug logs`} />
                     <Switch

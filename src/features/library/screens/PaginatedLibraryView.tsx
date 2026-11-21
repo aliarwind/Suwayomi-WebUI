@@ -172,8 +172,10 @@ export function PaginatedLibraryView({ paginationSize, showTabSize }: PaginatedL
         return [{ by, byType: sortDesc ? SortOrder.Desc : SortOrder.Asc }];
     }, [sortBy, sortDesc]);
 
-    // the page is already ordered by the server whenever we do not send an explicit sort
-    const keepServerOrder = !sortBy || !SORT_MAP[sortBy];
+    // The page is ordered by the server whenever we do not send an explicit sort — but only while the
+    // server does the searching: the legacy search mode filters and sorts on the client, so there the
+    // page must keep its local order.
+    const keepServerOrder = !legacyLibrarySearch && (!sortBy || !SORT_MAP[sortBy]);
 
     // --- Server-side status filter ---
     const statusFilter = useMemo(() => {

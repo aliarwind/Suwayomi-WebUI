@@ -3202,6 +3202,10 @@ export type ServerSettingsFragment = {
     llmChatModel: string;
     llmQueryTimeoutMs: number;
     llmRerankCandidates: number;
+    llmStructureJobEnabled: boolean;
+    llmStructureJobIntervalMinutes: number;
+    llmStructureJobInitialDelayMinutes: number;
+    searchRelevanceSortEnabled: boolean;
     downloadConversions: Array<{
         __typename: 'SettingsDownloadConversionType';
         mimeType: string;
@@ -3324,6 +3328,10 @@ export type ResetServerSettingsMutation = {
             llmChatModel: string;
             llmQueryTimeoutMs: number;
             llmRerankCandidates: number;
+            llmStructureJobEnabled: boolean;
+            llmStructureJobIntervalMinutes: number;
+            llmStructureJobInitialDelayMinutes: number;
+            searchRelevanceSortEnabled: boolean;
             downloadConversions: Array<{
                 __typename: 'SettingsDownloadConversionType';
                 mimeType: string;
@@ -3456,6 +3464,10 @@ export type UpdateServerSettingsMutation = {
             llmChatModel: string;
             llmQueryTimeoutMs: number;
             llmRerankCandidates: number;
+            llmStructureJobEnabled: boolean;
+            llmStructureJobIntervalMinutes: number;
+            llmStructureJobInitialDelayMinutes: number;
+            searchRelevanceSortEnabled: boolean;
             downloadConversions: Array<{
                 __typename: 'SettingsDownloadConversionType';
                 mimeType: string;
@@ -3584,6 +3596,10 @@ export type GetServerSettingsQuery = {
         llmChatModel: string;
         llmQueryTimeoutMs: number;
         llmRerankCandidates: number;
+        llmStructureJobEnabled: boolean;
+        llmStructureJobIntervalMinutes: number;
+        llmStructureJobInitialDelayMinutes: number;
+        searchRelevanceSortEnabled: boolean;
         downloadConversions: Array<{
             __typename: 'SettingsDownloadConversionType';
             mimeType: string;
